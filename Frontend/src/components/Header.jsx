@@ -1,29 +1,65 @@
-import React from 'react'
+import React from "react";
 
 const Header = () => {
-  return(
+  return (
     <>
-      <header className="w-full mt-5 text-gray-700 bg-white border-t border-gray-100 shadow-sm body-font">
-        <div className="container flex flex-col items-start justify-between p-6 mx-auto md:flex-row">
-            <a className="flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0" href='/'>
-                Logo
+      <div class="container-fluid">
+        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+          <div class="col-md-3 mb-2 mb-md-0">
+            <a
+              href="/"
+              class="d-inline-flex link-body-emphasis text-decoration-none"
+            >
+              <svg
+                class="bi"
+                width="40"
+                height="32"
+                role="img"
+                aria-label="Bootstrap"
+              ></svg>
             </a>
-            <nav className="flex flex-wrap items-center justify-center pl-24 text-base md:ml-auto md:mr-auto">
-                <a href="#_" className="mr-5 font-medium hover:text-gray-900">Home</a>
-                <a href="#_" className="mr-5 font-medium hover:text-gray-900">About</a>
-                <a href="#_" className="font-medium hover:text-gray-900">Contact</a>
-            </nav>
-            <div className="items-center h-full">
-                <a href="#_" className="mr-5 font-medium hover:text-gray-900">Login</a>
-                <a href="#_"
-                    className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease">
-                    Sign Up
-                </a>
-            </div>
-        </div>
-    </header>
-    </>
-  )
-}
+          </div>
 
-export default Header
+          <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li>
+              <a href="#_" class="nav-link px-2 link-secondary">
+                Home
+              </a>
+            </li>
+            <li>
+              <a href="#_" class="nav-link px-2">
+                Features
+              </a>
+            </li>
+            <li>
+              <a href="#_" class="nav-link px-2">
+                Pricing
+              </a>
+            </li>
+            <li>
+              <a href="#_" class="nav-link px-2">
+                FAQs
+              </a>
+            </li>
+            <li>
+              <a href="#_" class="nav-link px-2">
+                About
+              </a>
+            </li>
+          </ul>
+
+          <div class="col-md-3 text-end">
+            <button type="button" class="btn btn-outline-primary me-2">
+              Login
+            </button>
+            <button type="button" class="btn btn-primary">
+              Sign-up
+            </button>
+          </div>
+        </header>
+      </div>
+    </>
+  );
+};
+
+export default Header;
