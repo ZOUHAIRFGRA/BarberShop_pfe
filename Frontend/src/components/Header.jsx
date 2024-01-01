@@ -10,34 +10,28 @@ const Header = () => {
               href="/"
               class="d-inline-flex link-body-emphasis text-decoration-none"
             >
-              <svg
-                class="bi"
-                width="40"
-                height="32"
-                role="img"
-                aria-label="Bootstrap"
-              ></svg>
+              <h3>logo</h3>
             </a>
           </div>
 
           <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li>
-              <a href="#_" class="nav-link px-2 link-secondary">
+              <a href="/home" class="nav-link px-2 link-secondary">
                 Home
               </a>
             </li>
             <li>
-              <a href="#_" class="nav-link px-2">
+              <a href="/features" class="nav-link px-2">
                 Features
               </a>
             </li>
             <li>
-              <a href="#_" class="nav-link px-2">
+              <a href="/err" class="nav-link px-2">
                 Pricing
               </a>
             </li>
             <li>
-              <a href="#_" class="nav-link px-2">
+              <a href="/err" class="nav-link px-2">
                 FAQs
               </a>
             </li>
