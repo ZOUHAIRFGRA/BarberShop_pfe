@@ -9,7 +9,7 @@ import Footer from './components/Footer'; // Import your Footer component
 const App = () => {
   return (
     <Router>
-      <div>
+      <div className='main'>
         <Header /> {/* Your Header Component */}
         
         <Routes />
