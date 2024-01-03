@@ -6,6 +6,8 @@ import HomePage from '../pages/HomePage';
 import NeighborhoodsPage from '../pages/NeighborhoodsPage';
 import BarbersList from '../pages/BarbersList';
 import NoPage from '../pages/NoPage';
+import Login from '../pages/Login';
+import Register from '../pages/Register';
 
 const Routes = () => {
   return (
@@ -15,6 +17,9 @@ const Routes = () => {
       {/* Adjust the route for BarbersList */}
       <Route path="/neighborhoods/:city/:neighborhood" element={<BarbersList />} />
       <Route path="*" element={<NoPage />} />
+
+      <Route path='/login' element={<Login/>} />
+      <Route path='/register' element={<Register/>} />
     </RouterRoutes>
   );
 };
