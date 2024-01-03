@@ -7,22 +7,22 @@ const Footer = () => {
       <footer className="bg-dark text-light py-3 w-100 flex-shrink-0">
         <div className="container">
           <div className="row gy-4 gx-5">
-            <div class="col-lg-4 col-md-6">
-              <h5 class="h1 text-white">BmB</h5>
-              <p class="small text-white">
+            <div className="col-lg-4 col-md-6">
+              <h5 className="h1 text-white">BmB</h5>
+              <p className="small text-white">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
                 eiusmod tempor incididunt.
               </p>
-              <p class="small text-white mb-0">
+              <p className="small text-white mb-0">
                 &copy; Copyrights. All rights reserved.{" "}
-                <a class="text-primary" href="_">
+                <a className="text-primary" href="_">
                   BookMyBarber.com
                 </a>
               </p>
             </div>
-            <div class="col-lg-2 col-md-6">
-              <h5 class="text-white mb-3">Quick links</h5>
-              <ul class="list-unstyled text-muted">
+            <div className="col-lg-2 col-md-6">
+              <h5 className="text-white mb-3">Quick links</h5>
+              <ul className="list-unstyled text-muted">
                 <li>
                   <a href="#_">Home</a>
                 </li>
@@ -37,8 +37,8 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
-            <div class="col-lg-2 col-md-6">
-              <h5 class="text-white mb-3">Quick links</h5>
+            <div className="col-lg-2 col-md-6">
+              <h5 className="text-white mb-3">Quick links</h5>
               <ul class="list-unstyled text-muted">
                 <li>
                   <a href="#_">Home</a>
