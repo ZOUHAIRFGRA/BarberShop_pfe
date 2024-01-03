@@ -13,7 +13,7 @@ import Register from '../pages/Register';
 const Routes = () => {
   return (
     <RouterRoutes>
-      <Route path="/" element={<HomePage />} />
+      <Route index element={<HomePage />} />
       <Route path="/neighborhoods/:city" element={<NeighborhoodsPage />} />
       {/* Adjust the route for BarbersList */}
       <Route path="/neighborhoods/:city/:neighborhood" element={<BarbersList />} />
