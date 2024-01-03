@@ -1,4 +1,4 @@
-// data.js
+// src/data/dummydata.js
 
 export const cities = [
   {
@@ -7,6 +7,42 @@ export const cities = [
       {
         name: "Anfa",
         barbers: [
+          {
+            name: "Ahmed's Barbershop Anfa Casa",
+            rating: 4.5,
+            reviewCount: 30,
+            image: "https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?w=740&t=st=1704041446~exp=1704042046~hmac=02ab25eb70931cd5dfca374f9149171722abe4817680ac0b315378f5845ea5bc",
+            services: [
+              {
+                name: "Haircut",
+                price: "50.00",
+                duration: "1h",
+              },
+              {
+                name: "Beard Trim",
+                price: "30.00",
+                duration: "30m",
+              },
+            ],
+          },
+          {
+            name: "Ahmed's Barbershop Anfa Casa",
+            rating: 4.5,
+            reviewCount: 30,
+            image: "https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?w=740&t=st=1704041446~exp=1704042046~hmac=02ab25eb70931cd5dfca374f9149171722abe4817680ac0b315378f5845ea5bc",
+            services: [
+              {
+                name: "Haircut",
+                price: "50.00",
+                duration: "1h",
+              },
+              {
+                name: "Beard Trim",
+                price: "30.00",
+                duration: "30m",
+              },
+            ],
+          },
           {
             name: "Ahmed's Barbershop Anfa Casa",
             rating: 4.5,
