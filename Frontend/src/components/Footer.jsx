@@ -3,9 +3,9 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="bg-dark text-light py-4">
-      <div className="container">
-        <div className="row">
+    <footer className="bg-dark text-light py-4 fixed-bottom w-100">
+    <div className="container">
+      <div className="row">
           <div className="col-md-6">
             <p className="mb-0">Your Company Name</p>
           </div>
@@ -35,13 +35,13 @@ const Footer = () => {
             {/* Links section */}
             <ul className="list-unstyled d-flex">
               <li className="me-3">
-                <a href="#">Home</a>
+                <a href="#_">Home</a>
               </li>
               <li className="me-3">
-                <a href="#">About</a>
+                <a href="#_">About</a>
               </li>
               <li className="me-3">
-                <a href="#">Blog</a>
+                <a href="#_">Blog</a>
               </li>
               {/* Add more links as needed */}
             </ul>
