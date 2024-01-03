@@ -1,12 +1,11 @@
 // NeighborhoodsPage.js
-
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import DynamicLinks from '../components/DynamicLinks/DynamicLinks';
 import { cities } from '../data/dummydata';
 
 const NeighborhoodsPage = () => {
-  const { city } = useParams();
+  const { city, neighborhood } = useParams();
 
   // Find the city data
   const selectedCity = cities.find((c) => c.name === city);
@@ -16,8 +15,8 @@ const NeighborhoodsPage = () => {
 
   return (
     <div className="container">
-      
-      <DynamicLinks selectedCity={city} neighborhoods={neighborhoods} />
+      {/* Pass selectedCity and neighborhoods data to DynamicLinks */}
+      <DynamicLinks selectedCity={selectedCity?.name} neighborhoods={neighborhoods} selectedNeighborhood={neighborhood} />
     </div>
   );
 };
