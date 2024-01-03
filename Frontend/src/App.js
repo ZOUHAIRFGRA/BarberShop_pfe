@@ -1,17 +1,23 @@
-import './App.css';
-import Footer from './components/Footer';
-import Header from './components/Header';
-// import Register from './pages/Register';
-import BarbersList from './pages/BarbersList';
+// App.js
 
-export default function App() {
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Routes from './routes/Routes';
+import Header from './components/Header'; // Import your Header component
+import Footer from './components/Footer'; // Import your Footer component
+
+const App = () => {
   return (
-    <>
-      <Header/>
-      <BarbersList/>
-      <Footer />
-    </>
+    <Router>
+      <div>
+        <Header /> {/* Your Header Component */}
+        
+        <Routes />
+
+        <Footer /> {/* Your Footer Component */}
+      </div>
+    </Router>
   );
+};
 
-}
-
+export default App;
