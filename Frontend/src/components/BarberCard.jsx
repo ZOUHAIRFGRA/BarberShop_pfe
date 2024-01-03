@@ -3,14 +3,14 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
-const BarberCard = ({ barber }) => {
-  const { name, location, rating, reviewCount, image, services } = barber;
+const BarberCard = ({ city, neighborhood, barber }) => {
+  const { name, rating, reviewCount, image, services } = barber;
 
   return (
     <div className="card mb-3">
       <div className="row g-0">
         <div className="col-md-4">
-          <img src={image} alt={`${name} - ${location}`} className="img-fluid rounded-start" />
+          <img src={image} alt={`${name} - ${neighborhood}`} className="img-fluid rounded-start" />
         </div>
         <div className="col-md-8">
           <div className="card-body">
@@ -25,7 +25,7 @@ const BarberCard = ({ barber }) => {
                 <div>{reviewCount} reviews</div>
               </div>
             </div>
-            <p className="card-text">{location}</p>
+            <p className="card-text">{neighborhood}, {city}</p>
             <hr />
             <ul className="list-unstyled">
               {services.map((service, index) => (
