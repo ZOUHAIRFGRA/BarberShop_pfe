@@ -1,11 +1,11 @@
 // DynamicLinks.js
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 import './styles.css';
 
-const DynamicLinks = ({ selectedCity, neighborhoods }) => {
+const DynamicLinks = ({ selectedCity, neighborhoods, selectedNeighborhood }) => {
   const renderLinks = () => {
     if (!neighborhoods || neighborhoods.length === 0) {
       return <p>No neighborhoods available.</p>;
@@ -14,11 +14,12 @@ const DynamicLinks = ({ selectedCity, neighborhoods }) => {
     return neighborhoods.map((neighborhood) => (
       <Link
         key={neighborhood.name}
-        to={`/neighborhood/${selectedCity}/${neighborhood.name}`} // Adjust the route structure
+        to={`/neighborhoods/${selectedCity}/${neighborhood.name}`} // Adjust the route structure
         style={{ textDecoration: 'none', color: 'inherit' }}
       >
-        <div className="neighborhood-link">
-          <p className="p_name">BarberShops in {neighborhood.name}</p>
+        {/* Highlight the selected neighborhood */}
+        <div className={`neighborhood-link ${neighborhood.name === selectedNeighborhood ? 'selected' : ''}`}>
+          <p className='p_name'>BarberShops in {neighborhood.name}</p>
           {/* Right arrow icon */}
           <FontAwesomeIcon icon={faArrowRight} className="right-arrow" />
         </div>
