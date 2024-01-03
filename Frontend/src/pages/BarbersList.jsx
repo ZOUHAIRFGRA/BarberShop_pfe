@@ -34,7 +34,7 @@ const BarbersList = () => {
 
   const handleBarberCardClick = (barberId) => {
     // Redirect to the barber details page
-    navigate(`/barber/${barberId}`);
+    navigate(`/barber/${city}/${neighborhood}/${barberId}`)
   };
 
   return (
