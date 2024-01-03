@@ -1,0 +1,74 @@
+/* Add these styles to your CSS or use a styling solution like Styled Components */
+
+.links-container {
+  text-align: center;
+  
+  margin-top: 20px;
+}
+
+.neighborhood-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.neighborhood-link {
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  width: 250px;
+  display: flex;
+  justify-content: space-between; /* Align text and arrow at each end */
+  align-items: center;
+  overflow: hidden ;
+  height: 50px
+
+}
+
+.right-arrow {
+  font-size: 20px;
+  color: #007bff; /* Set the color as needed */
+  margin-left: 5px; /* Add some spacing between text and arrow */
+}
+.p_name{
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
+/* 
+
+.links-container {
+  max-width: 800px; 
+  margin: 0 auto;
+}
+
+.neighborhood-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px; /* Adjust the gap between divs as needed 
+}
+
+.neighborhood-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px; /* Set a fixed height for the neighborhood div 
+  overflow: hidden;
+  border: 1px solid #ccc; /* Optional: Add a border for better separation 
+}
+
+.p_name {
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.right-arrow {
+  margin-left: 10px; /* Optional: Add margin to separate text and arrow 
+} 
+*/
