@@ -1,4 +1,3 @@
-// src/components/BarberCard.js
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
@@ -7,10 +6,12 @@ const BarberCard = ({ city, neighborhood, barber }) => {
   const { name, rating, reviewCount, image, services } = barber;
 
   return (
-    <div className="card mb-3">
+    <div className="card mb-3" style={{ height: '253px' }}>
       <div className="row g-0">
         <div className="col-md-4">
-          <img src={image} alt={`${name} - ${neighborhood}`} className="img-fluid rounded-start" />
+          <div className="img-container">
+            <img src={image} alt={`${name} - ${neighborhood}`} className="img-fluid rounded-start" />
+          </div>
         </div>
         <div className="col-md-8">
           <div className="card-body">
