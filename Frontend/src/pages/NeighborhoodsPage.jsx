@@ -1,14 +1,27 @@
-// NeighborhoodsPage.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import DynamicLinks from '../components/DynamicLinks/DynamicLinks';
-import { cities } from '../data/dummydata';
 
 const NeighborhoodsPage = () => {
   const { city, neighborhood } = useParams();
+  const [selectedCity, setSelectedCity] = useState(null);
 
-  // Find the city data
-  const selectedCity = cities.find((c) => c.name === city);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/dummydata.json'); // Update the path accordingly
+        const data = await response.json();
+
+        // Find the city data
+        const cityData = data.find((c) => c.name === city);
+        setSelectedCity(cityData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [city]);
 
   // Get the neighborhoods for the selected city
   const neighborhoods = selectedCity ? selectedCity.neighborhoods : [];
