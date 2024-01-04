@@ -1,15 +1,30 @@
-import React, { useState } from "react";
-import { cities } from "../data/dummydata";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
-  const cityNames = cities.map((city) => city.name);
-  const [selectedCity, setSelectedCity] = useState('');
+  const [cityNames, setCityNames] = useState([]);
+  const [selectedCity, setSelectedCity] = useState("");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/dummydata.json'); 
+        const data = await response.json();
+
+        // Extract city names from the data
+        const names = data.map((city) => city.name);
+        setCityNames(names);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleCitySubmit = () => {
-    console.log('Selected City:', selectedCity);
-    // You can add more logic here if needed
+    console.log("Selected City:", selectedCity);
     navigate(`/neighborhoods/${selectedCity}`);
   };
 
