@@ -39,7 +39,7 @@ const Footer = () => {
             </div>
             <div className="col-lg-2 col-md-6">
               <h5 className="text-white mb-3">Quick links</h5>
-              <ul class="list-unstyled text-muted">
+              <ul className="list-unstyled text-muted">
                 <li>
                   <a href="#_">Home</a>
                 </li>
