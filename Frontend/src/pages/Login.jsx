@@ -6,8 +6,9 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Add your login logic here
     console.log('Login clicked');
+    console.log('Email:', email);
+    console.log('Password:', password)
   };
 
   return (

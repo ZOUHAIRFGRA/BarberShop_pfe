@@ -1,10 +1,14 @@
 .footer-wrapper {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  footer {
-    margin-top: auto;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+footer {
+  margin-top: auto;
+}
+
+.img-container {
+  height: 250px; /* Adjust the height as needed */
+  overflow: hidden;
+}
