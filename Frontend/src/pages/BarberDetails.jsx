@@ -1,32 +1,48 @@
-// src/pages/BarberDetails.js
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { cities } from "../data/dummydata";
 
 const BarberDetails = () => {
   const { city, neighborhood, id } = useParams();
+  const [selectedBarber, setSelectedBarber] = useState(null);
 
-  // Find the city data
-  const selectedCity = cities.find((c) => c.name === city);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/dummydata.json'); 
+        const data = await response.json();
 
-  // Find the neighborhood data
-  const selectedNeighborhood =
-    selectedCity && selectedCity.neighborhoods
-      ? selectedCity.neighborhoods.find((n) => n.name === neighborhood)
-      : null;
+        // Find the city data
+        const selectedCity = data.find((c) => c.name === city);
 
-  // Find the specific barber
-  const selectedBarber =
-    selectedNeighborhood && selectedNeighborhood.barbers
-      ? selectedNeighborhood.barbers.find((barber) => barber.id === parseInt(id))
-      : null;
+        // Find the neighborhood data
+        const selectedNeighborhood =
+          selectedCity && selectedCity.neighborhoods
+            ? selectedCity.neighborhoods.find((n) => n.name === neighborhood)
+            : null;
 
+        // Find the specific barber
+        const barber =
+          selectedNeighborhood && selectedNeighborhood.barbers
+            ? selectedNeighborhood.barbers.find((barber) => barber.id === parseInt(id))
+            : null;
+
+        setSelectedBarber(barber);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [city, neighborhood, id]);
 
   if (!selectedBarber) {
     return <div>Barber not found</div>;
   }
 
   const { name, rating, reviewCount, image, services } = selectedBarber;
+
+  
+
 
   return (
     <div className="container mt-5">

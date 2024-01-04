@@ -1,9 +1,7 @@
-// src/pages/BarbersList.js
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import ReactPaginate from "react-paginate";
 import BarberCard from "../components/BarberCard";
-import { cities } from '../data/dummydata';
 
 const BarbersList = () => {
   const { city, neighborhood } = useParams();
@@ -13,15 +11,26 @@ const BarbersList = () => {
   const [barberData, setBarberData] = useState([]);
 
   useEffect(() => {
-    const cityData = cities.find((c) => c.name === city);
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/dummydata.json'); 
+        const data = await response.json();
 
-    if (cityData) {
-      const neighborhoodData = cityData.neighborhoods.find((n) => n.name === neighborhood);
+        const cityData = data.find((c) => c.name === city);
 
-      if (neighborhoodData) {
-        setBarberData(neighborhoodData.barbers);
+        if (cityData) {
+          const neighborhoodData = cityData.neighborhoods.find((n) => n.name === neighborhood);
+
+          if (neighborhoodData) {
+            setBarberData(neighborhoodData.barbers);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-    }
+    };
+
+    fetchData();
   }, [city, neighborhood]);
 
   const startIndex = currentPage * itemsPerPage;
@@ -33,8 +42,7 @@ const BarbersList = () => {
   };
 
   const handleBarberCardClick = (barberId) => {
-    // Redirect to the barber details page
-    navigate(`/barber/${city}/${neighborhood}/${barberId}`)
+    navigate(`/barber/${city}/${neighborhood}/${barberId}`);
   };
 
   return (
