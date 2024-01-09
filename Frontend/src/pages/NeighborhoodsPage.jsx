@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import DynamicLinks from '../components/DynamicLinks/DynamicLinks';
+import ReviewList from '../components/Reviews/ReviewList';
 
 const NeighborhoodsPage = () => {
   const { city, neighborhood } = useParams();
@@ -30,7 +31,9 @@ const NeighborhoodsPage = () => {
     <div className="container">
       {/* Pass selectedCity and neighborhoods data to DynamicLinks */}
       <DynamicLinks selectedCity={selectedCity?.name} neighborhoods={neighborhoods} selectedNeighborhood={neighborhood} />
+      <ReviewList/>
     </div>
+    
   );
 };
 
