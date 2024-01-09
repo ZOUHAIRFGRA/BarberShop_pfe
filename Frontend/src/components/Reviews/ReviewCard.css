@@ -1,0 +1,18 @@
+/* ReviewCard.css */
+.review-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .review-header {
+    font-weight: bold;
+  }
+  
+  .review-body {
+    margin-top: 10px;
+  }
+  
