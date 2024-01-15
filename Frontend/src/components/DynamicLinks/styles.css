@@ -39,36 +39,3 @@
 }
 
 
-/* 
-
-.links-container {
-  max-width: 800px; 
-  margin: 0 auto;
-}
-
-.neighborhood-links {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px; /* Adjust the gap between divs as needed 
-}
-
-.neighborhood-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 50px; /* Set a fixed height for the neighborhood div 
-  overflow: hidden;
-  border: 1px solid #ccc; /* Optional: Add a border for better separation 
-}
-
-.p_name {
-  margin: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.right-arrow {
-  margin-left: 10px; /* Optional: Add margin to separate text and arrow 
-} 
-*/
