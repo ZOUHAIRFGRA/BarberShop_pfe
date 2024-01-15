@@ -45,11 +45,12 @@ const NeighborhoodsPage = () => {
           </p>
         </div>
         <div className="container text-center w-75 p-5">
-          <img
+          {/* <img
+          className="img-container"
             src="/assets/img1.png"
             alt="Barbershops near you"
             title="Barbershops near you"
-          />
+          /> */}
         </div>
       </section>
      
@@ -64,11 +65,11 @@ const NeighborhoodsPage = () => {
       <section className="about-2 pt-5  ">
         
           <div className="container text-center w-75 py-5 ">
-            <img
+            {/* <img
               src="/assets/img2.jpg"
               alt="Barbershops near you"
               title="Barbershops near you"
-            />
+            /> */}
           </div>
           <div className="container py-5 w-75">
             <h1 className="text-center pb-5 ">
