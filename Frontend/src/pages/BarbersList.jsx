@@ -7,7 +7,7 @@ const BarbersList = () => {
   const { city, neighborhood } = useParams();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
   const [barberData, setBarberData] = useState([]);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const BarbersList = () => {
 
       <ReactPaginate
         pageCount={Math.ceil(barberData.length / itemsPerPage)}
-        pageRangeDisplayed={5}
+        pageRangeDisplayed={10}
         marginPagesDisplayed={2}
         onPageChange={handlePageChange}
         containerClassName={'pagination justify-content-center'}
