@@ -40,37 +40,39 @@ const ReviewList = () => {
   return (
     <div className='container pt-5'>
       <h1 className='text-center pb-4'>Barbershops - customer reviews</h1>
-       <div id="reviewCarousel" className="carousel slide" data-bs-ride="carousel">
-      <div className="carousel-inner">
-        {randomReviews.reduce((chunks, item, index) => {
-          const chunkIndex = Math.floor(index / 3);
+      <div id="reviewCarousel" className="carousel slide" data-bs-ride="carousel">
+        <div className="carousel-inner">
+          {randomReviews.reduce((chunks, item, index) => {
+            const chunkIndex = Math.floor(index / 3);
 
-          if (!chunks[chunkIndex]) {
-            chunks[chunkIndex] = [];
-          }
+            if (!chunks[chunkIndex]) {
+              chunks[chunkIndex] = [];
+            }
 
-          chunks[chunkIndex].push(item);
+            chunks[chunkIndex].push(item);
 
-          return chunks;
-        }, []).map((chunk, index) => (
-          <div key={index} className={`carousel-item${index === 0 ? ' active' : ''}`}>
-            <div className="d-flex justify-content-around">
-              {chunk.map((review, idx) => (
-                <ReviewCard key={idx} review={review} />
-              ))}
+            return chunks;
+          }, []).map((chunk, index) => (
+            <div key={index} className={`carousel-item${index === 0 ? ' active' : ''}`}>
+              <div className="row row-cols-1 row-cols-md-3 g-4">
+                {chunk.map((review, idx) => (
+                  <div key={idx} className="col">
+                    <ReviewCard review={review} />
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+        <button className="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
+          <span className="carousel-control-prev-icon bg-black" aria-hidden="true"></span>
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button className="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
+          <span className="carousel-control-next-icon bg-black" aria-hidden="true"></span>
+          <span className="visually-hidden">Next</span>
+        </button>
       </div>
-      <button className="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
-        <span className="carousel-control-prev-icon bg-black" aria-hidden="true"></span>
-        <span className="visually-hidden">Previous</span>
-      </button>
-      <button className="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
-        <span className="carousel-control-next-icon bg-black" aria-hidden="true"></span>
-        <span className="visually-hidden">Next</span>
-      </button>
-    </div>
     </div>
   );
 };
