@@ -44,14 +44,15 @@ const NeighborhoodsPage = () => {
             finding <strong>quality barbershops in the United States</strong>!
           </p>
         </div>
-        <div className="container text-center w-75 p-5">
-          {/* <img
-          className="img-container"
-            src="/assets/img1.png"
-            alt="Barbershops near you"
-            title="Barbershops near you"
-          /> */}
-        </div>
+        <div className="container text-center w-100 py-5">
+  <img
+    className="img-fluid"
+    src="/assets/img1.png"
+    alt="Barbershops near you"
+    title="Barbershops near you"
+  />
+</div>
+
       </section>
      
 
@@ -64,12 +65,13 @@ const NeighborhoodsPage = () => {
       <ReviewList />
       <section className="about-2 pt-5  ">
         
-          <div className="container text-center w-75 py-5 ">
-            {/* <img
+          <div className="container text-center w-100 py-5 ">
+            <img
+            className="img-fluid"
               src="/assets/img2.jpg"
               alt="Barbershops near you"
               title="Barbershops near you"
-            /> */}
+            />
           </div>
           <div className="container py-5 w-75">
             <h1 className="text-center pb-5 ">
