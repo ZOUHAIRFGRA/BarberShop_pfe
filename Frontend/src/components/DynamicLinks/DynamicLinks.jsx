@@ -28,9 +28,9 @@ const DynamicLinks = ({ selectedCity, neighborhoods, selectedNeighborhood }) => 
   };
 
   return (
-    <div className="links-container">
-      <h2>Neighborhoods in {selectedCity}</h2>
-      <div className="neighborhood-links">{renderLinks()}</div>
+    <div className="links-container pb-5">
+      <h2 className='pt-3'>Neighborhoods in {selectedCity}</h2>
+      <div className="neighborhood-links pt-4">{renderLinks()}</div>
     </div>
   );
 };
