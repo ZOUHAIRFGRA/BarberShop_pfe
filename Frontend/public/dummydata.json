@@ -83,6 +83,286 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":4.5,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            }
+          ]
+          },
+          {
+            "id": 4,
+            "name": "Ahmed's Barbershop Anfa Casa",
+            "rating": 4.5,
+            "reviewCount": 30,
+            "location":"location 1",
+            "image": "https://img.freepik.com/free-photo/man-wearing-waistcoat_1368-2886.jpg?w=740&t=st=1704315415~exp=1704316015~hmac=5d0968ea3ed23d898fd60bd1918a05567773590df12651d8d1e9aadbb4cd0d91",
+            "services": [
+              {
+                "name": "Haircut",
+                "price": "50.00",
+                "duration": "1h"
+              },
+              {
+                "name": "Beard Trim",
+                "price": "30.00",
+                "duration": "30m"
+              }
+            ],"reviews": [
+            {
+              "user_id": 123,
+              "user_name":"user1",
+              "avatar":"https://randomuser.me/api/portraits/men/2.jpg",
+              "rating":4.5,
+              "comment": "Anthony2 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            }
+          ]
+          },
+          {
+            "id": 5,
+            "name": "Ahmed's Barbershop Anfa Casa",
+            "rating": 4.5,
+            "reviewCount": 30,
+            "location":"location 1",
+            "image": "https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?w=740&t=st=1704041446~exp=1704042046~hmac=02ab25eb70931cd5dfca374f9149171722abe4817680ac0b315378f5845ea5bc",
+            "services": [
+              {
+                "name": "Haircut",
+                "price": "50.00",
+                "duration": "1h"
+              },
+              {
+                "name": "Beard Trim",
+                "price": "30.00",
+                "duration": "30m"
+              }
+            ],"reviews": [
+            {
+              "user_id": 123,
+              "user_name":"user1",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":4.5,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            }
+          ]
+          },
+          {
+            "id": 6,
+            "name": "Ahmed's Barbershop Anfa Casa",
+            "rating": 4.5,
+            "reviewCount": 30,
+            "location":"location 1",
+            "image": "https://img.freepik.com/free-photo/man-wearing-waistcoat_1368-2886.jpg?w=740&t=st=1704315415~exp=1704316015~hmac=5d0968ea3ed23d898fd60bd1918a05567773590df12651d8d1e9aadbb4cd0d91",
+            "services": [
+              {
+                "name": "Haircut",
+                "price": "50.00",
+                "duration": "1h"
+              },
+              {
+                "name": "Beard Trim",
+                "price": "30.00",
+                "duration": "30m"
+              }
+            ],"reviews": [
+            {
+              "user_id": 123,
+              "user_name":"user1",
+              "avatar":"https://randomuser.me/api/portraits/men/2.jpg",
+              "rating":4.5,
+              "comment": "Anthony2 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            }
+          ]
+          },
+          {
+            "id": 7,
+            "name": "Ahmed's Barbershop Anfa Casa",
+            "rating": 4.5,
+            "reviewCount": 30,
+            "location":"location 1",
+            "image": "https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?w=740&t=st=1704041446~exp=1704042046~hmac=02ab25eb70931cd5dfca374f9149171722abe4817680ac0b315378f5845ea5bc",
+            "services": [
+              {
+                "name": "Haircut",
+                "price": "50.00",
+                "duration": "1h"
+              },
+              {
+                "name": "Beard Trim",
+                "price": "30.00",
+                "duration": "30m"
+              }
+            ],"reviews": [
+            {
+              "user_id": 123,
+              "user_name":"user1",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":4.5,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            }
+          ]
+          },
+          {
+            "id": 8,
+            "name": "Ahmed's Barbershop Anfa Casa",
+            "rating": 4.5,
+            "reviewCount": 30,
+            "location":"location 1",
+            "image": "https://img.freepik.com/free-photo/man-wearing-waistcoat_1368-2886.jpg?w=740&t=st=1704315415~exp=1704316015~hmac=5d0968ea3ed23d898fd60bd1918a05567773590df12651d8d1e9aadbb4cd0d91",
+            "services": [
+              {
+                "name": "Haircut",
+                "price": "50.00",
+                "duration": "1h"
+              },
+              {
+                "name": "Beard Trim",
+                "price": "30.00",
+                "duration": "30m"
+              }
+            ],"reviews": [
+            {
+              "user_id": 123,
+              "user_name":"user1",
+              "avatar":"https://randomuser.me/api/portraits/men/2.jpg",
+              "rating":4.5,
+              "comment": "Anthony2 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            }
+          ]
+          },
+          {
+            "id": 9,
+            "name": "Ahmed's Barbershop Anfa Casa",
+            "rating": 4.5,
+            "reviewCount": 30,
+            "location":"location 1",
+            "image": "https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?w=740&t=st=1704041446~exp=1704042046~hmac=02ab25eb70931cd5dfca374f9149171722abe4817680ac0b315378f5845ea5bc",
+            "services": [
+              {
+                "name": "Haircut",
+                "price": "50.00",
+                "duration": "1h"
+              },
+              {
+                "name": "Beard Trim",
+                "price": "30.00",
+                "duration": "30m"
+              }
+            ],"reviews": [
+            {
+              "user_id": 123,
+              "user_name":"user1",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":4.5,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            }
+          ]
+          },
+          {
+            "id": 10,
+            "name": "Ahmed's Barbershop Anfa Casa",
+            "rating": 4.5,
+            "reviewCount": 30,
+            "location":"location 1",
+            "image": "https://img.freepik.com/free-photo/man-wearing-waistcoat_1368-2886.jpg?w=740&t=st=1704315415~exp=1704316015~hmac=5d0968ea3ed23d898fd60bd1918a05567773590df12651d8d1e9aadbb4cd0d91",
+            "services": [
+              {
+                "name": "Haircut",
+                "price": "50.00",
+                "duration": "1h"
+              },
+              {
+                "name": "Beard Trim",
+                "price": "30.00",
+                "duration": "30m"
+              }
+            ],"reviews": [
+            {
+              "user_id": 123,
+              "user_name":"user1",
+              "avatar":"https://randomuser.me/api/portraits/men/2.jpg",
+              "rating":4.5,
+              "comment": "Anthony2 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            }
+          ]
+          },
+          {
+            "id": 11,
+            "name": "Ahmed's Barbershop Anfa Casa",
+            "rating": 4.5,
+            "reviewCount": 30,
+            "location":"location 1",
+            "image": "https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?w=740&t=st=1704041446~exp=1704042046~hmac=02ab25eb70931cd5dfca374f9149171722abe4817680ac0b315378f5845ea5bc",
+            "services": [
+              {
+                "name": "Haircut",
+                "price": "50.00",
+                "duration": "1h"
+              },
+              {
+                "name": "Beard Trim",
+                "price": "30.00",
+                "duration": "30m"
+              }
+            ],"reviews": [
+            {
+              "user_id": 123,
+              "user_name":"user1",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":4.5,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            }
+          ]
+          },
+          {
+            "id": 12,
+            "name": "Ahmed's Barbershop Anfa Casa",
+            "rating": 4.5,
+            "reviewCount": 30,
+            "location":"location 1",
+            "image": "https://img.freepik.com/free-photo/man-wearing-waistcoat_1368-2886.jpg?w=740&t=st=1704315415~exp=1704316015~hmac=5d0968ea3ed23d898fd60bd1918a05567773590df12651d8d1e9aadbb4cd0d91",
+            "services": [
+              {
+                "name": "Haircut",
+                "price": "50.00",
+                "duration": "1h"
+              },
+              {
+                "name": "Beard Trim",
+                "price": "30.00",
+                "duration": "30m"
+              }
+            ],"reviews": [
+            {
+              "user_id": 123,
+              "user_name":"user1",
+              "avatar":"https://randomuser.me/api/portraits/men/2.jpg",
+              "rating":4.5,
+              "comment": "Anthony2 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            }
+          ]
+          },
+          {
+            "id": 13,
+            "name": "Ahmed's Barbershop Anfa Casa",
+            "rating": 4.5,
+            "reviewCount": 30,
+            "location":"location 1",
+            "image": "https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?w=740&t=st=1704041446~exp=1704042046~hmac=02ab25eb70931cd5dfca374f9149171722abe4817680ac0b315378f5845ea5bc",
+            "services": [
+              {
+                "name": "Haircut",
+                "price": "50.00",
+                "duration": "1h"
+              },
+              {
+                "name": "Beard Trim",
+                "price": "30.00",
+                "duration": "30m"
+              }
+            ],"reviews": [
+            {
+              "user_id": 123,
+              "user_name":"user1",
               "avatar":"https://randomuser.me/api/portraits/men/3.jpg",
               "rating":4.5,
               "comment": "Anthony3 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -158,7 +438,7 @@
         ]
       },
       {
-        "name": "Anfa",
+        "name": "Anfa2",
         "barbers": [
           {
             "id": 1,
@@ -247,7 +527,7 @@
         ]
       },
       {
-        "name": "El Oulfa",
+        "name": "El Oulfa1",
         "barbers": [
           {
             "id": 4,
@@ -280,7 +560,7 @@
         ]
       },
       {
-        "name": "Hay Hassani",
+        "name": "Hay Hassani1",
         "barbers": [
           {
             "id": 5,
@@ -313,7 +593,7 @@
         ]
       },
       {
-        "name": "Anfa",
+        "name": "Anfa3",
         "barbers": [
           {
             "id": 1,
@@ -402,7 +682,7 @@
         ]
       },
       {
-        "name": "El Oulfa",
+        "name": "El Oulfa3",
         "barbers": [
           {
             "id": 4,
@@ -435,7 +715,7 @@
         ]
       },
       {
-        "name": "Hay Hassani",
+        "name": "Hay Hassani1",
         "barbers": [
           {
             "id": 5,
@@ -468,7 +748,7 @@
         ]
       },
       {
-        "name": "Anfa",
+        "name": "Anfa 4",
         "barbers": [
           {
             "id": 1,
@@ -557,7 +837,7 @@
         ]
       },
       {
-        "name": "El Oulfa",
+        "name": "El Oulfa 4",
         "barbers": [
           {
             "id": 4,
@@ -590,7 +870,7 @@
         ]
       },
       {
-        "name": "Hay Hassani",
+        "name": "Hay Hassani 5",
         "barbers": [
           {
             "id": 5,
@@ -623,7 +903,7 @@
         ]
       },
       {
-        "name": "Anfa",
+        "name": "Anfa 5",
         "barbers": [
           {
             "id": 1,
@@ -712,7 +992,7 @@
         ]
       },
       {
-        "name": "El Oulfa",
+        "name": "El Oulfa 6",
         "barbers": [
           {
             "id": 4,
@@ -745,7 +1025,7 @@
         ]
       },
       {
-        "name": "Hay Hassani",
+        "name": "Hay Hassani 55",
         "barbers": [
           {
             "id": 5,
@@ -778,7 +1058,7 @@
         ]
       },
       {
-        "name": "Hay Mohammadi",
+        "name": "Hay Mohammadi 7",
         "barbers": [
           {
             "id": 6,
