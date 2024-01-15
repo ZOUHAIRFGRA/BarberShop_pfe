@@ -6,7 +6,7 @@ const BarberCard = ({ city, neighborhood, barber }) => {
   const { name, rating, reviewCount, image, services } = barber;
 
   return (
-    <div className="card mb-3" style={{ height: '253px' }}>
+    <div className="card mb-3" >
       <div className="row g-0">
         <div className="col-md-4">
           <div className="img-container">
