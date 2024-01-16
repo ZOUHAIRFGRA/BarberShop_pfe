@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {  faHome } from "@fortawesome/free-solid-svg-icons";
+
 
 const BarberDetails = () => {
   const { city, neighborhood, id } = useParams();
@@ -65,6 +68,28 @@ const BarberDetails = () => {
           </ul>
         </div>
       </div>
+      <div>
+          <p>
+            <Link to={"/"}>
+              <FontAwesomeIcon icon={faHome} />
+            </Link>{" "}
+            /{" "}
+            <Link
+              className="link-primary link-underline-opacity-0"
+              to={`/neighborhoods/${city}`}
+            >
+              Barbershop
+            </Link>{" "}
+            <Link
+              className="link-primary link-underline-opacity-0"
+              to={`/neighborhoods/${city}/${neighborhood}`}
+            >
+            / Barbershops in {neighborhood}
+            </Link>
+            {" "}
+            / {name}
+          </p>
+        </div>
     </div>
   );
 };
