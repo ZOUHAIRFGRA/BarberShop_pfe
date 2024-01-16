@@ -8,7 +8,7 @@
           {
             "id": 1,
             "name": "Ahmed's Barbershop Anfa Casa",
-            "rating": 4.5,
+            "rating": 4.6,
             "reviewCount": 30,
             "location":"location 1",
             "image": "https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?w=740&t=st=1704041446~exp=1704042046~hmac=02ab25eb70931cd5dfca374f9149171722abe4817680ac0b315378f5845ea5bc",
@@ -35,8 +35,8 @@
           },
           {
             "id": 2,
-            "name": "Ahmed's Barbershop Anfa Casa",
-            "rating": 4.5,
+            "name": "Zouhair's Barbershop Anfa Casa",
+            "rating": 4.7,
             "reviewCount": 30,
             "location":"location 1",
             "image": "https://img.freepik.com/free-photo/man-wearing-waistcoat_1368-2886.jpg?w=740&t=st=1704315415~exp=1704316015~hmac=5d0968ea3ed23d898fd60bd1918a05567773590df12651d8d1e9aadbb4cd0d91",
@@ -63,7 +63,7 @@
           },
           {
             "id": 3,
-            "name": "Ahmed's Barbershop Anfa Casa",
+            "name": "Brahim's Barbershop Anfa Casa",
             "rating": 4.5,
             "reviewCount": 30,
             "location":"location 1",
@@ -91,8 +91,8 @@
           },
           {
             "id": 4,
-            "name": "Ahmed's Barbershop Anfa Casa",
-            "rating": 4.5,
+            "name": "ali's Barbershop Anfa Casa",
+            "rating": 3.5,
             "reviewCount": 30,
             "location":"location 1",
             "image": "https://img.freepik.com/free-photo/man-wearing-waistcoat_1368-2886.jpg?w=740&t=st=1704315415~exp=1704316015~hmac=5d0968ea3ed23d898fd60bd1918a05567773590df12651d8d1e9aadbb4cd0d91",
@@ -119,8 +119,8 @@
           },
           {
             "id": 5,
-            "name": "Ahmed's Barbershop Anfa Casa",
-            "rating": 4.5,
+            "name": "Youssef's Barbershop Anfa Casa",
+            "rating": 4.56,
             "reviewCount": 30,
             "location":"location 1",
             "image": "https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?w=740&t=st=1704041446~exp=1704042046~hmac=02ab25eb70931cd5dfca374f9149171722abe4817680ac0b315378f5845ea5bc",
@@ -147,8 +147,8 @@
           },
           {
             "id": 6,
-            "name": "Ahmed's Barbershop Anfa Casa",
-            "rating": 4.5,
+            "name": "Youness's Barbershop Anfa Casa",
+            "rating": 4.33,
             "reviewCount": 30,
             "location":"location 1",
             "image": "https://img.freepik.com/free-photo/man-wearing-waistcoat_1368-2886.jpg?w=740&t=st=1704315415~exp=1704316015~hmac=5d0968ea3ed23d898fd60bd1918a05567773590df12651d8d1e9aadbb4cd0d91",
@@ -175,8 +175,8 @@
           },
           {
             "id": 7,
-            "name": "Ahmed's Barbershop Anfa Casa",
-            "rating": 4.5,
+            "name": "Sam's Barbershop Anfa Casa",
+            "rating": 4.58,
             "reviewCount": 30,
             "location":"location 1",
             "image": "https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?w=740&t=st=1704041446~exp=1704042046~hmac=02ab25eb70931cd5dfca374f9149171722abe4817680ac0b315378f5845ea5bc",
@@ -203,7 +203,7 @@
           },
           {
             "id": 8,
-            "name": "Ahmed's Barbershop Anfa Casa",
+            "name": "samir's Barbershop Anfa Casa",
             "rating": 4.5,
             "reviewCount": 30,
             "location":"location 1",
@@ -231,7 +231,7 @@
           },
           {
             "id": 9,
-            "name": "Ahmed's Barbershop Anfa Casa",
+            "name": "ayoub's Barbershop Anfa Casa",
             "rating": 4.5,
             "reviewCount": 30,
             "location":"location 1",
@@ -259,7 +259,7 @@
           },
           {
             "id": 10,
-            "name": "Ahmed's Barbershop Anfa Casa",
+            "name": "taha's Barbershop Anfa Casa",
             "rating": 4.5,
             "reviewCount": 30,
             "location":"location 1",
@@ -287,7 +287,7 @@
           },
           {
             "id": 11,
-            "name": "Ahmed's Barbershop Anfa Casa",
+            "name": "rachid's Barbershop Anfa Casa",
             "rating": 4.5,
             "reviewCount": 30,
             "location":"location 1",
@@ -315,7 +315,7 @@
           },
           {
             "id": 12,
-            "name": "Ahmed's Barbershop Anfa Casa",
+            "name": "hassan's Barbershop Anfa Casa",
             "rating": 4.5,
             "reviewCount": 30,
             "location":"location 1",
@@ -343,7 +343,7 @@
           },
           {
             "id": 13,
-            "name": "Ahmed's Barbershop Anfa Casa",
+            "name": "Z's Barbershop Anfa Casa",
             "rating": 4.5,
             "reviewCount": 30,
             "location":"location 1",
