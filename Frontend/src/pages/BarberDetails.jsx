@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { Carousel } from "react-bootstrap";
 import WorkingHoursCard from "../components/WorkingHoursCard";
 import Location from "../components/localisation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -76,16 +75,14 @@ const BarberDetails = () => {
         <div className="row">
           <div className="col-md-8 col-sm-12">
             <div style={{ position: "relative" }}>
-              <Carousel>
-                <Carousel.Item>
+              
+                
                   <img
                     className="d-block w-100"
                     src={image}
                     alt={`${name} - ${city}`}
                   />
-                </Carousel.Item>
-                {/* Ajoutez d'autres images du carrousel ici si nécessaire */}
-              </Carousel>
+                
               <span
                 className="card-notify-year"
                 style={{
@@ -101,8 +98,8 @@ const BarberDetails = () => {
               </span>
             </div>
 
-            <h2>{name}</h2>
-            <p>
+            <h2 className="pt-5 ">{name}</h2>
+            <p className="pb-3">
               <FontAwesomeIcon icon={faMapMarkerAlt} /> {address}
             </p>
             <div className="form-group row">
@@ -122,11 +119,11 @@ const BarberDetails = () => {
               </div>
             </div>
             <br />
-            <div class="accordion" id="accordionPanelsStayOpenExample">
-              <div class="accordion-item">
-                <h2 class="accordion-header">
+            <div className="accordion" id="accordionPanelsStayOpenExample">
+              <div className="accordion-item">
+                <h2 className="accordion-header">
                   <button
-                    class="accordion-button"
+                    className="accordion-button"
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#panelsStayOpen-collapseOne"
@@ -136,10 +133,10 @@ const BarberDetails = () => {
                 </h2>
                 <div
                   id="panelsStayOpen-collapseOne"
-                  class="accordion-collapse collapse show"
+                  className="accordion-collapse collapse show"
                 >
-                  <div class="accordion-body">
-                    <table class="table">
+                  <div className="accordion-body">
+                    <table className="table">
                       <thead></thead>
                       <tbody>
                         {filteredServices.map((service, index) => (
@@ -148,7 +145,7 @@ const BarberDetails = () => {
                             <td>${service.price}</td>
                             <td>{service.duration}</td>
                             <td>
-                              <button type="submit" class="btn btn-primary">
+                              <button type="submit" className="btn btn-primary">
                                 Book
                               </button>
                             </td>
@@ -210,12 +207,12 @@ const BarberDetails = () => {
             <br />
             <hr />
             <div data-aos="fade-up-right">
-              <div class="card card-white post">
+              <div className="card card-white post">
                 {reviews.map((review, index) => (
                   <div key={index}>
-                    <div class="post-heading">
-                      <div class="float-left meta">
-                        <div class="title h5">
+                    <div className="post-heading">
+                      <div className="float-left meta">
+                        <div className="title h5">
                           <b>{review.user_id}</b>
                         </div>
                         <div className="stars">
