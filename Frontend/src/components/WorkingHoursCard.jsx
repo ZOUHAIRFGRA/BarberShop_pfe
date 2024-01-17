@@ -1,6 +1,8 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMobile, faClock } from "@fortawesome/free-solid-svg-icons";
+import { faMobile } from "@fortawesome/free-solid-svg-icons";
+import {faWhatsapp} from "@fortawesome/free-brands-svg-icons"
+
 
 const WorkingHoursCard = ({ workingHours, phone }) => {
   return (
@@ -8,7 +10,8 @@ const WorkingHoursCard = ({ workingHours, phone }) => {
       <div className="card-header">
         <p className="card-title">
           {" "}
-          <FontAwesomeIcon icon={faMobile} /> {phone}
+          <FontAwesomeIcon icon={faMobile} /> 
+           {phone} <FontAwesomeIcon icon={faWhatsapp} beatFade />
         </p>
       </div>
       <div className="card-body">
