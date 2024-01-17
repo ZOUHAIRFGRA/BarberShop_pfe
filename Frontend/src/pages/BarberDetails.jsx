@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import WorkingHoursCard from "../components/WorkingHoursCard";
 import Location from "../components/localisation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faMapMarkerAlt, faHome } from "@fortawesome/free-solid-svg-icons";
 import AOS from "aos";
 import "aos/dist/aos.css";
 AOS.init({
@@ -240,6 +240,29 @@ const BarberDetails = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="p-5">
+          <p>
+            <Link to={"/"}>
+              <FontAwesomeIcon icon={faHome}/>
+            </Link>{" "}
+            /{" "}
+            <Link
+              className="link-primary link-underline-opacity-0"
+              to={`/neighborhoods/${city}`}
+            >
+              Barbershop
+            </Link>{" "}
+            <Link
+              className="link-primary link-underline-opacity-0"
+              to={`/neighborhoods/${city}/${neighborhood}`}
+            >
+            / Barbershops in {neighborhood}
+            </Link>
+            {" "}
+            / {name}
+          </p>
       </div>
     </>
   );
