@@ -5,7 +5,11 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import WorkingHoursCard from "../components/WorkingHoursCard";
 import Location from "../components/localisation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar, faMapMarkerAlt, faHome } from "@fortawesome/free-solid-svg-icons";
+import {
+  faStar,
+  faMapMarkerAlt,
+  faHome,
+} from "@fortawesome/free-solid-svg-icons";
 import AOS from "aos";
 import "aos/dist/aos.css";
 AOS.init({
@@ -69,32 +73,70 @@ const BarberDetails = () => {
     service.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const calculateStarPercentage = (star, reviews) => {
+    const starCount = reviews.filter((review) => review.rating === star).length;
+    const totalReviews = reviews.length;
+
+    return (starCount / totalReviews) * 100;
+  };
+
   return (
     <>
       <div className="container">
         <div className="row">
           <div className="col-md-8 col-sm-12">
             <div style={{ position: "relative" }}>
-              
-                
-                  <img
-                    className="d-block w-100"
-                    src={image}
-                    alt={`${name} - ${city}`}
-                  />
-                
+              <img
+                className="d-block w-100"
+                src={image}
+                alt={`${name} - ${city}`}
+              />
+
               <span
                 className="card-notify-year"
                 style={{
                   position: "absolute",
                   top: "0px",
-                  left: "0px",
-                  background: " rgb(160, 216, 218)",
-                  padding: "15px",
-                  borderRadius: " 0px 50px 30px 0px",
+                  right: "0px",
+                  background: " rgba(0,0,0,.5)",
+                  padding: "11px 16px",
+                  borderRadius: "0 6px",
+                  lineHeight: "24px",
+                  alignItems: "center",
+                  border: "none",
+                  display: "inline-flex",
+                  flexDirection: "column",
+                  flexWrap: "wrap",
+                  pointerEvents: "none",
+                  fontFamily: "ProximaNova-Regular",
                 }}
               >
-                <h5>{rating}</h5> {reviewCount} reviews
+                <div
+                  style={{
+                    color: "#fff",
+                    fontSize: "30px",
+                    lineHeight: "34px",
+                    letterSpacing: 0,
+                    fontFamily: "ProximaNova-Bold",
+                  }}
+                >
+                  {rating}
+                </div>
+                <div
+                  style={{
+                    color: "#fff",
+                    fontSize: "14px",
+                    wordWrap: "break-word",
+                    letterSpacing: 0,
+                    lineHeight: "16px",
+                    textAlign: "center",
+                    whiteSpace: "nowrap",
+                    width: "100%",
+                    fontFamily: "Roboto",
+                  }}
+                >
+                  {reviewCount} reviews
+                </div>
               </span>
             </div>
 
@@ -169,41 +211,91 @@ const BarberDetails = () => {
           <div className="col-md-8">
             <div className="row">
               <div className="col-6">
-                <h1>Reviews</h1>
-              </div>
+                <div>
+                  <h1>Reviews</h1>
+                </div>
 
-              <div className="col-6">
-                <div data-aos="fade-up-left">
-                  <div className="d-flex justify-content-center">
-                    <div className="content text-center mt-5">
-                      <div className="ratings bg-white p-4 border rounded shadow-sm">
-                        <span className="product-rating display-1">
-                          {rating}
-                        </span>
-                        <span className="h2">/5</span>
-                        <div className="stars">
-                          {Array.from(
-                            { length: Math.floor(rating) },
-                            (_, index) => (
-                              <FontAwesomeIcon
-                                key={index}
-                                icon={faStar}
-                                color="#ffc107"
-                              />
-                            )
-                          )}
-                        </div>
-                        <div className="rating-text mt-3">
-                          <span className="h6">
-                            {rating} ratings & {reviewCount} reviews
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+                {/* Existing content for Reviews */}
+                {/* ... */}
+
+                {/* Additional div taking 75% width */}
+                <div
+                  className="mt-3"
+                  style={{
+                    color: "#767676",
+                    lineHeight: "22px",
+                    fontSize: "14px",
+                    letterSpacing: ".09px",
+                  }}
+                >
+                  <div>
+                    Booksy guarantees that reviews with the "Verified Booksy
+                    user" tag have been added by registered Booksy users who
+                    have had an appointment with the provider. A registered
+                    Booksy user has the opportunity to add a review only after
+                    the service has been provided to them.
                   </div>
                 </div>
               </div>
+
+              {/* Rating  */}
+              <div data-aos="fade-up-right" className="col-6">
+        <div className="d-flex justify-content-center ">
+          <div className="content text-center mt-5  ">
+            <div className="row border rounded shadow-sm">
+              {/* Rating Section */}
+              <div className="col-md-6">
+                <div className="ratings bg-white p-4 ">
+                  <span className="product-rating display-5">{rating}</span>
+                  <span className="h4">/5</span>
+                  <div className="stars">
+                    {Array.from({ length: Math.floor(rating) }, (_, index) => (
+                      <FontAwesomeIcon
+                        key={index}
+                        icon={faStar}
+                        color="#ffc107"
+                      />
+                    ))}
+                  </div>
+                  <div className="rating-text mt-3">
+                    <span className="h6">Based on {reviewCount} reviews</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Star Count Histogram Section */}
+              <div className="col-md-6">
+                <div className="star-counts mt-4">
+                  {[1, 2, 3, 4, 5].map((star, index) => (
+                    <div key={index} className="star-count-item">
+                      <span className="star">{star} <FontAwesomeIcon
+                        key={index}
+                        icon={faStar}
+                        color="#ffc107"
+                        
+                      /></span>
+                      <div className="progress" style={{ height: "8px" }}>
+                        <div
+                          className="progress-bar bg-warning"
+                          role="progressbar"
+                          style={{
+                            width: `${calculateStarPercentage(star, reviews)}%`,
+                          }}
+                          aria-valuenow={calculateStarPercentage(star, reviews)}
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        ></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
+            </div>
+
             <br />
             <hr />
             <div data-aos="fade-up-right">
@@ -243,27 +335,79 @@ const BarberDetails = () => {
       </div>
 
       <div className="p-5">
-          <p>
-            <Link to={"/"}>
-              <FontAwesomeIcon icon={faHome}/>
-            </Link>{" "}
-            /{" "}
-            <Link
-              className="link-primary link-underline-opacity-0"
-              to={`/neighborhoods/${city}`}
-            >
-              Barbershop
-            </Link>{" "}
-            <Link
-              className="link-primary link-underline-opacity-0"
-              to={`/neighborhoods/${city}/${neighborhood}`}
-            >
+        <p>
+          <Link to={"/"}>
+            <FontAwesomeIcon icon={faHome} />
+          </Link>{" "}
+          /{" "}
+          <Link
+            className="link-primary link-underline-opacity-0"
+            to={`/neighborhoods/${city}`}
+          >
+            Barbershop
+          </Link>{" "}
+          <Link
+            className="link-primary link-underline-opacity-0"
+            to={`/neighborhoods/${city}/${neighborhood}`}
+          >
             / Barbershops in {neighborhood}
-            </Link>
-            {" "}
-            / {name}
-          </p>
+          </Link>{" "}
+          / {name}
+        </p>
       </div>
+
+      {
+        /* <div data-aos="fade-up-right">
+          <div className="d-flex justify-content-center ">
+            <div className="content text-center mt-5  ">
+              <div className="row border rounded shadow-sm">
+                {/* Rating Section 
+                <div className="col-md-6">
+                  <div className="ratings bg-white p-4 ">
+                    <span className="product-rating display-5">{rating}</span>
+                    <span className="h4">/5</span>
+                    <div className="stars">
+                      {Array.from({ length: Math.floor(rating) }, (_, index) => (
+                        <FontAwesomeIcon
+                          key={index}
+                          icon={faStar}
+                          color="#ffc107"
+                        />
+                      ))}
+                    </div>
+                    <div className="rating-text mt-3">
+                      <span className="h6">Based on {reviewCount} reviews</span>
+                    </div>
+                  </div>
+                </div>
+
+                
+                <div className="col-md-6">
+                  <div className="star-counts mt-4">
+                    {[1, 2, 3, 4, 5].map((star, index) => (
+                      <div key={index} className="star-count-item">
+                        <span className="star">{star} stars:</span>
+                        <div className="progress" style={{ height: "8px" }}>
+                          <div
+                            className="progress-bar bg-warning"
+                            role="progressbar"
+                            style={{
+                              width: `${calculateStarPercentage(star, reviews)}%`,
+                            }}
+                            aria-valuenow={calculateStarPercentage(star, reviews)}
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                          ></div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> 
+      */}
     </>
   );
 };
