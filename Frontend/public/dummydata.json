@@ -25,10 +25,17 @@
               }
             ],"reviews": [
             {
-              "user_id": 123,
+              "user_id": 1,
               "user_name":"user1",
               "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
-              "rating":4.5,
+              "rating":4,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            },
+            {
+              "user_id": 2,
+              "user_name":"user1",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":5,
               "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
             }
           ],
