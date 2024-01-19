@@ -5,6 +5,8 @@ import 'bootstrap/dist/js/bootstrap.bundle';
 import 'bootstrap-icons/font/bootstrap-icons.css';  
 import 'bootstrap-select/dist/css/bootstrap-select.min.css'; 
 import 'bootstrap-select/dist/js/bootstrap-select.min'; 
+// import 'font-proxima-nova/style.css'
+
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
