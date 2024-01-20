@@ -210,15 +210,12 @@ const BarberDetails = () => {
         <div className="row">
           <div className="col-md-8">
             <div className="row">
-              <div className="col-6">
+              <div className="col-12 col-md-6">
                 <div>
                   <h1>Reviews</h1>
                 </div>
 
-                {/* Existing content for Reviews */}
-                {/* ... */}
-
-                {/* Additional div taking 75% width */}
+               
                 <div
                   className="mt-3"
                   style={{
@@ -229,185 +226,28 @@ const BarberDetails = () => {
                   }}
                 >
                   <div>
-                    Booksy guarantees that reviews with the "Verified Booksy
-                    user" tag have been added by registered Booksy users who
-                    have had an appointment with the provider. A registered
-                    Booksy user has the opportunity to add a review only after
-                    the service has been provided to them.
+                    Our Website guarantees that reviews with the "Verified user"
+                    tag have been added by registered users who have had an
+                    appointment with the provider. A registered user has the
+                    opportunity to add a review only after the service has been
+                    provided to them.
                   </div>
                 </div>
               </div>
 
               {/* Rating  */}
-              <div data-aos="fade-up-right" className="col-6">
-        <div className="d-flex justify-content-center ">
-          <div className="content text-center mt-5  ">
-            <div className="row border rounded shadow-sm">
-              {/* Rating Section */}
-              <div className="col-md-6">
-                <div className="ratings bg-white p-4 ">
-                  <span className="product-rating display-5">{rating}</span>
-                  <span className="h4">/5</span>
-                  <div className="stars">
-                    {Array.from({ length: Math.floor(rating) }, (_, index) => (
-                      <FontAwesomeIcon
-                        key={index}
-                        icon={faStar}
-                        color="#ffc107"
-                      />
-                    ))}
-                  </div>
-                  <div className="rating-text mt-3">
-                    <span className="h6">Based on {reviewCount} reviews</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Star Count Histogram Section */}
-              <div className="col-md-6">
-                <div className="star-counts mt-4">
-                  {[1, 2, 3, 4, 5].map((star, index) => (
-                    <div key={index} className="star-count-item">
-                      <span className="star">{star} <FontAwesomeIcon
-                        key={index}
-                        icon={faStar}
-                        color="#ffc107"
-                        
-                      /></span>
-                      <div className="progress" style={{ height: "8px" }}>
-                        <div
-                          className="progress-bar bg-warning"
-                          role="progressbar"
-                          style={{
-                            width: `${calculateStarPercentage(star, reviews)}%`,
-                          }}
-                          aria-valuenow={calculateStarPercentage(star, reviews)}
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        ></div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+             
             </div>
 
             <br />
             <hr />
-            <div data-aos="fade-up-right">
-              <div className="card card-white post">
-                {reviews.map((review, index) => (
-                  <div key={index}>
-                    <div className="post-heading">
-                      <div className="float-left meta">
-                        <div className="title h5">
-                          <b>{review.user_id}</b>
-                        </div>
-                        <div className="stars">
-                          {Array.from(
-                            { length: Math.floor(rating) },
-                            (_, index) => (
-                              <FontAwesomeIcon
-                                key={index}
-                                icon={faStar}
-                                color="#ffc107"
-                              />
-                            )
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="post-descriptions">
-                      <div className="post-description">
-                        <p>{review.comment}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            {/* Reviews comment section */}
+            
           </div>
         </div>
+        {/* Pagination */}
+        
       </div>
-
-      <div className="p-5">
-        <p>
-          <Link to={"/"}>
-            <FontAwesomeIcon icon={faHome} />
-          </Link>{" "}
-          /{" "}
-          <Link
-            className="link-primary link-underline-opacity-0"
-            to={`/neighborhoods/${city}`}
-          >
-            Barbershop
-          </Link>{" "}
-          <Link
-            className="link-primary link-underline-opacity-0"
-            to={`/neighborhoods/${city}/${neighborhood}`}
-          >
-            / Barbershops in {neighborhood}
-          </Link>{" "}
-          / {name}
-        </p>
-      </div>
-
-      {
-        /* <div data-aos="fade-up-right">
-          <div className="d-flex justify-content-center ">
-            <div className="content text-center mt-5  ">
-              <div className="row border rounded shadow-sm">
-                {/* Rating Section 
-                <div className="col-md-6">
-                  <div className="ratings bg-white p-4 ">
-                    <span className="product-rating display-5">{rating}</span>
-                    <span className="h4">/5</span>
-                    <div className="stars">
-                      {Array.from({ length: Math.floor(rating) }, (_, index) => (
-                        <FontAwesomeIcon
-                          key={index}
-                          icon={faStar}
-                          color="#ffc107"
-                        />
-                      ))}
-                    </div>
-                    <div className="rating-text mt-3">
-                      <span className="h6">Based on {reviewCount} reviews</span>
-                    </div>
-                  </div>
-                </div>
-
-                
-                <div className="col-md-6">
-                  <div className="star-counts mt-4">
-                    {[1, 2, 3, 4, 5].map((star, index) => (
-                      <div key={index} className="star-count-item">
-                        <span className="star">{star} stars:</span>
-                        <div className="progress" style={{ height: "8px" }}>
-                          <div
-                            className="progress-bar bg-warning"
-                            role="progressbar"
-                            style={{
-                              width: `${calculateStarPercentage(star, reviews)}%`,
-                            }}
-                            aria-valuenow={calculateStarPercentage(star, reviews)}
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                          ></div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> 
-      */}
     </>
   );
 };
