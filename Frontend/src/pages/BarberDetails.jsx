@@ -372,6 +372,28 @@ const BarberDetails = () => {
           </div>
         </div>
         {/* Pagination */}
+
+        <div className="pt-5">
+          <p>
+            <Link to={"/"}>
+              <FontAwesomeIcon icon={faHome} />
+            </Link>{" "}
+            /{" "}
+            <Link
+              className="link-primary link-underline-opacity-0"
+              to={`/neighborhoods/${city}`}
+            >
+              Barbershop
+            </Link>{" "}
+            <Link
+              className="link-primary link-underline-opacity-0"
+              to={`/neighborhoods/${city}/${neighborhood}`}
+            >
+              / Barbershops in {neighborhood}
+            </Link>{" "}
+            / {name}
+          </p>
+        </div>
         
       </div>
     </>
