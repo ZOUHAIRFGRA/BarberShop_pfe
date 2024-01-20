@@ -27,6 +27,8 @@
             {
               "user_id": 1,
               "user_name":"user1",
+              "review_date":"21/01/2024",
+              "service":"Haircut",
               "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
               "rating":4,
               "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -34,6 +36,8 @@
             {
               "user_id": 2,
               "user_name":"user1",
+              "review_date":"21/01/2024",
+              "service":"Beard Trim",
               "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
               "rating":5,
               "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -96,11 +100,22 @@
               }
             ],"reviews": [
             {
-              "user_id": 123,
+              "user_id": 1,
               "user_name":"user1",
-              "avatar":"https://randomuser.me/api/portraits/men/2.jpg",
-              "rating":4.5,
-              "comment": "Anthony2 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+              "review_date":"21/01/2024",
+              "service":"Haircut",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":4,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            },
+            {
+              "user_id": 2,
+              "user_name":"user1",
+              "review_date":"21/01/2024",
+              "service":"Beard Trim",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":5,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
             }
           ],
             "address": "789 Barber Street, Anfa, Casablanca, Morocco",
@@ -162,6 +177,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
               "rating":4.5,
               "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -224,11 +240,22 @@
               }
             ],"reviews": [
             {
-              "user_id": 123,
+              "user_id": 1,
               "user_name":"user1",
-              "avatar":"https://randomuser.me/api/portraits/men/2.jpg",
-              "rating":4.5,
-              "comment": "Anthony2 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+              "review_date":"21/01/2024",
+              "service":"Haircut",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":4,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            },
+            {
+              "user_id": 2,
+              "user_name":"user1",
+              "review_date":"21/01/2024",
+              "service":"Beard Trim",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":5,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
             }
           ],
             "address": "789 Barber Street, Anfa, Casablanca, Morocco",
@@ -290,6 +317,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
               "rating":4.5,
               "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -352,11 +380,22 @@
               }
             ],"reviews": [
             {
-              "user_id": 123,
+              "user_id": 1,
               "user_name":"user1",
-              "avatar":"https://randomuser.me/api/portraits/men/2.jpg",
-              "rating":4.5,
-              "comment": "Anthony2 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+              "review_date":"21/01/2024",
+              "service":"Haircut",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":4,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            },
+            {
+              "user_id": 2,
+              "user_name":"user1",
+              "review_date":"21/01/2024",
+              "service":"Beard Trim",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":5,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
             }
           ],
             "address": "789 Barber Street, Anfa, Casablanca, Morocco",
@@ -418,6 +457,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
               "rating":4.5,
               "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -480,11 +520,22 @@
               }
             ],"reviews": [
             {
-              "user_id": 123,
+              "user_id": 1,
               "user_name":"user1",
-              "avatar":"https://randomuser.me/api/portraits/men/2.jpg",
-              "rating":4.5,
-              "comment": "Anthony2 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+              "review_date":"21/01/2024",
+              "service":"Haircut",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":4,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            },
+            {
+              "user_id": 2,
+              "user_name":"user1",
+              "review_date":"21/01/2024",
+              "service":"Beard Trim",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":5,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
             }
           ],
             "address": "789 Barber Street, Anfa, Casablanca, Morocco",
@@ -546,6 +597,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
               "rating":4.5,
               "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -608,11 +660,22 @@
               }
             ],"reviews": [
             {
-              "user_id": 123,
+              "user_id": 1,
               "user_name":"user1",
-              "avatar":"https://randomuser.me/api/portraits/men/2.jpg",
-              "rating":4.5,
-              "comment": "Anthony2 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+              "review_date":"21/01/2024",
+              "service":"Haircut",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":4,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            },
+            {
+              "user_id": 2,
+              "user_name":"user1",
+              "review_date":"21/01/2024",
+              "service":"Beard Trim",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":5,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
             }
           ],
             "address": "789 Barber Street, Anfa, Casablanca, Morocco",
@@ -674,6 +737,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
               "rating":4.5,
               "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -736,11 +800,22 @@
               }
             ],"reviews": [
             {
-              "user_id": 123,
+              "user_id": 1,
               "user_name":"user1",
-              "avatar":"https://randomuser.me/api/portraits/men/2.jpg",
-              "rating":4.5,
-              "comment": "Anthony2 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+              "review_date":"21/01/2024",
+              "service":"Haircut",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":4,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            },
+            {
+              "user_id": 2,
+              "user_name":"user1",
+              "review_date":"21/01/2024",
+              "service":"Beard Trim",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":5,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
             }
           ],
             "address": "789 Barber Street, Anfa, Casablanca, Morocco",
@@ -802,6 +877,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/3.jpg",
               "rating":4.5,
               "comment": "Anthony3 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -871,6 +947,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/4.jpg",
               "rating":4.5,
               "comment": "Anthony4 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -940,6 +1017,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/5.jpg",
               "rating":4.5,
               "comment": "Anthony5 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -1009,6 +1087,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
               "rating":4.5,
               "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -1071,11 +1150,22 @@
               }
             ],"reviews": [
             {
-              "user_id": 123,
+              "user_id": 1,
               "user_name":"user1",
-              "avatar":"https://randomuser.me/api/portraits/men/2.jpg",
-              "rating":4.5,
-              "comment": "Anthony2 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+              "review_date":"21/01/2024",
+              "service":"Haircut",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":4,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            },
+            {
+              "user_id": 2,
+              "user_name":"user1",
+              "review_date":"21/01/2024",
+              "service":"Beard Trim",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":5,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
             }
           ],
             "address": "789 Barber Street, Anfa, Casablanca, Morocco",
@@ -1137,6 +1227,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/3.jpg",
               "rating":4.5,
               "comment": "Anthony3 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -1206,6 +1297,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/4.jpg",
               "rating":4.5,
               "comment": "Anthony4 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -1275,6 +1367,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/5.jpg",
               "rating":4.5,
               "comment": "Anthony5 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -1344,6 +1437,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
               "rating":4.5,
               "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -1406,11 +1500,22 @@
               }
             ],"reviews": [
             {
-              "user_id": 123,
+              "user_id": 1,
               "user_name":"user1",
-              "avatar":"https://randomuser.me/api/portraits/men/2.jpg",
-              "rating":4.5,
-              "comment": "Anthony2 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+              "review_date":"21/01/2024",
+              "service":"Haircut",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":4,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            },
+            {
+              "user_id": 2,
+              "user_name":"user1",
+              "review_date":"21/01/2024",
+              "service":"Beard Trim",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":5,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
             }
           ],
             "address": "789 Barber Street, Anfa, Casablanca, Morocco",
@@ -1472,6 +1577,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/3.jpg",
               "rating":4.5,
               "comment": "Anthony3 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -1541,6 +1647,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/4.jpg",
               "rating":4.5,
               "comment": "Anthony4 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -1610,6 +1717,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/5.jpg",
               "rating":4.5,
               "comment": "Anthony5 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -1679,6 +1787,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
               "rating":4.5,
               "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -1741,11 +1850,22 @@
               }
             ],"reviews": [
             {
-              "user_id": 123,
+              "user_id": 1,
               "user_name":"user1",
-              "avatar":"https://randomuser.me/api/portraits/men/2.jpg",
-              "rating":4.5,
-              "comment": "Anthony2 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+              "review_date":"21/01/2024",
+              "service":"Haircut",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":4,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            },
+            {
+              "user_id": 2,
+              "user_name":"user1",
+              "review_date":"21/01/2024",
+              "service":"Beard Trim",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":5,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
             }
           ],
             "address": "789 Barber Street, Anfa, Casablanca, Morocco",
@@ -1807,6 +1927,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/3.jpg",
               "rating":4.5,
               "comment": "Anthony3 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -1876,6 +1997,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/4.jpg",
               "rating":4.5,
               "comment": "Anthony4 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -1945,6 +2067,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/5.jpg",
               "rating":4.5,
               "comment": "Anthony5 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -2014,6 +2137,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
               "rating":4.5,
               "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -2076,11 +2200,22 @@
               }
             ],"reviews": [
             {
-              "user_id": 123,
+              "user_id": 1,
               "user_name":"user1",
-              "avatar":"https://randomuser.me/api/portraits/men/2.jpg",
-              "rating":4.5,
-              "comment": "Anthony2 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+              "review_date":"21/01/2024",
+              "service":"Haircut",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":4,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
+            },
+            {
+              "user_id": 2,
+              "user_name":"user1",
+              "review_date":"21/01/2024",
+              "service":"Beard Trim",
+              "avatar":"https://randomuser.me/api/portraits/men/1.jpg",
+              "rating":5,
+              "comment": "Anthony1 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
             }
           ],
             "address": "789 Barber Street, Anfa, Casablanca, Morocco",
@@ -2142,6 +2277,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/3.jpg",
               "rating":4.5,
               "comment": "Anthony3 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -2211,6 +2347,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/4.jpg",
               "rating":4.5,
               "comment": "Anthony4 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -2280,6 +2417,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/5.jpg",
               "rating":4.5,
               "comment": "Anthony5 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -2349,6 +2487,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/6.jpg",
               "rating":4.5,
               "comment": "Anthony6 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -2448,6 +2587,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/8.jpg",
               "rating":4.5,
               "comment": "Anthony7 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -2517,6 +2657,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/9.jpg",
               "rating":4.5,
               "comment": "Anthony8 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -2586,6 +2727,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/10.jpg",
               "rating":4.5,
               "comment": "Anthony9 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -2660,6 +2802,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/11.jpg",
               "rating":4.5,
               "comment": "Anthony10 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -2729,6 +2872,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/12.jpg",
               "rating":4.5,
               "comment": "Anthony11 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -2798,6 +2942,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/23.jpg",
               "rating":4.5,
               "comment": "Anthony12 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -2867,6 +3012,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/30.jpg",
               "rating":4.5,
               "comment": "Anthony13 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -2936,6 +3082,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/32.jpg",
               "rating":4.5,
               "comment": "Anthony14 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -3005,6 +3152,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/43.jpg",
               "rating":4.5,
               "comment": "Anthony16 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -3074,6 +3222,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/3.jpg",
               "rating":4.5,
               "comment": "Anthony17 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -3143,6 +3292,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/3.jpg",
               "rating":4.5,
               "comment": "Anthony18 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
@@ -3217,6 +3367,7 @@
             {
               "user_id": 123,
               "user_name":"user1",
+              "review_date":"21/01/2024",
               "avatar":"https://randomuser.me/api/portraits/men/3.jpg",
               "rating":4.5,
               "comment": "Anthony19 is a talented barber, takes pride in his work. He cuts rather quick but won’t rush it. Dude is pretty chill and respectful, would highly recommend."
