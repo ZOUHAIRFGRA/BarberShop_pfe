@@ -319,6 +319,55 @@ const BarberDetails = () => {
             <br />
             <hr />
             {/* Reviews comment section */}
+            <div data-aos="fade-up-right">
+              <div className="card card-white post p-3">
+                {reviews.map((review, index) => (
+                  <div key={index}>
+                    <div className="post-heading">
+                      <div className="float-left meta">
+                        <div className="title ">
+                          <div className="row">
+                            <div className="stars h5 col-6">
+                              {Array.from(
+                                { length: Math.floor(rating) },
+                                (_, index) => (
+                                  <FontAwesomeIcon
+                                    key={index}
+                                    icon={faStar}
+                                    color="#ffc107"
+                                    size="lg"
+                                  />
+                                )
+                              )}
+                            </div>
+                            <div className="col-6">
+                              <p className="float-end" style={{
+                                  color: "#767676",
+                                  fontSize: "12px",
+                                  letterSpacing: ".08px",
+                                  lineHeight: "16px"
+                                }}>
+                               {review.user_name} • {review.review_date}
+                               
+                              </p>
+                            </div>
+                          </div>
+                          <b>{review.service}</b>
+                        </div>
+                      </div>
+                      
+                    </div>
+                    <div className="post-descriptions">
+                      <div className="post-description">
+                        <p>{review.comment}</p>
+                      </div>
+                    </div>
+
+                    <hr />
+                  </div>
+                ))}
+              </div>
+            </div>
             
           </div>
         </div>
