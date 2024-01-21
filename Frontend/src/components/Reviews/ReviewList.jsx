@@ -65,11 +65,11 @@ const ReviewList = () => {
           ))}
         </div>
         <button className="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
-          <span className="carousel-control-prev-icon bg-black" aria-hidden="true"></span>
+          <span className="carousel-control-prev-icon  text-bg-primary rounded-5" aria-hidden="true"></span>
           <span className="visually-hidden">Previous</span>
         </button>
-        <button className="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
-          <span className="carousel-control-next-icon bg-black" aria-hidden="true"></span>
+        <button className="carousel-control-next " type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
+          <span className="carousel-control-next-icon text-bg-primary rounded-5" aria-hidden="true"></span>
           <span className="visually-hidden">Next</span>
         </button>
       </div>
