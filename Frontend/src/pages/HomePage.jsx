@@ -147,7 +147,7 @@ const HomePage = () => {
                 </button>
                 <button
                   type="submit"
-                  class="btn btn-two "
+                  className="btn btn-two "
                   style={{
                     fontSize: " 14px",
                     marginBottom: "10px",
@@ -241,7 +241,7 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-
+    
         <div className="row " style={{ marginTop: "135px" }}>
           <div className="col-md-6 mb-5">
             <h1>Book with the best, near you</h1>
