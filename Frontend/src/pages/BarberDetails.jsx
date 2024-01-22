@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import WorkingHoursCard from "../components/WorkingHoursCard";
 import Location from "../components/localisation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

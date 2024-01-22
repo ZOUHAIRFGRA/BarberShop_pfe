@@ -2,10 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle'; 
-import 'bootstrap-icons/font/bootstrap-icons.min.css';
 import 'bootstrap-select/dist/css/bootstrap-select.min.css'; 
 import 'bootstrap-select/dist/js/bootstrap-select.min.js'; 
-// import 'font-proxima-nova/style.css'
 
 import './index.css';
 import App from './App';
