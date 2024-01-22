@@ -3409,7 +3409,7 @@
             "rating": 4.7,
             "reviewCount": 38,
             
-            "image": "https://example.com/karim.jpg",
+            "image": "https://randomuser.me/api/portraits/men/3.jpg",
             "services": [
               {
                 "name": "Haircut",
