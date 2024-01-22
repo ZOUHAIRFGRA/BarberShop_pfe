@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
 import HomeCards from "../components/HomeCards";
 import "../App.css";
+import Skeleton from "react-loading-skeleton";
 
-const HomePage = () => {
+
+const HomePage = ({setContentVisible}) => {
   const [cityNames, setCityNames] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
   const navigate = useNavigate();
@@ -40,17 +42,34 @@ const HomePage = () => {
     navigate(`/neighborhoods/${selectedCity}`);
   };
 
+  const [videoLoaded, setVideoLoaded] = useState(false);
+ 
+  const handleVideoLoaded = () => {
+    setVideoLoaded(true);
+    setTimeout(() => {
+      setContentVisible(true);
+    }, 0);
+  };
   return (
-    <div className="main">
-      <div className="overlay"></div>
+    <div className={`main ${videoLoaded ? "visible" : "hidden"}`}>
+     {!videoLoaded && (
+        <div className="overlay">
+          <Skeleton height="100%" width="100%" />
+        </div>
+      )}
+
       <video
-        className="video-container"
+        className={`video-container ${videoLoaded ? "loaded" : ""}`}
         src={video}
         playsInline
         autoPlay
         loop
         muted
+        onLoadedData={handleVideoLoaded}
       ></video>
+
+      {videoLoaded && (
+        <div>
       <div className="contnu text-white text-center w-50">
         <div className="mb-1">
           <div>
@@ -241,7 +260,6 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-    
         <div className="row " style={{ marginTop: "135px" }}>
           <div className="col-md-6 mb-5">
             <h1>Book with the best, near you</h1>
@@ -271,6 +289,8 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+      </div>
+      )}
     </div>
   );
 };
