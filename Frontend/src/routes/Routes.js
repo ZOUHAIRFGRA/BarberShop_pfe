@@ -10,10 +10,13 @@ import NoPage from '../pages/NoPage';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 
-const Routes = () => {
+const Routes = ({setContentVisible}) => {
   return (
     <RouterRoutes>
-      <Route index element={<HomePage />} />
+      <Route
+        index
+        element={<HomePage setContentVisible={setContentVisible} />}
+      />
       <Route path="/neighborhoods/:city" element={<NeighborhoodsPage />} />
       {/* Adjust the route for BarbersList */}
       <Route path="/neighborhoods/:city/:neighborhood" element={<BarbersList />} />
