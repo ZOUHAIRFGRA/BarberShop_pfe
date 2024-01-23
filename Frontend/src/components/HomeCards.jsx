@@ -34,7 +34,7 @@ export default function HomeCards() {
     // Fetch data here
     const fetchData = async () => {
       try {
-        const response = await fetch("/dummyData.json");
+        const response = await fetch("/dummydata.json");
         const data = await response.json();
         setBarbersData(data);
       } catch (error) {
