@@ -1,16 +1,21 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 const BarberCard = ({ city, neighborhood, barber }) => {
   const { name, rating, reviewCount, image, services } = barber;
 
   return (
-    <div className="card mb-3" >
+    <div className="card mb-3">
       <div className="row g-0">
         <div className="col-md-4">
           <div className="img-container">
-            <img src={image} alt={`${name} - ${neighborhood}`} className="img-fluid rounded-start" />
+            <img
+              src={image}
+              alt={`${name} - ${neighborhood}`}
+              className="img-fluid rounded-start"
+             
+            />
           </div>
         </div>
         <div className="col-md-8">
@@ -20,13 +25,19 @@ const BarberCard = ({ city, neighborhood, barber }) => {
               <div className="text-end">
                 <div>
                   {Array.from({ length: Math.floor(rating) }, (_, index) => (
-                    <FontAwesomeIcon key={index} icon={faStar} color="#ffc107" />
+                    <FontAwesomeIcon
+                      key={index}
+                      icon={faStar}
+                      color="#ffc107"
+                    />
                   ))}
                 </div>
                 <div>{reviewCount} reviews</div>
               </div>
             </div>
-            <p className="card-text">{neighborhood}, {city}</p>
+            <p className="card-text">
+              {neighborhood}, {city}
+            </p>
             <hr />
             <ul className="list-unstyled">
               {services.map((service, index) => (
