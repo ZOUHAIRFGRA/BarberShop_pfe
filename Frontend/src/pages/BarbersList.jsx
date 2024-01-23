@@ -47,7 +47,7 @@ const BarbersList = ({setContentVisible}) => {
   };
 
   const handleBarberCardClick = (barberId) => {
-    navigate(`/barber/${city}/${neighborhood}/${barberId}`);
+    navigate(`/barbers/${city}/${neighborhood}/${barberId}`);
   };
 
   return (
