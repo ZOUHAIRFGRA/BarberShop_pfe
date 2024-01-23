@@ -2,13 +2,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* border: 1px solid black; */
 }
 
-/* .main {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-} */
 
 body {
   display: flex;
@@ -72,12 +68,64 @@ body {
 }
 
 
+/* Default styling for larger screens */
 .contnu {
   position: absolute;
+  width: 50%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+/* External Stylesheet */
+.contnu .custom-span {
+  font-size: 52px;
+  font-weight: 700;
+  font-family: "Proxima Nova Bold, sans-serif";
+}
+
+.contnu .custom-paragraph {
+  font-size: 20px;
+  letter-spacing: 0;
+  line-height: 24px;
+  font-family: "Proxima Nova Rg";
+}
+
+/* Add your other styles as needed */
+
+
+/* Responsive styling for smaller screens */
+@media (max-width: 768px) {
+  .contnu {
+    width: 100%; /* Adjust the width as needed */
+    padding: 10px;
+    margin: 0 auto; /* Center the element horizontally */
+    position: absolute; /* Reset positioning */
+    transform: translate(-50%, -50%); /* Reset transform */
+  }
+
+  /* Additional styling for smaller screens if needed */
+  .contnu .custom-span {
+    font-size: 36px; /* Adjust font size for smaller screens */
+  }
+
+  .contnu .custom-paragraph {
+    font-size: 16px; /* Adjust font size for smaller screens */
+    line-height: 20px; /* Adjust line height for smaller screens */
+  }
+
+  .contnu .input-group {
+    flex-direction: row; /* Stack elements vertically on smaller screens */
+    align-items: center; /* Center items horizontally */
+  }
+  .contnu .input-group-text{
+    display: none;
+  }
+
+  
+
+  
+}
+
 .evaluer {
   background-color: gray;
   z-index: 1;
