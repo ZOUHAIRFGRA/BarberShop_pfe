@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Register = () => {
+const Register = ({setContentVisible}) => {
+  useEffect(() => {
+    setContentVisible(true);
+  }, [setContentVisible])
   const [username, setUsername] = useState('');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');

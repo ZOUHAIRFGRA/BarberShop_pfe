@@ -5,7 +5,7 @@ import ReviewList from "../components/Reviews/ReviewList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 
-const NeighborhoodsPage = () => {
+const NeighborhoodsPage = ({setContentVisible}) => {
   const { city, neighborhood } = useParams();
   const [selectedCity, setSelectedCity] = useState(null);
 
@@ -21,10 +21,11 @@ const NeighborhoodsPage = () => {
       } catch (error) {
         console.error("Error fetching data:", error);
       }
+      setContentVisible(true);
     };
 
     fetchData();
-  }, [city]);
+  }, [city,setContentVisible]);
 
   // Get the neighborhoods for the selected city
   const neighborhoods = selectedCity ? selectedCity.neighborhoods : [];
