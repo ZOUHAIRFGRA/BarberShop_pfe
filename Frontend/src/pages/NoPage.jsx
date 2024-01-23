@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-const NoPage = () => {
+const NoPage = ({setContentVisible}) => {
+  useEffect(() => {
+    setContentVisible(true);
+  }, [setContentVisible])
   return (
     <div className="d-flex align-items-center justify-content-center vh-100">
             <div className="text-center">

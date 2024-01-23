@@ -5,7 +5,7 @@ import BarberCard from "../components/BarberCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faHome } from "@fortawesome/free-solid-svg-icons";
 
-const BarbersList = () => {
+const BarbersList = ({setContentVisible}) => {
   const { city, neighborhood } = useParams();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
@@ -29,13 +29,14 @@ const BarbersList = () => {
             setBarberData(neighborhoodData.barbers);
           }
         }
+        setContentVisible(true);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [city, neighborhood]);
+  }, [city, neighborhood,setContentVisible]);
 
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Login = () => {
+const Login = ({setContentVisible}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -10,6 +10,10 @@ const Login = () => {
     console.log('Email:', email);
     console.log('Password:', password)
   };
+  useEffect(() => {
+    setContentVisible(true);
+  }, [setContentVisible])
+
 
   return (
     <div className="container mt-5 w-50 border border-1">

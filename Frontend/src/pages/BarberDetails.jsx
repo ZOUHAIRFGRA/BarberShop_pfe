@@ -12,7 +12,7 @@ import ServicesSection from "../components/ServicesSection";
 AOS.init({
   duration: 1000,
 });
-const BarberDetails = () => {
+const BarberDetails = ({setContentVisible}) => {
   const { city, neighborhood, id } = useParams();
   const [selectedBarber, setSelectedBarber] = useState(null);
 
@@ -40,13 +40,14 @@ const BarberDetails = () => {
             : null;
 
         setSelectedBarber(barber);
+        setContentVisible(true);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [city, neighborhood, id]);
+  }, [city, neighborhood, id,setContentVisible]);
 
   if (!selectedBarber) {
     return <div>Barber not found</div>;
