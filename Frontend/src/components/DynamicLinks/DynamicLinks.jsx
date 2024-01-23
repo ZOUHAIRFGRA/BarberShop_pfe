@@ -14,7 +14,7 @@ const DynamicLinks = ({ selectedCity, neighborhoods, selectedNeighborhood }) => 
     return neighborhoods.map((neighborhood) => (
       <Link
         key={neighborhood.name}
-        to={`/neighborhoods/${selectedCity}/${neighborhood.name}`} // Adjust the route structure
+        to={`/barbers/${selectedCity}/${neighborhood.name}`} // Adjust the route structure
         style={{ textDecoration: 'none', color: 'inherit' }}
       >
         {/* Highlight the selected neighborhood */}
