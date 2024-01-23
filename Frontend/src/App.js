@@ -16,7 +16,7 @@ const App = () => {
         
         <Routes  setContentVisible={setContentVisible}/>
 
-        {/* <Footer visible={contentVisible} /> Your Footer Component */}
+        <Footer visible={contentVisible} /> 
       </div>
     </Router>
   );
