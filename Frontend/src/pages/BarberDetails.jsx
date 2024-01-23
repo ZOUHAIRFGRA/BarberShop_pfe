@@ -13,7 +13,7 @@ AOS.init({
   duration: 1000,
 });
 const BarberDetails = ({setContentVisible}) => {
-  const { city, neighborhood, id } = useParams();
+  const { id } = useParams();
   const [selectedBarber, setSelectedBarber] = useState(null);
 
   useEffect(() => {
@@ -22,32 +22,31 @@ const BarberDetails = ({setContentVisible}) => {
         const response = await fetch("/dummydata.json");
         const data = await response.json();
 
-        // Find the city data
-        const selectedCity = data.find((c) => c.name === city);
+        
 
-        // Find the neighborhood data
-        const selectedNeighborhood =
-          selectedCity && selectedCity.neighborhoods
-            ? selectedCity.neighborhoods.find((n) => n.name === neighborhood)
-            : null;
+       // Find the specific barber based on the ID parameter
+       const barber = data.reduce((acc, city) => {
+        const neighborhood = city.neighborhoods.find((n) =>
+          n.barbers.some((barber) => barber.id === parseInt(id))
+        );
 
-        // Find the specific barber
-        const barber =
-          selectedNeighborhood && selectedNeighborhood.barbers
-            ? selectedNeighborhood.barbers.find(
-                (barber) => barber.id === parseInt(id)
-              )
-            : null;
+        if (neighborhood) {
+          acc = neighborhood.barbers.find(
+            (barber) => barber.id === parseInt(id)
+          );
+        }
+        return acc;
+      }, null);
 
-        setSelectedBarber(barber);
-        setContentVisible(true);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+      setSelectedBarber(barber);
+      setContentVisible(true);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-    fetchData();
-  }, [city, neighborhood, id,setContentVisible]);
+  fetchData();
+}, [id, setContentVisible]);
 
   if (!selectedBarber) {
     return <div>Barber not found</div>;
@@ -58,6 +57,7 @@ const BarberDetails = ({setContentVisible}) => {
     rating,
     reviewCount,
     image,
+    city,
     services,
     address,
     workingHours,
@@ -113,12 +113,12 @@ const BarberDetails = ({setContentVisible}) => {
             >
               Barbershop
             </Link>{" "}
-            <Link
+            {/* <Link
               className="link-primary link-underline-opacity-0"
               to={`/neighborhoods/${city}/${neighborhood}`}
             >
-              / Barbershops in {neighborhood}
-            </Link>{" "}
+              / Barbershops in {neighborhood} */}
+            {/* </Link>{" "} */}
             / {name}
           </p>
         </div>
