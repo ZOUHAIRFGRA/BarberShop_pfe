@@ -9,6 +9,7 @@ import BarberDetails from "../pages/BarberDetails"; // Import the new page
 import NoPage from "../pages/NoPage";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import AllBarbers from "../pages/AllBarbers";
 
 const Routes = ({ setContentVisible }) => {
   return (
@@ -17,22 +18,30 @@ const Routes = ({ setContentVisible }) => {
         index
         element={<HomePage setContentVisible={setContentVisible} />}
       />
-      <Route path="/neighborhoods/:city" 
+      <Route path="/barbers/:city" 
       element={<NeighborhoodsPage setContentVisible={setContentVisible}/>} />
       {/* Adjust the route for BarbersList */}
       <Route
-        path="/neighborhoods/:city/:neighborhood"
+        path="/barbers/:city/:neighborhood"
         element={<BarbersList  setContentVisible={setContentVisible}/>}
       />
       {/* New route for BarberDetails */}
       <Route
-        path="/barber/:city/:neighborhood/:id"
+        path="/barbers/:city/:neighborhood/:id"
         element={<BarberDetails setContentVisible={setContentVisible} />}
       />
-      <Route path="*" element={<NoPage setContentVisible={setContentVisible}/>} />
+      <Route
+        path="/barbers/"
+        element={<AllBarbers setContentVisible={setContentVisible} />}
+      />
+       <Route
+        path="/barberDetails/:id"
+        element={<BarberDetails setContentVisible={setContentVisible} />}
+      />
 
       <Route path="/login" element={<Login setContentVisible={setContentVisible}/>} />
       <Route path="/register" element={<Register setContentVisible={setContentVisible}/>} />
+      <Route path="*" element={<NoPage setContentVisible={setContentVisible}/>} />
     </RouterRoutes>
   );
 };
