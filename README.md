@@ -61,15 +61,20 @@ Admins: The admin dashboard is designed for those responsible for overseeing and
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/ZOUHAIRFGRA/BarberShop_pfe
 ```
 
 Go to the project directory
 
 ```bash
-  cd my-project
+  cd BarberShop_pfe
 ```
 
+Go to the Front End directory
+
+```bash
+  cd Frontend
+```
 Install dependencies
 
 ```bash
@@ -79,7 +84,7 @@ Install dependencies
 Start the server
 
 ```bash
-  npm run start
+  npm start
 ```
 
 
