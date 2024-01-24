@@ -20,6 +20,10 @@ const HomePage = ({ setContentVisible }) => {
     words: ["brave", "bold", "yourself", "confident", "colorful", "free"],
     loop: {},
   });
+  // Function to get a limited number of cities (16 in this case)
+  const getLimitedCityNames = (data, limit) => {
+    return data.slice(0, limit).map((city) => city.name);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,9 +31,9 @@ const HomePage = ({ setContentVisible }) => {
         const response = await fetch("/dummydata.json");
         const data = await response.json();
 
-        // Extract city names from the data
-        const names = data.map((city) => city.name);
-        setCityNames(names);
+        // Get a maximum of 16 city names
+        const limitedCityNames = getLimitedCityNames(data, 16);
+        setCityNames(limitedCityNames);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -50,6 +54,9 @@ const HomePage = ({ setContentVisible }) => {
     setTimeout(() => {
       setContentVisible(true);
     }, 0);
+  };
+  const handleCityClick = (cityName) => {
+    navigate(`/barbers/${cityName}`);
   };
   return (
     <div className={`main ${videoLoaded ? "visible" : "hidden"}`}>
@@ -75,15 +82,13 @@ const HomePage = ({ setContentVisible }) => {
           <div className="contnu text-white text-center ">
             <div className="mb-1">
               <div>
-              <span className="custom-span">
-                  Be {text}
-                </span>
+                <span className="custom-span">Be {text}</span>
                 <Cursor />
               </div>
             </div>
 
             <div className="mb-1">
-            <p className="custom-paragraph">
+              <p className="custom-paragraph">
                 Discover and book beauty & wellness professionals near you
               </p>
               <div className="d-flex">
@@ -120,7 +125,7 @@ const HomePage = ({ setContentVisible }) => {
             <h4 className="ms-5">Recommended</h4>
             <HomeCards />
           </div>
-          
+
           <div className="container near_content">
             <div className="wrapper w-100 h-50">
               <div className="row">
@@ -275,10 +280,45 @@ const HomePage = ({ setContentVisible }) => {
                 <img
                   src={image3}
                   alt="..."
-                  style={{ width: "100%", height: "90%"}}
+                  style={{ width: "100%", height: "90%" }}
                 />
               </div>
             </div>
+          </div>
+          {/* find barber by city  */}
+          <div className="container city-container">
+            <h1>Find your BookMyBarber Specialist By City </h1>
+            <div className="city-div">
+      {[...Array(4)].map((_, index) => (
+        <ul key={index} className="city-ul">
+          {[...Array(4)].map((__, liIndex) => {
+            const cityIndex = index * 4 + liIndex;
+            const cityName = cityNames[cityIndex];
+
+            return (
+              <li key={liIndex}>
+                <span className="span-li">
+                  <div
+                    className="span-div"
+                    onClick={() => handleCityClick(cityName)}
+                  >
+                    {cityName && (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M21.282 7.304A1 1 0 0 1 22.8 8.6l-.082.095-9.484 9.78a1.714 1.714 0 0 1-2.34.12l-.126-.118-9.486-9.782A1 1 0 0 1 2.625 7.22l.093.085L12 16.875l9.282-9.571z"></path>
+                      </svg>
+                    )}
+                    {cityName && "  "} {cityName}
+                  </div>
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      ))}
+    </div>
           </div>
         </div>
       )}
