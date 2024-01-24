@@ -5,7 +5,7 @@ import HomeCards from "../components/HomeCards";
 import "../App.css";
 import Skeleton from "react-loading-skeleton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faMagnifyingGlassLocation } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlassLocation } from "@fortawesome/free-solid-svg-icons";
 
 const HomePage = ({ setContentVisible }) => {
   const [cityNames, setCityNames] = useState([]);
