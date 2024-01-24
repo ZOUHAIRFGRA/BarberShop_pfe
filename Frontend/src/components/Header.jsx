@@ -26,6 +26,11 @@ const Header = ({ contentVisible }) => {
                   Register
                 </Link>
               </Nav.Link>
+              <Nav.Link>
+                <Link to="barbers/" className="nav-link">
+                  Barbers
+                </Link>
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
