@@ -12,11 +12,11 @@ const App = () => {
   return (
     <Router>
       <div>
-        <Header contentVisible={contentVisible}/> {/* Your Header Component */}
+        <Header contentVisible={contentVisible} /> 
         
         <Routes  setContentVisible={setContentVisible}/>
 
-        <Footer visible={contentVisible} /> 
+        <Footer contentVisible={contentVisible} /> 
       </div>
     </Router>
   );
