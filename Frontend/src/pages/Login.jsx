@@ -1,18 +1,37 @@
+// components/Login.js
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { login } from '../actions/authActions';
+import { useNavigate } from 'react-router-dom';
 
-const Login = ({setContentVisible}) => {
+const Login = ({ setContentVisible, login, isLoggedIn }) => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState();
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log('Login clicked');
-    console.log('Email:', email);
-    console.log('Password:', password)
+
+    // Simulate authentication (replace with actual authentication logic)
+    const userData = {
+      email,
+      password,
+    };
+
+    // Dispatch the login action
+    login(userData);
+
+    // Redirect to homepage upon successful login
+    navigate('/');
   };
+
   useEffect(() => {
     setContentVisible(true);
-  }, [setContentVisible])
+    // Redirect to homepage if already logged in
+    if (isLoggedIn) {
+      navigate('/');
+    }
+  }, [setContentVisible, isLoggedIn, navigate]);
 
 
   return (
@@ -54,5 +73,12 @@ const Login = ({setContentVisible}) => {
     </div>
   );
 };
+const mapStateToProps = (state) => ({
+  isLoggedIn: state.auth.isLoggedIn,
+});
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  login: (userData) => dispatch(login(userData)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
