@@ -10,6 +10,7 @@ import NoPage from "../pages/NoPage";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import AllBarbers from "../pages/AllBarbers";
+import Profile from "../components/Profile";
 
 const Routes = ({ setContentVisible }) => {
   return (
@@ -37,6 +38,10 @@ const Routes = ({ setContentVisible }) => {
        <Route
         path="/barberDetails/:id"
         element={<BarberDetails setContentVisible={setContentVisible} />}
+      />
+       <Route
+        path="/profile"
+        element={<Profile />}
       />
 
       <Route path="/login" element={<Login setContentVisible={setContentVisible}/>} />
