@@ -62,7 +62,7 @@ const HomePage = ({ setContentVisible }) => {
     <div className={`main ${videoLoaded ? "visible" : "hidden"}`}>
       {!videoLoaded && (
         <div className="overlay">
-          <Skeleton height="100%" width="100%" />
+          <Skeleton count={5} />
         </div>
       )}
 
