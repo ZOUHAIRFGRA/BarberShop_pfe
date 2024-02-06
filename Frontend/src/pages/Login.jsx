@@ -40,7 +40,7 @@ const Login = ({ setContentVisible, login, isLoggedIn }) => {
       <form onSubmit={handleLogin}>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">
-            Email address
+            Email address:
           </label>
           <input
             type="email"
