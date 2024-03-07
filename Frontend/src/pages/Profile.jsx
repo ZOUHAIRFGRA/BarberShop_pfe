@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Profile.css';
-const Profile = () => {
+const Profile = ({setContentVisible}) => {
+  useEffect(() => {
+    setContentVisible(true);
+  }, [setContentVisible])
   return (
     <div className="container mt-4">
       <div className="row">
@@ -8,7 +11,7 @@ const Profile = () => {
         <aside className="col-lg-3 mb-3">
           <div className="text-center">
             <img
-              src="path/to/your/image.jpg"
+              src="https://cdn1.iconfinder.com/data/icons/basic-ui-set-v5-user-outline/64/Account_profile_user_avatar_rounded-512.png"
               alt="Profile"
               className="rounded-circle img-fluid"
               style={{ width: '120px', height: '120px', objectFit: 'cover' }}
