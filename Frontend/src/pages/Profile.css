@@ -38,8 +38,39 @@ letter-spacing: .1px;
 
 
 }
+aside{
+    border-right: 1px solid #ebebeb;
+}
 small{
     font-size: 14px;
 letter-spacing: .09px;
 line-height: 18px;
 }
+
+
+  
+  /* Add more styles as needed */
+  .link-list{
+    margin-right: -1px;
+    list-style: none;
+    padding-left: 0;
+  }
+  .link-item:first-of-type{
+    border-top: 1px solid #ebebeb;
+  }
+  .link-item:hover{
+    background: #fafafa;
+  }
+  .link-item{
+    align-items: center;
+    border-bottom: 1px solid #ebebeb;
+    color: #484848;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+    position: relative;
+    font-size: 16px;
+    letter-spacing: .1px;
+    line-height: 20px;
+  }
