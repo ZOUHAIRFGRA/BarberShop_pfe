@@ -20,7 +20,8 @@ const Register = ({setContentVisible}) => {
   };
 
   return (
-    <div className="container mt-5 w-50 border border-1">
+    <div className='min-vh-100'>
+      <div className="container mt-5 w-50 border border-1">
       <h2 className='text-center mt-4'>Register</h2>
       <form onSubmit={handleRegister}>
         <div className="mb-3">
@@ -81,6 +82,7 @@ const Register = ({setContentVisible}) => {
         </button>
         </div>
       </form>
+    </div>
     </div>
   );
 };

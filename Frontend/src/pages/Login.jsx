@@ -35,41 +35,43 @@ const Login = ({ setContentVisible, login, isLoggedIn }) => {
 
 
   return (
-    <div className="container mt-5 w-50 border border-1">
-      <h2 className='text-center mt-4'>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">
-            Email address:
-          </label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">
-            Password
-          </label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className='text-center mb-4'>
-        <button type="submit" className="btn btn-primary ">
-          Login
-        </button>
-        </div>
-      </form>
+    <div className='min-vh-100 mt-auto'>
+      <div className="container mt-5 w-50 border border-1 ">
+        <h2 className='text-center mt-4'>Login</h2>
+        <form onSubmit={handleLogin}>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">
+              Email address:
+            </label>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">
+              Password
+            </label>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div className='text-center mb-4'>
+          <button type="submit" className="btn btn-primary ">
+            Login
+          </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

@@ -11,7 +11,7 @@ const HomePage = ({ setContentVisible }) => {
   const [cityNames, setCityNames] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
   const navigate = useNavigate();
-  const video = "/assets/Bg_video.mp4";
+  const video = "https://res.cloudinary.com/dgxsx113u/video/upload/f_auto:video,q_auto/v1/barbershopApp/r8p5kdpsdchzczg89ggm";
   const location = "/assets/location.svg";
   const image1 = "/assets/scroll_1.svg";
   const image2 = "/assets/scroll_2.svg";
@@ -69,6 +69,7 @@ const HomePage = ({ setContentVisible }) => {
       <video
         className={`video-container ${videoLoaded ? "loaded" : ""}`}
         src={video}
+        preload="auto"
         playsInline
         autoPlay
         loop
