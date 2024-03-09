@@ -45,7 +45,7 @@ const AllBarbers = ({ setContentVisible }) => {
 
   return (
     <>
-      <div className="container mt-5">
+      <div className="container mt-5 min-vh-100">
         <div className="pb-5">
           <h1 className="header ">All Barbers</h1>
           <p className="small">
