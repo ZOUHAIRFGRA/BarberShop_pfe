@@ -17,9 +17,7 @@ const Profile = ({ setContentVisible }) => {
   const renderMainContent = () => {
     switch (currentContent) {
       case "profile":
-        return (
-          setCurrentContent("")
-        );
+        return setCurrentContent("");
       case "appointments":
         return (
           <div className="div2">
@@ -36,8 +34,7 @@ const Profile = ({ setContentVisible }) => {
       default:
         return (
           <div className="div2">
-            <h2>Welcome, Zouhair!
-</h2>
+            <h2>Welcome, Zouhair!</h2>
             <div className="div3">
               <div className="div4">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 89">
@@ -65,10 +62,14 @@ const Profile = ({ setContentVisible }) => {
             <img
               src="https://cdn1.iconfinder.com/data/icons/basic-ui-set-v5-user-outline/64/Account_profile_user_avatar_rounded-512.png"
               alt="Profile"
-              className="rounded-circle img-fluid"
+              className="rounded-circle img-fluid shadow me-2"
               style={{ width: "100px", height: "100px", objectFit: "cover" }}
             />
-            <h4 className="mt-3">Zouhair</h4>
+            <div className="d-flex flex-column">
+              <h4 className="mt-4">Zouhair Fouiguira</h4>
+            <p className="">0796969696</p>
+            </div>
+            
           </div>
           <ul className="link-list">
             <li
@@ -94,7 +95,7 @@ const Profile = ({ setContentVisible }) => {
         </aside>
 
         {/* Main Content */}
-        <main className="col-lg-9">{renderMainContent()}</main>
+        <main className="col-lg-9 min-vh-100">{renderMainContent()}</main>
       </div>
     </div>
   );
