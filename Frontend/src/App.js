@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import NoPage from "./pages/NoPage";
 import Profile from "./pages/Profile";
+import './App.css'
 
 const App = () => {
   const [contentVisible, setContentVisible] = useState(false);
