@@ -12,9 +12,11 @@ import ServicesSection from "../components/ServicesSection";
 AOS.init({
   duration: 1000,
 });
-const BarberDetails = ({setContentVisible}) => {
+const BarberDetails = ({ setContentVisible }) => {
   const { id } = useParams();
-  const [selectedBarber, setSelectedBarber] = useState(null);
+  const [selectedBarber, setSelectedBarber] = useState(undefined);
+  const [dataFetched, setDataFetched] = useState(false);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,33 +24,39 @@ const BarberDetails = ({setContentVisible}) => {
         const response = await fetch("/dummydata.json");
         const data = await response.json();
 
-        
-
-       // Find the specific barber based on the ID parameter
-       const barber = data.reduce((acc, city) => {
-        const neighborhood = city.neighborhoods.find((n) =>
-          n.barbers.some((barber) => barber.id === parseInt(id))
-        );
-
-        if (neighborhood) {
-          acc = neighborhood.barbers.find(
-            (barber) => barber.id === parseInt(id)
+        // Find the specific barber based on the ID parameter
+        const barber = data.reduce((acc, city) => {
+          const neighborhood = city.neighborhoods.find((n) =>
+            n.barbers.some((barber) => barber.id === parseInt(id))
           );
-        }
-        return acc;
-      }, null);
 
-      setSelectedBarber(barber);
-      setContentVisible(true);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+          if (neighborhood) {
+            acc = neighborhood.barbers.find(
+              (barber) => barber.id === parseInt(id)
+            );
+          }
+          return acc;
+        }, null);
 
-  fetchData();
-}, [id, setContentVisible]);
+        setSelectedBarber(barber);
+        setContentVisible(true);
+        setDataFetched(true)
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+    
+  }, [id, setSelectedBarber, setContentVisible]);
+
+  if (!dataFetched) {
+    // If data is not yet fetched, don't render the component
+    return null;
+  }
 
   if (!selectedBarber) {
+    // Handle the case where the selected barber is not found
     return <div>Barber not found</div>;
   }
 
@@ -65,40 +73,43 @@ const BarberDetails = ({setContentVisible}) => {
     reviews,
   } = selectedBarber;
 
-
   return (
     <>
       <div className="container">
-        <div className="row">
-          <ServicesSection
-            address={address}
-            city={city}
-            image={image}
-            name={name}
-            rating={rating}
-            reviewCount={reviewCount}
-            services={services}
-          />
-          <div className="col-md-4 col-sm-12">
-            <Location />
-            <WorkingHoursCard workingHours={workingHours} phone={phone} />
-          </div>
-        </div>
-        <br />
-        <div className="row">
-          <div className="col-md-8">
-            <RatingSection
-              rating={rating}
-              reviewCount={reviewCount}
-              reviews={reviews}
-            />
-
+        {/* {selectedBarber && ( */}
+          <>
+            <div className="row">
+              <ServicesSection
+                address={address}
+                city={city}
+                image={image}
+                name={name}
+                rating={rating}
+                reviewCount={reviewCount}
+                services={services}
+              />
+              <div className="col-md-4 col-sm-12">
+                <Location />
+                <WorkingHoursCard workingHours={workingHours} phone={phone} />
+              </div>
+            </div>
             <br />
-            <hr />
-            {/* Reviews comment section */}
-            <ReviewsCommentSection rating={rating} reviews={reviews} />
-          </div>
-        </div>
+            <div className="row">
+              <div className="col-md-8">
+                <RatingSection
+                  rating={rating}
+                  reviewCount={reviewCount}
+                  reviews={reviews}
+                />
+
+                <br />
+                <hr />
+                {/* Reviews comment section */}
+                <ReviewsCommentSection rating={rating} reviews={reviews} />
+              </div>
+            </div>
+          </>
+        {/* )} */}
         {/* Pagination */}
 
         <div className="pt-5">
@@ -118,8 +129,7 @@ const BarberDetails = ({setContentVisible}) => {
               to={`/neighborhoods/${city}/${neighborhood}`}
             >
               / Barbershops in {neighborhood} */}
-            {/* </Link>{" "} */}
-            / {name}
+            {/* </Link>{" "} */}/ {name}
           </p>
         </div>
       </div>
