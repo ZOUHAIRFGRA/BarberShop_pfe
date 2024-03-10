@@ -1,0 +1,24 @@
+{
+  "name": "barbershop-1",
+  "version": "1.0.0",
+  "description": "The Barber Shop App is a comprehensive appointment booking platform designed to connect clients with local barbers. It offers an intuitive and user-friendly interface that allows users to discover nearby barbers, view their services and ratings, and book appointments at their convenience. Clients can also leave reviews and ratings, while barbers can manage their availability and appointments. With an admin dashboard, the application provides full control and oversight of the system.",
+  "main": "backend/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3",
+    "express-validator": "^7.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.2.1"
+  }
+}
