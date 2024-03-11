@@ -1,6 +1,7 @@
 const express = require("express");
 const Barber = require('../models/barberModel');
 const City = require('../models/cityModel');
+const Review = require('../models/reviewModel');
 
 // Get all barbers
 const getAllBarbers = async (req, res) => {
@@ -56,9 +57,59 @@ const getBarbersByNeighborhood = async (req, res) => {
   }
 };
 
+
+// Add review to a barber
+const addReviewToBarber = async (req, res) => {
+  // Validate request
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  // Extract review details
+  const { barberId, rating, comment } = req.body;
+  const userId = req.user.userId; // Assuming you have user information stored in the request object
+
+  try {
+    // Check if the barber exists
+    const barber = await Barber.findById(barberId);
+    if (!barber) {
+      return res.status(404).json({ message: 'Barber not found' });
+    }
+
+    // Create a new review
+    const review = await Review.create({
+      user: userId,
+      barber: barberId,
+      rating,
+      comment,
+    });
+
+    res.status(201).json({ message: 'Review added successfully', review });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// Get all reviews
+const getAllReviews = async (req, res) => {
+  try {
+    // Retrieve all reviews in the database
+    const reviews = await Review.find();
+
+    res.status(200).json({ reviews });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
 module.exports = {
   getAllBarbers,
   getCities,
   getNeighborhoods,
   getBarbersByNeighborhood,
+  addReviewToBarber,
+  getAllReviews
 };
