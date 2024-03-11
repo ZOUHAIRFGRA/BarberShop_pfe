@@ -45,6 +45,16 @@ const barberSchema = new mongoose.Schema({
     dayOfWeek: String,
     workingHours: String,
   }],
+  city: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'City',
+    required: true,
+  },
+  neighborhood: {
+    type: String,
+    required: true,
+  },
+  
   // Additional fields or validations as needed
 });
 
