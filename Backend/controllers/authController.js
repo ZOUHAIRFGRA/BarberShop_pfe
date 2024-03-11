@@ -28,6 +28,7 @@ const registerUser = async (req, res) => {
     phoneNumber,
     address,
     username,
+    role
   } = req.body;
 
   try {
@@ -52,6 +53,7 @@ const registerUser = async (req, res) => {
       phoneNumber,
       address,
       username,
+      role: role || 'user',
     });
 
     // Create a JWT token using the JWT_SECRET
@@ -67,7 +69,7 @@ const registerUser = async (req, res) => {
 };
 
 // Registration route for barbers
-
+// Registration route for barbers
 const registerBarber = async (req, res) => {
   // Validate request
   const errors = validationResult(req);
@@ -83,6 +85,8 @@ const registerBarber = async (req, res) => {
     CIN,
     username,
     address,
+    city, // Include city in the request body
+    neighborhood, // Include neighborhood in the request body
     latitude, // Add latitude to the request body
     longitude, // Add longitude to the request body
     phone,
@@ -109,8 +113,10 @@ const registerBarber = async (req, res) => {
       CIN,
       username,
       address,
-      latitude: latitude || 0.0,
-      longitude: longitude || 0.0,
+      city,
+      neighborhood,
+      latitude: latitude || null,
+      longitude: longitude || null,
       phone,
       workingHours,
     });
@@ -126,6 +132,7 @@ const registerBarber = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 // Login route for both users and barbers
 
@@ -150,11 +157,12 @@ const loginUser = async (req, res) => {
       }
 
       // Create a JWT token using the JWT_SECRET for users
-      const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
+      const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, {
         expiresIn: "24h",
       });
-
-      return res.json({ message: "User login successful", token });
+      
+      const role = user.role
+      return res.json({ message: "User login successful", token,role });
     }
 
     // Check if the barber exists
