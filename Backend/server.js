@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const dotenv = require('dotenv').config()
 const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 const connectDB = require('./config/db')
 
 // Initialize express app
@@ -17,7 +19,8 @@ connectDB();  // Call the MongoDB connection function
 
 // Routes
 app.use('/auth', authRoutes);
-
+app.use('/user',userRoutes)
+app.use('/admin',adminRoutes)
 // Server port
 const PORT = process.env.PORT || 3000;
 
