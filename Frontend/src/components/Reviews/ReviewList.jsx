@@ -8,19 +8,16 @@ const ReviewList = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await fetch('/dummydata.json'); // Update the path accordingly
+        const response = await fetch('http://localhost:4000/user/barbers-reviews');
         const data = await response.json();
 
         // Assuming reviews are directly in the data (modify this based on your data structure)
-        const allReviews = data.flatMap(city =>
-          city.neighborhoods.flatMap(neighborhood =>
-            neighborhood.barbers.flatMap(barber =>
-              barber.reviews ? barber.reviews.map(review => ({ ...review, barberName: barber.name })) : []
-            )
-          )
-        );
-
+        const allReviews = data.reviews.map(review => ({
+          ...review,
+          barberName: review.barber, // Replace with the correct property
+        }));
         setReviews(allReviews);
+        console.log(allReviews)
       } catch (error) {
         console.error('Error fetching reviews:', error);
       }
