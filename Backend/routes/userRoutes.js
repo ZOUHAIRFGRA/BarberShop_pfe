@@ -5,20 +5,24 @@ const {
     getCities,
     getAllBarbers,
     getNeighborhoods,
-    getBarbersByNeighborhood
+    getBarbersByNeighborhood,
+    addReviewToBarber,
+    getAllReviews
 } = require('../controllers/userController');
 
 
 // Get all barbers
-router.get('/barbers', authenticateUser, getAllBarbers);
+router.get('/barbers',  getAllBarbers);
 
 // Get cities with at least 1 neighborhood
-router.get('/cities', authenticateUser, getCities);
+router.get('/cities',  getCities);
+router.get('/barbers-reviews', getAllReviews);
+router.post('/add-reviews',authenticateUser, addReviewToBarber);
 
 // Get neighborhoods with at least 1 barber in a specific city
-router.get('/neighborhoods/:city', authenticateUser, getNeighborhoods);
+router.get('/neighborhoods/:city',  getNeighborhoods);
 
 // Get barbers in a specific neighborhood
-router.get('/barbers/:city/:neighborhood', authenticateUser, getBarbersByNeighborhood);
+router.get('/barbers/:city/:neighborhood',  getBarbersByNeighborhood);
 
 module.exports = router;
