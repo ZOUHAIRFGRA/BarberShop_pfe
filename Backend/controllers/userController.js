@@ -2,6 +2,7 @@ const express = require("express");
 const Barber = require('../models/barberModel');
 const City = require('../models/cityModel');
 const Review = require('../models/reviewModel');
+const { check, validationResult } = require("express-validator");
 
 // Get all barbers
 const getAllBarbers = async (req, res) => {
@@ -93,17 +94,34 @@ const addReviewToBarber = async (req, res) => {
 };
 
 // Get all reviews
+// Get all reviews
 const getAllReviews = async (req, res) => {
   try {
-    // Retrieve all reviews in the database
-    const reviews = await Review.find();
+    // Retrieve all reviews in the database and populate the associated Barber and User data
+    const reviews = await Review.find()
+      .populate({
+        path: 'barber',
+        select: 'username', // Include only the 'name' field of the Barber
+      })
+      .populate({
+        path: 'user',
+        select: 'username', // Include only the 'name' field of the User
+      });
 
-    res.status(200).json({ reviews });
+    // Map the reviews to include barberName and user_name
+    const mappedReviews = reviews.map(review => ({
+      ...review.toObject(),
+      barberName: review.barber.username,
+      user_name: review.user.username,
+    }));
+
+    res.status(200).json({ reviews: mappedReviews });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
 
 module.exports = {
   getAllBarbers,
