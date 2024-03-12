@@ -12,7 +12,7 @@ const NeighborhoodsPage = ({setContentVisible}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/dummydata.json"); // Update the path accordingly
+        const response = await fetch("http://localhost:4000/user/cities"); // Update the path accordingly
         const data = await response.json();
 
         // Find the city data
@@ -29,7 +29,8 @@ const NeighborhoodsPage = ({setContentVisible}) => {
 
   // Get the neighborhoods for the selected city
   const neighborhoods = selectedCity ? selectedCity.neighborhoods : [];
-
+console.log("neighborhoods: ",neighborhoods)
+console.log(selectedCity?.name)
   return (
     <div className="container">
       <section className="about-1">
@@ -63,6 +64,7 @@ const NeighborhoodsPage = ({setContentVisible}) => {
         neighborhoods={neighborhoods}
         selectedNeighborhood={neighborhood}
       />
+      
       <ReviewList />
       <section className="about-2 pt-5  ">
         <div className="container text-center w-100 py-5 ">
