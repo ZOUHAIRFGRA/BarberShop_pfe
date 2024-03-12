@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/userModel.js");
+const City = require("../models/cityModel.js");
 const Barber = require("../models/barberModel.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -85,11 +86,13 @@ const registerBarber = async (req, res) => {
     CIN,
     username,
     address,
-    city, // Include city in the request body
-    neighborhood, // Include neighborhood in the request body
+    image,
+    city: cityName,
+    neighborhood: neighborhoodName,
     latitude, // Add latitude to the request body
     longitude, // Add longitude to the request body
     phone,
+    promoted,
     workingHours,
   } = req.body;
 
@@ -97,9 +100,19 @@ const registerBarber = async (req, res) => {
     // Check if the barber already exists
     const existingBarber = await Barber.findOne({ email });
     if (existingBarber) {
-      return res
-        .status(400)
-        .json({ message: "Barber with this email already exists" });
+      return res.status(400).json({ message: "Barber with this email already exists" });
+    }
+
+    // Find the city based on the provided name
+    const city = await City.findOne({ name: cityName });
+    if (!city) {
+      return res.status(404).json({ message: "City not found" });
+    }
+
+    // Find the neighborhood based on the provided name within the found city
+    const neighborhood = city.neighborhoods.find(n => n.name === neighborhoodName);
+    if (!neighborhood) {
+      return res.status(404).json({ message: "Neighborhood not found in the specified city" });
     }
 
     // Hash the password
@@ -113,11 +126,13 @@ const registerBarber = async (req, res) => {
       CIN,
       username,
       address,
-      city,
-      neighborhood,
+      image,
+      city: city._id,
+      neighborhood: neighborhood.name,
       latitude: latitude || null,
       longitude: longitude || null,
       phone,
+      promoted: promoted || false,
       workingHours,
     });
 
