@@ -15,7 +15,7 @@ const {
 // Routes for adminController
 router.post('/cities',authenticateUser,adminAuthMiddleware ,createCity);
 router.get('/cities',authenticateUser,adminAuthMiddleware ,getAllCities);
-router.post('/neighborhoods',authenticateUser,adminAuthMiddleware ,addNeighborhood);
+router.post('/city/add-neighborhood',authenticateUser,adminAuthMiddleware ,addNeighborhood);
 router.delete('/cities/:cityName',authenticateUser,adminAuthMiddleware ,deleteCity);
 router.put('/cities/:cityName',authenticateUser,adminAuthMiddleware ,updateCity);
 
