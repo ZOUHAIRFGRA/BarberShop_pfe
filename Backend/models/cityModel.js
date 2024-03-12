@@ -8,7 +8,10 @@ const citySchema = new mongoose.Schema({
   },
   neighborhoods: [
     {
-      type: String, // Change this line to define neighborhoods as an array of strings
+      name: {
+        type: String,
+        required: true,
+      },
     },
   ],
 });
