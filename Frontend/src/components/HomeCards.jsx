@@ -34,8 +34,9 @@ export default function HomeCards() {
     // Fetch data here
     const fetchData = async () => {
       try {
-        const response = await fetch("/dummydata.json");
+        const response = await fetch("http://localhost:4000/user/promoted-barbers");
         const data = await response.json();
+        
         setBarbersData(data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -44,14 +45,7 @@ export default function HomeCards() {
 
     fetchData();
   }, []); // Empty dependency array means this effect runs once after the initial render
-  const promotedBarbers = barbersData.reduce((acc, city) => {
-    city.neighborhoods.forEach((neighborhood) => {
-      acc.push(
-        ...neighborhood.barbers.filter((barber) => barber.promoted === true)
-      );
-    });
-    return acc;
-  }, []);
+  // console.log(barbersData)
   const settings = {
     dots: false,
     infinite: true,
@@ -105,7 +99,7 @@ export default function HomeCards() {
     <>
       <div className="slider">
         <Slider {...settings}>
-          {promotedBarbers.map((barber, index) => (
+          {barbersData.map((barber, index) => (
             <div key={index} style={{ height: "100%" }}>
               <div
                 key={index}
