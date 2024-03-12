@@ -14,14 +14,12 @@ const AllBarbers = ({ setContentVisible }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/dummydata.json");
+        const response = await fetch("http://localhost:4000/user/barbers");
         const data = await response.json();
 
-        const allBarbers = data.flatMap(city => (
-          city.neighborhoods.flatMap(neighborhood => neighborhood.barbers)
-        ));
-
-        setBarberData(allBarbers);
+        
+        console.log(data)
+        setBarberData(data);
         setContentVisible(true);
       } catch (error) {
         console.error("Error fetching data:", error);
