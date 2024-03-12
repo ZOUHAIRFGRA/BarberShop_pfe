@@ -3,11 +3,30 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
 const RatingSection = ({ rating, reviewCount, reviews }) => {
-  const calculateStarPercentage = (star, reviews) => {
-    const starCount = reviews.filter((review) => review.rating === star).length;
-    const totalReviews = reviews.length;
+  const calculateStarPercentage = (reviews) => {
+    const roundedReviews = reviews.map((review) => ({
+      ...review,
+      roundedRating: Math.round(review.rating),
+    }));
 
-    return (starCount / totalReviews) * 100;
+    const starCounts = {};
+
+    // Count the number of reviews for each rounded rating
+    roundedReviews.forEach((review) => {
+      const roundedRating = review.roundedRating;
+      starCounts[roundedRating] = (starCounts[roundedRating] || 0) + 1;
+    });
+
+    const totalReviews = roundedReviews.length;
+
+    // Calculate the percentage for each rounded rating
+    const percentages = {};
+    Object.keys(starCounts).forEach((roundedRating) => {
+      const count = starCounts[roundedRating];
+      percentages[roundedRating] = (count / totalReviews) * 100;
+    });
+
+    return percentages;
   };
   return (
     <div className="row">
@@ -60,6 +79,7 @@ const RatingSection = ({ rating, reviewCount, reviews }) => {
               </div>
 
               {/* Star Count Histogram Section */}
+
               <div className="col-md-6">
                 <div className="star-counts  mt-lg-4 py-lg-4">
                   {[5, 4, 3, 2, 1].map((star, index) => (
@@ -83,9 +103,13 @@ const RatingSection = ({ rating, reviewCount, reviews }) => {
                           className="progress-bar bg-warning"
                           role="progressbar"
                           style={{
-                            width: `${calculateStarPercentage(star, reviews)}%`,
+                            width: `${
+                              calculateStarPercentage(reviews)[star] || 0
+                            }%`,
                           }}
-                          aria-valuenow={calculateStarPercentage(star, reviews)}
+                          aria-valuenow={
+                            calculateStarPercentage(reviews)[star] || 0
+                          }
                           aria-valuemin="0"
                           aria-valuemax="100"
                         ></div>
