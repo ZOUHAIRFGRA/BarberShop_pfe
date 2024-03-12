@@ -37,6 +37,14 @@ const barberSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Review',
   }],
+  numberOfReviews: {
+    type: Number,
+    default: 0,
+  },
+  averageRating: {
+    type: Number,
+    default: 0,
+  },
   address: String,
   latitude: String,
   longitude: String, 
@@ -56,6 +64,22 @@ const barberSchema = new mongoose.Schema({
   },
   
   // Additional fields or validations as needed
+});
+
+barberSchema.post('save', async function (doc, next) {
+  try {
+    const reviews = await mongoose.model('Review').find({ barber: doc._id });
+    const numberOfReviews = reviews.length;
+    const averageRating = numberOfReviews > 0
+      ? reviews.reduce((sum, review) => sum + review.rating, 0) / numberOfReviews
+      : 0;
+
+    await this.updateOne({ numberOfReviews, averageRating });
+    next();
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
 });
 
 const Barber = mongoose.model('Barber', barberSchema);
