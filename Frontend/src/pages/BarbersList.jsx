@@ -13,30 +13,19 @@ const BarbersList = ({setContentVisible}) => {
   const [barberData, setBarberData] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchBarbers = async () => {
       try {
-        const response = await fetch("/dummydata.json");
+        const response = await fetch(`http://localhost:4000/user/barbers/${city}/${neighborhood}`);
         const data = await response.json();
-
-        const cityData = data.find((c) => c.name === city);
-
-        if (cityData) {
-          const neighborhoodData = cityData.neighborhoods.find(
-            (n) => n.name === neighborhood
-          );
-
-          if (neighborhoodData) {
-            setBarberData(neighborhoodData.barbers);
-          }
-        }
+        setBarberData(data);
         setContentVisible(true);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching barbers:', error);
       }
     };
 
-    fetchData();
-  }, [city, neighborhood,setContentVisible]);
+    fetchBarbers();
+  }, [city, neighborhood, setContentVisible]);
 
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -68,7 +57,7 @@ const BarbersList = ({setContentVisible}) => {
           {displayedBarbers.map((barber, index) => (
             <div
               key={index}
-              onClick={() => handleBarberCardClick(barber.id)}
+              onClick={() => handleBarberCardClick(barber._id)}
               style={{ cursor: "pointer" }}
             >
               <BarberCard barber={barber} />
