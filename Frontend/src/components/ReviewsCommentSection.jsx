@@ -14,7 +14,7 @@ const ReviewItem = ({ review, rating }) => {
   };
 
   return (
-    <div key={review.user_id}>
+    <div key={review._id}>
       <div className="post-heading">
         <div className="float-left meta">
           <div className="title">
@@ -44,7 +44,7 @@ const ReviewItem = ({ review, rating }) => {
                       lineHeight: "16px",
                     }}
                   >
-                    {review.user_name} • {review.review_date}
+                    {review.user.username} • {review.review_date}
                     <span className="ms-2">
                       {review.verified && (
                         <FontAwesomeIcon icon={faCircleCheck} />
@@ -76,7 +76,7 @@ const ReviewItem = ({ review, rating }) => {
                 </div>
               </div>
             </div>
-            <b>{review.service}</b>
+            <b>review.service</b>
           </div>
         </div>
       </div>
