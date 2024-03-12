@@ -21,33 +21,21 @@ const BarberDetails = ({ setContentVisible }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/dummydata.json");
+        // Fetch data from the backend using the getBarberById route
+        const response = await fetch(`http://localhost:4000/user/barbers/${id}`);
         const data = await response.json();
 
-        // Find the specific barber based on the ID parameter
-        const barber = data.reduce((acc, city) => {
-          const neighborhood = city.neighborhoods.find((n) =>
-            n.barbers.some((barber) => barber.id === parseInt(id))
-          );
-
-          if (neighborhood) {
-            acc = neighborhood.barbers.find(
-              (barber) => barber.id === parseInt(id)
-            );
-          }
-          return acc;
-        }, null);
-
-        setSelectedBarber(barber);
+        // Set the selected barber using the fetched data
+        setSelectedBarber(data);
         setContentVisible(true);
-        setDataFetched(true)
+        setDataFetched(true);
+        console.log(data)
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-    
   }, [id, setSelectedBarber, setContentVisible]);
 
   if (!dataFetched) {
@@ -62,8 +50,8 @@ const BarberDetails = ({ setContentVisible }) => {
 
   const {
     name,
-    rating,
-    reviewCount,
+    averageRating,
+    numberOfReviews,
     image,
     city,
     services,
@@ -84,8 +72,8 @@ const BarberDetails = ({ setContentVisible }) => {
                 city={city}
                 image={image}
                 name={name}
-                rating={rating}
-                reviewCount={reviewCount}
+                rating={averageRating}
+                reviewCount={numberOfReviews}
                 services={services}
               />
               <div className="col-md-4 col-sm-12">
@@ -97,15 +85,15 @@ const BarberDetails = ({ setContentVisible }) => {
             <div className="row">
               <div className="col-md-8">
                 <RatingSection
-                  rating={rating}
-                  reviewCount={reviewCount}
+                  rating={averageRating}
+                  reviewCount={numberOfReviews}
                   reviews={reviews}
                 />
 
                 <br />
                 <hr />
                 {/* Reviews comment section */}
-                <ReviewsCommentSection rating={rating} reviews={reviews} />
+                <ReviewsCommentSection rating={averageRating} reviews={reviews} />
               </div>
             </div>
           </>
