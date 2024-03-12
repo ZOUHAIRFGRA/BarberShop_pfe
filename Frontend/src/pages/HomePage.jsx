@@ -28,9 +28,11 @@ const HomePage = ({ setContentVisible }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/dummydata.json");
+        const response = await fetch("http://localhost:4000/user/cities");
+        
         const data = await response.json();
-
+        console.log(data)
+  
         // Get a maximum of 16 city names
         const limitedCityNames = getLimitedCityNames(data, 16);
         setCityNames(limitedCityNames);
@@ -38,10 +40,10 @@ const HomePage = ({ setContentVisible }) => {
         console.error("Error fetching data:", error);
       }
     };
-
+  
     fetchData();
-  }, []);
-
+  }, []); // Add an empty dependency array to ensure the effect runs only once on mount
+  
   const handleCitySubmit = () => {
     console.log("Selected City:", selectedCity);
     navigate(`/barbers/${selectedCity}`);
