@@ -3,17 +3,51 @@ const Barber = require('../models/barberModel');
 const City = require('../models/cityModel');
 const Review = require('../models/reviewModel');
 const { check, validationResult } = require("express-validator");
-
+const mongoose = require("mongoose")
 // Get all barbers
+
 const getAllBarbers = async (req, res) => {
   try {
-    const barbers = await Barber.find();
+    const barbers = await Barber.find()
+    .populate({
+      path: 'reviews',
+      populate: {
+        path: 'user',
+        select: 'username', // Specify the fields you want to include
+      },
+    }) // This will populate the 'reviews' field with actual review objects
+      .exec();
     res.json(barbers);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
+// Get promoted barbers
+const getPromotedBarbers = async (req, res) => {
+  try {
+    // Retrieve all barbers in the database
+    const barbers = await Barber.find()
+    .populate({
+      path: 'reviews',
+      populate: {
+        path: 'user',
+        select: 'username', // Specify the fields you want to include
+      },
+    })// This will populate the 'reviews' field with actual review objects
+      .exec();
+
+    // Filter only promoted barbers
+    const promotedBarbers = barbers.filter((barber) => barber.promoted === true);
+
+    res.status(200).json(promotedBarbers);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
 
 // Get cities with at least 1 neighborhood
 const getCities = async (req, res) => {
@@ -50,7 +84,21 @@ const getBarbersByNeighborhood = async (req, res) => {
   const { city, neighborhood } = req.params;
 
   try {
-    const barbers = await Barber.find({ city, neighborhood });
+    const cityObj = await City.findOne({ name: city });
+
+    if (!cityObj) {
+      return res.status(404).json({ message: 'City not found' });
+    }
+
+    const barbers = await Barber.find({ city: cityObj._id, neighborhood })
+    .populate({
+      path: 'reviews',
+      populate: {
+        path: 'user',
+        select: 'username', // Specify the fields you want to include
+      },
+    })
+    .exec();
     res.json(barbers);
   } catch (error) {
     console.error(error);
@@ -58,8 +106,35 @@ const getBarbersByNeighborhood = async (req, res) => {
   }
 };
 
+// Get one barber by ID
+const getBarberById = async (req, res) => {
+  const { id } = req.params;
 
-// Add review to a barber
+  try {
+    const barber = await Barber.findById(id)
+    .populate({
+      path: 'reviews',
+      populate: {
+        path: 'user',
+        select: 'username', // Specify the fields you want to include
+      },
+    })
+
+    if (!barber) {
+      return res.status(404).json({ message: 'Barber not found' });
+    }
+
+    res.json(barber);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
+
+
+
 const addReviewToBarber = async (req, res) => {
   // Validate request
   const errors = validationResult(req);
@@ -86,12 +161,17 @@ const addReviewToBarber = async (req, res) => {
       comment,
     });
 
+    // Update the barber's reviews array
+    barber.reviews.push(review._id);
+    await barber.save();
+
     res.status(201).json({ message: 'Review added successfully', review });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
 
 // Get all reviews
 // Get all reviews
@@ -129,5 +209,7 @@ module.exports = {
   getNeighborhoods,
   getBarbersByNeighborhood,
   addReviewToBarber,
-  getAllReviews
+  getPromotedBarbers,
+  getAllReviews,
+  getBarberById
 };
