@@ -202,6 +202,52 @@ const getAllReviews = async (req, res) => {
   }
 };
 
+// Book an appointment
+const bookAppointment = async (req, res) => {
+  // Validate request
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const { barberId, serviceId, appointmentTime } = req.body;
+
+    // Check if the barber exists
+    const barber = await Barber.findById(barberId);
+    if (!barber) {
+      return res.status(404).json({ message: 'Barber not found' });
+    }
+
+    // Check if the service exists
+    const service = await Service.findById(serviceId);
+    if (!service) {
+      return res.status(404).json({ message: 'Service not found' });
+    }
+
+    // Check if the appointment time is available
+    if (!barber.availableSlots.includes(appointmentTime)) {
+      return res.status(400).json({ message: 'Appointment time is not available' });
+    }
+
+    // Create the appointment
+    const appointment = await Appointment.create({
+      user: req.user.userId, // Get the user ID from the token
+      barber: barberId,
+      service: serviceId,
+      appointmentTime,
+    });
+
+    // Remove the appointment time from available slots
+    barber.availableSlots = barber.availableSlots.filter(slot => slot !== appointmentTime);
+    await barber.save();
+
+    res.status(201).json({ message: 'Appointment booked successfully', appointment });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
 
 module.exports = {
   getAllBarbers,
@@ -211,5 +257,6 @@ module.exports = {
   addReviewToBarber,
   getPromotedBarbers,
   getAllReviews,
-  getBarberById
+  getBarberById,
+  bookAppointment
 };
