@@ -3,7 +3,9 @@ const Barber = require('../models/barberModel');
 const City = require('../models/cityModel');
 const Review = require('../models/reviewModel');
 const { check, validationResult } = require("express-validator");
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const Service = require("../models/serviceModel");
+
 // Get all barbers
 
 const getAllBarbers = async (req, res) => {
@@ -118,6 +120,7 @@ const getBarberById = async (req, res) => {
         path: 'user',
         select: 'username', // Specify the fields you want to include
       },
+      
     })
 
     if (!barber) {
@@ -204,13 +207,13 @@ const getAllReviews = async (req, res) => {
 
 // Book an appointment
 const bookAppointment = async (req, res) => {
-  // Validate request
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
   try {
+    // Validate request
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const { barberId, serviceId, appointmentTime } = req.body;
 
     // Check if the barber exists
@@ -225,8 +228,13 @@ const bookAppointment = async (req, res) => {
       return res.status(404).json({ message: 'Service not found' });
     }
 
+    // Log the received appointment time
+    console.log('Received Appointment Time:', appointmentTime);
+
     // Check if the appointment time is available
-    if (!barber.availableSlots.includes(appointmentTime)) {
+    const isAvailable = barber.availableSlots.some(slot => slot.toString() === appointmentTime.toString());
+    if (!isAvailable) {
+      console.log('Available Slots:', barber.availableSlots);
       return res.status(400).json({ message: 'Appointment time is not available' });
     }
 
@@ -239,7 +247,7 @@ const bookAppointment = async (req, res) => {
     });
 
     // Remove the appointment time from available slots
-    barber.availableSlots = barber.availableSlots.filter(slot => slot !== appointmentTime);
+    barber.availableSlots = barber.availableSlots.filter(slot => slot.toString() !== appointmentTime.toString());
     await barber.save();
 
     res.status(201).json({ message: 'Appointment booked successfully', appointment });
@@ -248,6 +256,7 @@ const bookAppointment = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
 
 module.exports = {
   getAllBarbers,
