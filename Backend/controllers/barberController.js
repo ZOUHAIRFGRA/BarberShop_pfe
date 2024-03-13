@@ -103,10 +103,12 @@ const updateServiceForBarber = async (req, res) => {
 
     // Find the service in the barber's services
     const serviceIndex = barber.services.findIndex(
-      service => service.toString() === serviceId
+      (service) => service.toString() === serviceId
     );
     if (serviceIndex === -1) {
-      return res.status(404).json({ message: "Service not found for this barber" });
+      return res
+        .status(404)
+        .json({ message: "Service not found for this barber" });
     }
 
     // Update the service details
@@ -119,7 +121,10 @@ const updateServiceForBarber = async (req, res) => {
     // Save the updated barber
     await barber.save();
 
-    res.json({ message: "Service updated successfully", service: serviceToUpdate });
+    res.json({
+      message: "Service updated successfully",
+      service: serviceToUpdate,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -140,10 +145,12 @@ const deleteServiceForBarber = async (req, res) => {
 
     // Find the index of the service in the barber's services
     const serviceIndex = barber.services.findIndex(
-      service => service.toString() === serviceId
+      (service) => service.toString() === serviceId
     );
     if (serviceIndex === -1) {
-      return res.status(404).json({ message: "Service not found for this barber" });
+      return res
+        .status(404)
+        .json({ message: "Service not found for this barber" });
     }
 
     // Remove the service from the barber's services array
@@ -164,7 +171,7 @@ const getAllServicesForBarber = async (req, res) => {
   try {
     // Find the barber using the token
     const barberId = req.user.barberId;
-    const barber = await Barber.findById(barberId).populate('services');
+    const barber = await Barber.findById(barberId).populate("services");
     if (!barber) {
       return res.status(404).json({ message: "Barber not found" });
     }
@@ -175,7 +182,6 @@ const getAllServicesForBarber = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
 
 // Create available slots for a barber
 const createAvailableSlots = async (req, res) => {
@@ -196,68 +202,76 @@ const createAvailableSlots = async (req, res) => {
     }
 
     // Create new slots
-    const createdSlots = await Slot.insertMany(slots.map(date => ({ date })));
+    const createdSlots = await Slot.insertMany(slots.map((date) => ({ date })));
 
     // Add new slot IDs to the availableSlots array
-    barber.availableSlots.push(...createdSlots.map(slot => slot._id));
+    barber.availableSlots.push(...createdSlots.map((slot) => slot._id));
     await barber.save();
 
-    res.status(201).json({ message: "Available slots created successfully", barber });
+    res
+      .status(201)
+      .json({ message: "Available slots created successfully", barber });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
-// Update available slots for a barber
-const updateAvailableSlots = async (req, res) => {
+// Delete a specific available slot for a barber
+const deleteAvailableSlot = async (req, res) => {
+  const slotId = req.params.id; // Extracting slot ID from the URL parameter
+  const barberId = req.user.barberId;
+
+  try {
+    // Check if the barber exists
+    const barber = await Barber.findById(barberId);
+    if (!barber) {
+      return res.status(404).json({ message: "Barber not found" });
+    }
+
+    // Check if the slot exists
+    const slotIndex = barber.availableSlots.findIndex(
+      (slot) => slot.toString() === slotId.toString()
+    );
+    if (slotIndex === -1) {
+      return res.status(404).json({ message: "Slot not found" });
+    }
+
+    // Remove the slot from the available slots array
+    barber.availableSlots.splice(slotIndex, 1);
+    await barber.save();
+
+    res.status(200).json({ message: "Slot deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+// Update available slot for a barber
+const updateAvailableSlot = async (req, res) => {
+  const slotId = req.params.id; // Extracting slot ID from the URL parameter
+
   // Validate request
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { slots } = req.body;
-  const barberId = req.user.barberId;
+  const newData = req.body; // Assuming the new data for the slot is provided in the request body
 
   try {
-    // Check if the barber exists
-    const barber = await Barber.findById(barberId);
-    if (!barber) {
-      return res.status(404).json({ message: "Barber not found" });
+    // Check if the slot exists
+    const slot = await Slot.findById(slotId);
+    if (!slot) {
+      return res.status(404).json({ message: "Slot not found" });
     }
 
-    // Create new slots and get their IDs
-    const createdSlots = await Slot.insertMany(slots.map(date => ({ date })));
-    const createdSlotIds = createdSlots.map(slot => slot._id);
+    // Partially update the slot
+    Object.assign(slot, newData);
+    await slot.save();
 
-    // Update available slots for the barber
-    barber.availableSlots = createdSlotIds;
-    await barber.save();
-
-    res.status(200).json({ message: "Available slots updated successfully", barber });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-};
-
-// Delete available slots for a barber
-const deleteAvailableSlots = async (req, res) => {
-  const barberId = req.user.barberId;
-
-  try {
-    // Check if the barber exists
-    const barber = await Barber.findById(barberId);
-    if (!barber) {
-      return res.status(404).json({ message: "Barber not found" });
-    }
-
-    // Clear all available slots for the barber
-    barber.availableSlots = [];
-    await barber.save();
-
-    res.status(200).json({ message: "Available slots deleted successfully" });
+    res.status(200).json({ message: "Slot updated successfully", slot });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -276,7 +290,7 @@ const getAllAvailableSlots = async (req, res) => {
     }
 
     // Ensure barber.availableSlots is populated
-    await barber.populate('availableSlots');
+    await barber.populate("availableSlots");
 
     res.status(200).json({ availableSlots: barber.availableSlots });
   } catch (error) {
@@ -285,14 +299,13 @@ const getAllAvailableSlots = async (req, res) => {
   }
 };
 
-
 module.exports = {
   getBarberProfile,
   updateBarberProfile,
   addServiceToBarber,
   createAvailableSlots,
-  updateAvailableSlots,
-  deleteAvailableSlots,
+  updateAvailableSlot,
+  deleteAvailableSlot,
   getAllAvailableSlots,
   updateServiceForBarber,
   deleteServiceForBarber,
