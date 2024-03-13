@@ -9,13 +9,16 @@ const {
     getBarbersByNeighborhood,
     addReviewToBarber,
     getAllReviews,
-    getBarberById
+    getBarberById,
+    bookAppointment
 } = require('../controllers/userController');
 
 
 // Get all barbers
 router.get('/barbers',  getAllBarbers);
 router.get('/promoted-barbers',  getPromotedBarbers);
+
+router.post('/bookAppoitement',authenticateUser,  bookAppointment);
 
 // Get cities with at least 1 neighborhood
 router.get('/cities',  getCities);
