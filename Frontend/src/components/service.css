@@ -24,5 +24,8 @@
   .slot-item:last-child {
     margin-right: 0;
   }
-  
+  .disabled{
+    cursor: not-allowed;
+    
+  }
   
