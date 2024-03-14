@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import axios from "axios";
 import "./service.css";
 
@@ -49,48 +49,55 @@ const ServiceModalBook = ({ show, handleClose, slots, barberId, serviceId }) => 
 
   return (
     <Modal show={show} onHide={handleClose} dialogClassName="modal-xl">
-    <Modal.Header closeButton>
-      <Modal.Title>Available Slots</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-      {bookingStatus.success ? (
-        <div>
-          <p>Appointment confirmed for {bookingStatus.date}</p>
-          <Button variant="primary" onClick={() => window.location.href="/appointment"}>
-            Show Appointment
+      <Modal.Header closeButton>
+        <Modal.Title>Available Slots</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {bookingStatus.success ? (
+          <div>
+            <p>Appointment confirmed for {bookingStatus.date}</p>
+            <Button variant="primary" onClick={() => window.location.href="/appointment"}>
+              Show Appointment
+            </Button>
+          </div>
+        ) : (
+          <div className="slot-carousel">
+            {slots.map((slot) => (
+              <OverlayTrigger
+                key={slot._id}
+                overlay={
+                  <Tooltip id={`tooltip-${slot._id}`}>
+                    {slot.status === "booked" && "Booked"}
+                  </Tooltip>
+                }
+              >
+                <div
+                  className={`slot-item ${slot.status === "booked" ? "disabled" : ""}`}
+                  onClick={() => {
+                    if (slot.status !== "booked") handleSlotSelection(slot._id);
+                  }}
+                  style={{
+                    backgroundColor: selectedSlot === slot._id ? "lightblue" : "white",
+                  }}
+                >
+                  {slot.date}
+                </div>
+              </OverlayTrigger>
+            ))}
+          </div>
+        )}
+      </Modal.Body>
+      <Modal.Footer>
+        {!bookingStatus.success && (
+          <Button variant="primary" onClick={handleBookAppointment}>
+            Book
           </Button>
-        </div>
-      ) : (
-        <div className="slot-carousel">
-          {slots.map((slot) => (
-            <div
-              key={slot._id}
-              className="slot-item"
-              onClick={() => {
-                handleSlotSelection(slot._id);
-              }}
-              style={{
-                backgroundColor:
-                  selectedSlot === slot._id ? "lightblue" : "white",
-              }}
-            >
-              {slot.date}
-            </div>
-          ))}
-        </div>
-      )}
-    </Modal.Body>
-    <Modal.Footer>
-      {!bookingStatus.success && (
-        <Button variant="primary" onClick={handleBookAppointment}>
-          Book
+        )}
+        <Button variant="secondary" onClick={handleClose}>
+          Close
         </Button>
-      )}
-      <Button variant="secondary" onClick={handleClose}>
-        Close
-      </Button>
-    </Modal.Footer>
-  </Modal>
+      </Modal.Footer>
+    </Modal>
   );
 };
 
