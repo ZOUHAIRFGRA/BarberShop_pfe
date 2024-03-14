@@ -1,9 +1,31 @@
 .slot-carousel {
     display: flex;
-    overflow-x: auto;
+    overflow-x: visible;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     padding: 20px 0;
+  }
+
+  .small-carousel{
+    display: flex;
+    overflow-x: auto;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+  }
+  #carousel-item{
+    flex: 0 0 auto;
+    width: 100px;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+    scroll-snap-align: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* cursor: pointer; */
+    transition: background-color 0.3s ease;
   }
   
   .slot-item {
@@ -27,5 +49,8 @@
   .disabled{
     cursor: not-allowed;
     
+  }
+  .active{
+    cursor: pointer;
   }
   
