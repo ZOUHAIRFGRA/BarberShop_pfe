@@ -49,6 +49,7 @@ const BarberDetails = ({ setContentVisible }) => {
   }
 
   const {
+    _id,
     name,
     averageRating,
     numberOfReviews,
@@ -59,7 +60,9 @@ const BarberDetails = ({ setContentVisible }) => {
     workingHours,
     phone,
     reviews,
+    availableSlots,
   } = selectedBarber;
+  
 
   return (
     <>
@@ -68,13 +71,15 @@ const BarberDetails = ({ setContentVisible }) => {
           <>
             <div className="row">
               <ServicesSection
+                barberId = {_id}
                 address={address}
                 city={city}
                 image={image}
                 name={name}
-                rating={averageRating}
-                reviewCount={numberOfReviews}
+                averageRating={averageRating.toFixed(1)}
+                numberOfReviews={numberOfReviews}
                 services={services}
+                slots= {availableSlots}
               />
               <div className="col-md-4 col-sm-12">
                 <Location />
@@ -85,7 +90,7 @@ const BarberDetails = ({ setContentVisible }) => {
             <div className="row">
               <div className="col-md-8">
                 <RatingSection
-                  rating={averageRating}
+                  rating={averageRating.toFixed(1)}
                   reviewCount={numberOfReviews}
                   reviews={reviews}
                 />
@@ -93,7 +98,7 @@ const BarberDetails = ({ setContentVisible }) => {
                 <br />
                 <hr />
                 {/* Reviews comment section */}
-                <ReviewsCommentSection rating={averageRating} reviews={reviews} />
+                <ReviewsCommentSection rating={averageRating.toFixed(1)} reviews={reviews} />
               </div>
             </div>
           </>
