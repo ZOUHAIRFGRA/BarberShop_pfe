@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 const BarberCard = ({ city, neighborhood, barber }) => {
-  const { name, rating, reviewCount, image, services } = barber;
+  const { name, averageRating, numberOfReviews, image, services } = barber;
 
   return (
     <div className="card mb-3">
@@ -24,7 +24,7 @@ const BarberCard = ({ city, neighborhood, barber }) => {
               <h5 className="card-title">{name}</h5>
               <div className="text-end">
                 <div>
-                  {Array.from({ length: Math.floor(rating) }, (_, index) => (
+                  {Array.from({ length: Math.floor(averageRating) }, (_, index) => (
                     <FontAwesomeIcon
                       key={index}
                       icon={faStar}
@@ -32,7 +32,7 @@ const BarberCard = ({ city, neighborhood, barber }) => {
                     />
                   ))}
                 </div>
-                <div>{reviewCount} reviews</div>
+                <div>{numberOfReviews} reviews</div>
               </div>
             </div>
             <p className="card-text">
