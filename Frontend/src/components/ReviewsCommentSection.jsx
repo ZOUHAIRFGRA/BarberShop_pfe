@@ -76,7 +76,7 @@ const ReviewItem = ({ review, rating }) => {
                 </div>
               </div>
             </div>
-            <b>review.service</b>
+            {/* <b>review.service</b> */}
           </div>
         </div>
       </div>
