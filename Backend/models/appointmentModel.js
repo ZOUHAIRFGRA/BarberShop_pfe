@@ -20,6 +20,10 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  selectedDay: {
+    type: String,
+    required: true,
+  },
   // Additional fields or validations as needed
 });
 
