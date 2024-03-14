@@ -210,7 +210,6 @@ const getAllReviews = async (req, res) => {
   }
 };
 
-// Book an appointment
 const bookAppointment = async (req, res) => {
   try {
     // Validate request
@@ -264,6 +263,16 @@ const bookAppointment = async (req, res) => {
     // Update the status of the slot to "booked"
     slotObject.status = "booked";
     await slotObject.save();
+
+    // Update available slots for today
+    if (selectedDay === new Date().toLocaleDateString('en-US', { weekday: 'long' })) {
+      const currentTime = new Date().getHours() * 60 + new Date().getMinutes();
+      const availableSlots = barber.availableSlots.filter(slot => {
+        const slotTime = new Date(slot.date).getHours() * 60 + new Date(slot.date).getMinutes();
+        return slotTime > currentTime;
+      });
+      barber.availableSlots = availableSlots;
+    }
 
     res
       .status(201)
