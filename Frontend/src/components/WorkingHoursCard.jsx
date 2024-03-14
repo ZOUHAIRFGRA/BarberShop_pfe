@@ -11,7 +11,7 @@ const WorkingHoursCard = ({ workingHours, phone }) => {
         <p className="card-title">
           {" "}
           <FontAwesomeIcon icon={faMobile} /> 
-           {phone} <FontAwesomeIcon icon={faWhatsapp} beatFade />
+          {" "} {phone} <FontAwesomeIcon icon={faWhatsapp} beatFade />
         </p>
       </div>
       <div className="card-body">
