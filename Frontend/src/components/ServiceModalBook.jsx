@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button, Carousel } from "react-bootstrap";
 import axios from "axios";
 import "./service.css";
@@ -18,8 +18,12 @@ const ServiceModalBook = ({
     date: null,
   });
 
-  const handleSlotSelection = (slotId) => {
-    setSelectedSlot(slotId);
+  const handleSlotSelection = (slotId, slotDate, slotStatus) => {
+    if (!(isPastTime(slotDate) && selectedDay === new Date().toLocaleDateString('en-US', { weekday: 'long' })) ) {
+      setSelectedSlot(slotId);
+    } else {
+      alert("You cannot select past slots for the current day.");
+    }
   };
 
   const handleDaySelection = (dayOfWeek) => {
@@ -80,15 +84,20 @@ const ServiceModalBook = ({
     return selectedDayIndex < currentDayIndex;
   };
 
-  const isPastTime = (time) => {
-    const [hour, minute] = time.split(":").map(Number);
+  const isPastTime = (slotTime) => {
+    const [slotHour, slotMinute] = slotTime.split(":").map(Number);
     const currentDate = new Date();
     const currentHour = currentDate.getHours();
     const currentMinute = currentDate.getMinutes();
-    return hour < currentHour || (hour === currentHour && minute < currentMinute);
+    return slotHour < currentHour || (slotHour === currentHour && slotMinute < currentMinute);
   };
-
   
+
+  useEffect(() => {
+    // Set selected day to today by default
+    const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+    setSelectedDay(today);
+  }, []);
 
   return (
     <Modal show={show} onHide={handleClose} dialogClassName="modal-xl">
@@ -113,7 +122,7 @@ const ServiceModalBook = ({
                 <div
                   key={day._id}
                   onClick={() => {
-                    if (!isPastDay(day.dayOfWeek) || day.dayOfWeek !== new Date().toLocaleDateString('en-US', { weekday: 'long' })) {
+                    if (!isPastDay(day.dayOfWeek)) {
                       handleDaySelection(day.dayOfWeek);
                     }
                   }}
@@ -136,9 +145,7 @@ const ServiceModalBook = ({
                     slot.status === "booked" ? "disabled" : ""
                   }`}
                   onClick={() => {
-                    if ((!isPastTime(slot.date) && selectedDay === new Date().toLocaleDateString('en-US', { weekday: 'long' })) || slot.status !== "booked") {
-                      handleSlotSelection(slot._id);
-                    }
+                    handleSlotSelection(slot._id, slot.date, slot.status);
                   }}
                   style={{
                     backgroundColor: selectedSlot === slot._id ? "lightblue" : "white",
