@@ -1,5 +1,5 @@
 // actions/authActions.js
-export const login = () => ({
+export const loginUser = () => ({
     type: 'LOGIN',
   });
   
