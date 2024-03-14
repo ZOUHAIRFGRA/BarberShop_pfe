@@ -219,7 +219,7 @@ const bookAppointment = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { barberId, serviceId, slotId } = req.body;
+    const { barberId, serviceId, slotId, selectedDay } = req.body;
 
     // Check if the barber exists
     const barber = await Barber.findById(barberId);
@@ -258,6 +258,7 @@ const bookAppointment = async (req, res) => {
       barber: barberId,
       service: serviceId,
       appointmentTime: slotObject.date,
+      selectedDay: selectedDay // Include the selected day
     });
 
     // Update the status of the slot to "booked"
@@ -272,6 +273,7 @@ const bookAppointment = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 module.exports = {
   getAllBarbers,
