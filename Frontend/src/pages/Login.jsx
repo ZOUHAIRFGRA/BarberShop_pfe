@@ -1,86 +1,66 @@
-// components/Login.js
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { login } from '../actions/authActions';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
+import { loginUser } from '../actions/authActions';
+import {useNavigate } from "react-router-dom";
 
-const Login = ({ setContentVisible, login, isLoggedIn }) => {
+const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState();
-  const navigate = useNavigate();
+  const [password, setPassword] = useState('');
 
-  const handleLogin = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Simulate authentication (replace with actual authentication logic)
-    const userData = {
-      email,
-      password,
-    };
-
-    // Dispatch the login action
-    login(userData);
-
-    // Redirect to homepage upon successful login
-    navigate('/');
+    try {
+      const response = await axios.post('http://localhost:4000/auth/login', { email, password });
+      const data = response.data;
+      if (response.status === 200) {
+        // Dispatch LOGIN action and store token in localStorage
+        console.log("data",data)
+        dispatch(loginUser(data.user, data.token));
+        localStorage.setItem('token', data.token);
+        navigate("/")
+      } else {
+        // Handle error cases
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
-  useEffect(() => {
-    setContentVisible(true);
-    // Redirect to homepage if already logged in
-    if (isLoggedIn) {
-      navigate('/');
-    }
-  }, [setContentVisible, isLoggedIn, navigate]);
-
-
   return (
-    <div className='min-vh-100 mt-auto'>
-      <div className="container mt-5 w-50 border border-1 ">
-        <h2 className='text-center mt-4'>Login</h2>
-        <form onSubmit={handleLogin}>
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">
-              Email address:
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <div className='text-center mb-4'>
-          <button type="submit" className="btn btn-primary ">
-            Login
-          </button>
-          </div>
-        </form>
-      </div>
+    <div>
+      <h2>Login</h2>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Enter email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </Form.Group>
+
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Form.Group>
+        
+        <Button variant="primary" type="submit">
+          Login
+        </Button>
+      </Form>
     </div>
   );
 };
-const mapStateToProps = (state) => ({
-  isLoggedIn: state.auth.isLoggedIn,
-});
 
-const mapDispatchToProps = (dispatch) => ({
-  login: (userData) => dispatch(login(userData)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;
