@@ -13,7 +13,8 @@ const ServicesSection = ({
   numberOfReviews,
   address,
   services,
-  slots
+  slots,
+  workingHours
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const filteredServices = services.filter((service) =>
@@ -119,6 +120,7 @@ console.log(slots)
         slots={slots}
         barberId={barberId}
         serviceId={selectedService ? selectedService._id : null}
+        workingHours= {workingHours}
       />
       <div id="panelsStayOpen-collapseOne" className="accordion-collapse collapse show">
         <div className="accordion-body">
