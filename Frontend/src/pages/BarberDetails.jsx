@@ -80,6 +80,7 @@ const BarberDetails = ({ setContentVisible }) => {
                 numberOfReviews={numberOfReviews}
                 services={services}
                 slots= {availableSlots}
+                workingHours = {workingHours}
               />
               <div className="col-md-4 col-sm-12">
                 <Location />
