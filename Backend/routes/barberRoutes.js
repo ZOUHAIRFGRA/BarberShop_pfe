@@ -9,8 +9,8 @@ const {
         updateBarberProfile,
         addServiceToBarber,
         createAvailableSlots,
-  updateAvailableSlots,
-  deleteAvailableSlots,
+  updateAvailableSlot,
+  deleteAvailableSlot,
   getAllAvailableSlots,
   updateServiceForBarber,
   deleteServiceForBarber,
@@ -24,8 +24,8 @@ router.get('/getprofile', authenticateUser, isBarber, getBarberProfile);
 router.put('/Updateprofile', authenticateUser, isBarber, updateBarberProfile);
 router.post('/add-service', authenticateUser, isBarber, addServiceToBarber);
 router.post('/createSlots', authenticateUser, isBarber, createAvailableSlots);
-router.put('/updateSlots', authenticateUser, isBarber, updateAvailableSlots);
-router.delete('/deleteSlots', authenticateUser, isBarber, deleteAvailableSlots);
+router.put('/updateSlots/:id', authenticateUser, isBarber, updateAvailableSlot);
+router.delete('/deleteSlots/:id', authenticateUser, isBarber, deleteAvailableSlot);
 router.get('/getSlots', authenticateUser, isBarber, getAllAvailableSlots);
 
 
