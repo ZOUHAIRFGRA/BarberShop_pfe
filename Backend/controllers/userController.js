@@ -1,64 +1,70 @@
 const express = require("express");
-const Barber = require('../models/barberModel');
-const City = require('../models/cityModel');
-const Review = require('../models/reviewModel');
+const Barber = require("../models/barberModel");
+const City = require("../models/cityModel");
+const Appointment = require("../models/appointmentModel");
+const Review = require("../models/reviewModel");
 const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const Service = require("../models/serviceModel");
+const Slot = require("../models/slotModel");
 
 // Get all barbers
 
 const getAllBarbers = async (req, res) => {
   try {
     const barbers = await Barber.find()
-    .populate({
-      path: 'reviews',
-      populate: {
-        path: 'user',
-        select: 'username', // Specify the fields you want to include
-      },
-    }) // This will populate the 'reviews' field with actual review objects
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "user",
+          select: "username", // Specify the fields you want to include
+        },
+      }) // This will populate the 'reviews' field with actual review objects
       .exec();
     res.json(barbers);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 // Get promoted barbers
 const getPromotedBarbers = async (req, res) => {
   try {
     // Retrieve all barbers in the database
     const barbers = await Barber.find()
-    .populate({
-      path: 'reviews',
-      populate: {
-        path: 'user',
-        select: 'username', // Specify the fields you want to include
-      },
-    })// This will populate the 'reviews' field with actual review objects
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "user",
+          select: "username", // Specify the fields you want to include
+        },
+      }) // This will populate the 'reviews' field with actual review objects
       .exec();
 
     // Filter only promoted barbers
-    const promotedBarbers = barbers.filter((barber) => barber.promoted === true);
+    const promotedBarbers = barbers.filter(
+      (barber) => barber.promoted === true
+    );
 
     res.status(200).json(promotedBarbers);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
 
 // Get cities with at least 1 neighborhood
 const getCities = async (req, res) => {
   try {
-    const cities = await City.find({ neighborhoods: { $exists: true, $not: { $size: 0 } } });
+    const cities = await City.find({
+      neighborhoods: { $exists: true, $not: { $size: 0 } },
+    });
     res.json(cities);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -67,17 +73,21 @@ const getNeighborhoods = async (req, res) => {
   const { city } = req.params;
 
   try {
-    const neighborhoods = await City.findOne({ name: city, neighborhoods: { $exists: true, $not: { $size: 0 } } })
-      .select('neighborhoods -_id');
+    const neighborhoods = await City.findOne({
+      name: city,
+      neighborhoods: { $exists: true, $not: { $size: 0 } },
+    }).select("neighborhoods -_id");
 
     if (!neighborhoods) {
-      return res.status(404).json({ message: 'City not found or no neighborhoods available' });
+      return res
+        .status(404)
+        .json({ message: "City not found or no neighborhoods available" });
     }
 
     res.json(neighborhoods.neighborhoods);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -89,22 +99,22 @@ const getBarbersByNeighborhood = async (req, res) => {
     const cityObj = await City.findOne({ name: city });
 
     if (!cityObj) {
-      return res.status(404).json({ message: 'City not found' });
+      return res.status(404).json({ message: "City not found" });
     }
 
     const barbers = await Barber.find({ city: cityObj._id, neighborhood })
-    .populate({
-      path: 'reviews',
-      populate: {
-        path: 'user',
-        select: 'username', // Specify the fields you want to include
-      },
-    })
-    .exec();
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "user",
+          select: "username", // Specify the fields you want to include
+        },
+      })
+      .exec();
     res.json(barbers);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -113,30 +123,26 @@ const getBarberById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const barber = await Barber.findById(id)
-    .populate({
-      path: 'reviews',
+    const barber = await Barber.findById(id).populate({
+      path: "reviews",
       populate: {
-        path: 'user',
-        select: 'username', // Specify the fields you want to include
+        path: "user",
+        select: "username", // Specify the fields you want to include
       },
-      
-    })
+    }).populate("services")
+    .populate("availableSlots");
+    
 
     if (!barber) {
-      return res.status(404).json({ message: 'Barber not found' });
+      return res.status(404).json({ message: "Barber not found" });
     }
 
     res.json(barber);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
-
-
-
 
 const addReviewToBarber = async (req, res) => {
   // Validate request
@@ -153,7 +159,7 @@ const addReviewToBarber = async (req, res) => {
     // Check if the barber exists
     const barber = await Barber.findById(barberId);
     if (!barber) {
-      return res.status(404).json({ message: 'Barber not found' });
+      return res.status(404).json({ message: "Barber not found" });
     }
 
     // Create a new review
@@ -168,13 +174,12 @@ const addReviewToBarber = async (req, res) => {
     barber.reviews.push(review._id);
     await barber.save();
 
-    res.status(201).json({ message: 'Review added successfully', review });
+    res.status(201).json({ message: "Review added successfully", review });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
 
 // Get all reviews
 // Get all reviews
@@ -183,16 +188,16 @@ const getAllReviews = async (req, res) => {
     // Retrieve all reviews in the database and populate the associated Barber and User data
     const reviews = await Review.find()
       .populate({
-        path: 'barber',
-        select: 'username', // Include only the 'name' field of the Barber
+        path: "barber",
+        select: "username", // Include only the 'name' field of the Barber
       })
       .populate({
-        path: 'user',
-        select: 'username', // Include only the 'name' field of the User
+        path: "user",
+        select: "username", // Include only the 'name' field of the User
       });
 
     // Map the reviews to include barberName and user_name
-    const mappedReviews = reviews.map(review => ({
+    const mappedReviews = reviews.map((review) => ({
       ...review.toObject(),
       barberName: review.barber.username,
       user_name: review.user.username,
@@ -201,7 +206,7 @@ const getAllReviews = async (req, res) => {
     res.status(200).json({ reviews: mappedReviews });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -214,28 +219,37 @@ const bookAppointment = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { barberId, serviceId, appointmentTime } = req.body;
+    const { barberId, serviceId, slotId } = req.body;
 
     // Check if the barber exists
     const barber = await Barber.findById(barberId);
     if (!barber) {
-      return res.status(404).json({ message: 'Barber not found' });
+      return res.status(404).json({ message: "Barber not found" });
     }
 
     // Check if the service exists
     const service = await Service.findById(serviceId);
     if (!service) {
-      return res.status(404).json({ message: 'Service not found' });
+      return res.status(404).json({ message: "Service not found" });
     }
 
-    // Log the received appointment time
-    console.log('Received Appointment Time:', appointmentTime);
+    // Find the slot based on the provided slot ID
+    const slot = barber.availableSlots.find(
+      (slot) => slot._id.toString() === slotId
+    );
+    if (!slot) {
+      return res.status(404).json({ message: "Slot not found" });
+    }
 
-    // Check if the appointment time is available
-    const isAvailable = barber.availableSlots.some(slot => slot.toString() === appointmentTime.toString());
-    if (!isAvailable) {
-      console.log('Available Slots:', barber.availableSlots);
-      return res.status(400).json({ message: 'Appointment time is not available' });
+    // Fetch the slot object from the database
+    const slotObject = await Slot.findById(slotId);
+    if (!slotObject) {
+      return res.status(404).json({ message: "Slot not found" });
+    }
+
+    // Check if the slot is already booked
+    if (slotObject.status === "booked") {
+      return res.status(400).json({ message: "Slot is already booked" });
     }
 
     // Create the appointment
@@ -243,20 +257,21 @@ const bookAppointment = async (req, res) => {
       user: req.user.userId, // Get the user ID from the token
       barber: barberId,
       service: serviceId,
-      appointmentTime,
+      appointmentTime: slotObject.date,
     });
 
-    // Remove the appointment time from available slots
-    barber.availableSlots = barber.availableSlots.filter(slot => slot.toString() !== appointmentTime.toString());
-    await barber.save();
+    // Update the status of the slot to "booked"
+    slotObject.status = "booked";
+    await slotObject.save();
 
-    res.status(201).json({ message: 'Appointment booked successfully', appointment });
+    res
+      .status(201)
+      .json({ message: "Appointment booked successfully", appointment });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
 
 module.exports = {
   getAllBarbers,
@@ -267,5 +282,5 @@ module.exports = {
   getPromotedBarbers,
   getAllReviews,
   getBarberById,
-  bookAppointment
+  bookAppointment,
 };
