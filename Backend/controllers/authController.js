@@ -23,12 +23,12 @@ const registerUser = async (req, res) => {
   const {
     email,
     password,
-    firstName,
-    lastName,
-    CIN,
-    phoneNumber,
-    address,
     username,
+    CIN,
+    // firstName,
+    // lastName,
+    // phoneNumber,
+    // address,
     role
   } = req.body;
 
@@ -46,14 +46,14 @@ const registerUser = async (req, res) => {
 
     // Create a new user
     const user = await User.create({
+      username,
       email,
       password: hashedPassword,
-      firstName,
-      lastName,
       CIN,
-      phoneNumber,
-      address,
-      username,
+      // firstName,
+      // lastName,
+      // phoneNumber,
+      // address,
       role: role || 'user',
     });
 
