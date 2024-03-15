@@ -64,8 +64,11 @@ const barberSchema = new mongoose.Schema({
   },
   availableSlots: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Slot'
+      dayOfWeek: String, // Add dayOfWeek field to associate each slot with a specific day
+      slot: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Slot'
+      }
     }
   ]
   
