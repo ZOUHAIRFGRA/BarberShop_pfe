@@ -210,6 +210,80 @@ const getAllReviews = async (req, res) => {
   }
 };
 
+// const bookAppointment = async (req, res) => {
+//   try {
+//     // Validate request
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       return res.status(400).json({ errors: errors.array() });
+//     }
+
+//     const { barberId, serviceId, slotId, selectedDay } = req.body;
+
+//     // Check if the barber exists
+//     const barber = await Barber.findById(barberId);
+//     if (!barber) {
+//       return res.status(404).json({ message: "Barber not found" });
+//     }
+
+//     // Check if the service exists
+//     const service = await Service.findById(serviceId);
+//     if (!service) {
+//       return res.status(404).json({ message: "Service not found" });
+//     }
+
+//     // Find the slot based on the provided slot ID
+//     const slot = barber.availableSlots.find(
+//       (slot) => slot._id.toString() === slotId
+//     );
+//     if (!slot) {
+//       return res.status(404).json({ message: "Slot not found" });
+//     }
+
+//     // Fetch the slot object from the database
+//     const slotObject = await Slot.findById(slotId);
+//     if (!slotObject) {
+//       return res.status(404).json({ message: "Slot not found" });
+//     }
+
+//     // Check if the slot is already booked
+//     if (slotObject.status === "booked") {
+//       return res.status(400).json({ message: "Slot is already booked" });
+//     }
+
+//     // Create the appointment
+//     const appointment = await Appointment.create({
+//       user: req.user.userId, // Get the user ID from the token
+//       barber: barberId,
+//       service: serviceId,
+//       appointmentTime: slotObject.date,
+//       selectedDay: selectedDay // Include the selected day
+//     });
+
+//     // Update the status of the slot to "booked"
+//     slotObject.status = "booked";
+//     await slotObject.save();
+
+//     // Update available slots for today
+//     if (selectedDay === new Date().toLocaleDateString('en-US', { weekday: 'long' })) {
+//       const currentTime = new Date().getHours() * 60 + new Date().getMinutes();
+//       const availableSlots = barber.availableSlots.filter(slot => {
+//         const slotTime = new Date(slot.date).getHours() * 60 + new Date(slot.date).getMinutes();
+//         return slotTime > currentTime;
+//       });
+//       barber.availableSlots = availableSlots;
+//     }
+
+//     res
+//       .status(201)
+//       .json({ message: "Appointment booked successfully", appointment });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Internal Server Error" });
+//   }
+// };
+// TODO add slots fun to prevent past booking for current day and for past days
+// bookAppointment controller
 const bookAppointment = async (req, res) => {
   try {
     // Validate request
@@ -218,7 +292,7 @@ const bookAppointment = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { barberId, serviceId, slotId, selectedDay } = req.body;
+    const { barberId, serviceId, selectedSlot, selectedDay } = req.body;
 
     // Check if the barber exists
     const barber = await Barber.findById(barberId);
@@ -232,23 +306,17 @@ const bookAppointment = async (req, res) => {
       return res.status(404).json({ message: "Service not found" });
     }
 
-    // Find the slot based on the provided slot ID
-    const slot = barber.availableSlots.find(
-      (slot) => slot._id.toString() === slotId
-    );
+    // Find the slot based on the selected time
+    const slot = await Slot.findOne({ time: selectedSlot });
+
+    // Check if the slot exists
     if (!slot) {
-      return res.status(404).json({ message: "Slot not found" });
+      return res.status(400).json({ message: "Selected slot not found" });
     }
 
-    // Fetch the slot object from the database
-    const slotObject = await Slot.findById(slotId);
-    if (!slotObject) {
-      return res.status(404).json({ message: "Slot not found" });
-    }
-
-    // Check if the slot is already booked
-    if (slotObject.status === "booked") {
-      return res.status(400).json({ message: "Slot is already booked" });
+    // Check if the selected day is in the availableDays array of the slot
+    if (!slot.availableDays.includes(selectedDay)) {
+      return res.status(400).json({ message: "Selected slot is not available for booking on the chosen day." });
     }
 
     // Create the appointment
@@ -256,32 +324,23 @@ const bookAppointment = async (req, res) => {
       user: req.user.userId, // Get the user ID from the token
       barber: barberId,
       service: serviceId,
-      appointmentTime: slotObject.date,
+      appointmentTime: selectedSlot,
       selectedDay: selectedDay // Include the selected day
     });
 
-    // Update the status of the slot to "booked"
-    slotObject.status = "booked";
-    await slotObject.save();
+    // Update the status of the selected slot to "booked"
+    slot.status = "booked";
+    await slot.save();
 
-    // Update available slots for today
-    if (selectedDay === new Date().toLocaleDateString('en-US', { weekday: 'long' })) {
-      const currentTime = new Date().getHours() * 60 + new Date().getMinutes();
-      const availableSlots = barber.availableSlots.filter(slot => {
-        const slotTime = new Date(slot.date).getHours() * 60 + new Date(slot.date).getMinutes();
-        return slotTime > currentTime;
-      });
-      barber.availableSlots = availableSlots;
-    }
-
-    res
-      .status(201)
-      .json({ message: "Appointment booked successfully", appointment });
+    res.status(201).json({ message: "Appointment booked successfully", appointment });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+
+
 
 
 module.exports = {
