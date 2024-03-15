@@ -184,6 +184,7 @@ const getAllServicesForBarber = async (req, res) => {
 };
 
 // Create available slots for a barber
+// Create available slots for a barber
 const createAvailableSlots = async (req, res) => {
   // Validate request
   const errors = validationResult(req);
@@ -202,20 +203,28 @@ const createAvailableSlots = async (req, res) => {
     }
 
     // Create new slots
-    const createdSlots = await Slot.insertMany(slots.map((date) => ({ date })));
+    const createdSlots = await Promise.all(slots.map(async (slot) => {
+      const newSlot = await Slot.create({
+        time: slot.time,
+        availableDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+      });
+      return newSlot;
+    }));
 
     // Add new slot IDs to the availableSlots array
     barber.availableSlots.push(...createdSlots.map((slot) => slot._id));
     await barber.save();
 
-    res
-      .status(201)
-      .json({ message: "Available slots created successfully", barber });
+    res.status(201).json({ message: "Available slots created successfully", createdSlots });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+
+
+
 
 // Delete a specific available slot for a barber
 const deleteAvailableSlot = async (req, res) => {
