@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const slotSchema = new mongoose.Schema({
-  date: {
+  time: {
     type: String,
     required: true
   },
@@ -10,6 +10,10 @@ const slotSchema = new mongoose.Schema({
     enum: ['available', 'booked'],
     default: 'available',
   },
+  availableDays: {
+    type: [String], // Array of strings representing available days (e.g., ["Monday", "Tuesday"])
+    required: true
+  }
 });
 
 const Slot = mongoose.model('Slot', slotSchema);
