@@ -4,33 +4,34 @@ import DynamicLinks from "../components/DynamicLinks/DynamicLinks";
 import ReviewList from "../components/Reviews/ReviewList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { connect } from "react-redux";
+import { fetchCities } from "../actions/userActions";
 
-const NeighborhoodsPage = ({setContentVisible}) => {
+const NeighborhoodsPage = ({ setContentVisible, cities, fetchCities }) => {
   const { city, neighborhood } = useParams();
   const [selectedCity, setSelectedCity] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:4000/user/cities"); // Update the path accordingly
-        const data = await response.json();
-
-        // Find the city data
-        const cityData = data.find((c) => c.name === city);
-        setSelectedCity(cityData);
+        // Fetch cities when the component mounts
+        fetchCities();
+        
       } catch (error) {
         console.error("Error fetching data:", error);
       }
       setContentVisible(true);
-    };
+  }, [setContentVisible, fetchCities]);
 
-    fetchData();
-  }, [city,setContentVisible]);
+  useEffect(() => {
+    const foundcity = cities.find((c) => c.name === city);
+        setSelectedCity(foundcity);
+    
+  },[cities, city])
 
   // Get the neighborhoods for the selected city
   const neighborhoods = selectedCity ? selectedCity.neighborhoods : [];
-console.log("neighborhoods: ",neighborhoods)
-console.log(selectedCity?.name)
+  // console.log("neighborhoods: ", neighborhoods);
+  // console.log(selectedCity);
   return (
     <div className="container">
       <section className="about-1">
@@ -64,7 +65,7 @@ console.log(selectedCity?.name)
         neighborhoods={neighborhoods}
         selectedNeighborhood={neighborhood}
       />
-      
+
       <ReviewList />
       <section className="about-2 pt-5  ">
         <div className="container text-center w-100 py-5 ">
@@ -115,5 +116,12 @@ console.log(selectedCity?.name)
     </div>
   );
 };
+const mapStateToProps = (state) => ({
+  cities: state.city.cities, // Assuming you have a cities array in your cityReducer state
+});
 
-export default NeighborhoodsPage;
+const mapDispatchToProps = (dispatch) => ({
+  fetchCities: () => dispatch(fetchCities()), // Connect the fetchCities action to the component's props
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NeighborhoodsPage);

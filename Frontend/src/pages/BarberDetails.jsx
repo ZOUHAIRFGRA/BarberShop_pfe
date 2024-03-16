@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { getBarberById } from '../actions/userActions';
 import { Link, useParams } from "react-router-dom";
 import WorkingHoursCard from "../components/WorkingHoursCard";
 import Location from "../components/localisation";
@@ -9,43 +11,52 @@ import "aos/dist/aos.css";
 import RatingSection from "../components/RatingSection";
 import ReviewsCommentSection from "../components/ReviewsCommentSection";
 import ServicesSection from "../components/ServicesSection";
+import { css } from "@emotion/react";
+import { ClipLoader } from "react-spinners";
+
 AOS.init({
   duration: 1000,
 });
 const BarberDetails = ({ setContentVisible }) => {
   const { id } = useParams();
-  const [selectedBarber, setSelectedBarber] = useState(undefined);
-  const [dataFetched, setDataFetched] = useState(false);
-
+  const dispatch = useDispatch();
+  const selectedBarber = useSelector(state => state.auth.selectedBarber);
+  const dataFetched = useSelector(state => state.auth.dataFetched);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch data from the backend using the getBarberById route
-        const response = await fetch(`http://localhost:4000/user/barbers/${id}`);
-        const data = await response.json();
-
-        // Set the selected barber using the fetched data
-        setSelectedBarber(data);
+        await dispatch(getBarberById(id));
         setContentVisible(true);
-        setDataFetched(true);
-        console.log(data)
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false); // Set loading to false once the data is fetched or if there's an error
       }
     };
 
     fetchData();
-  }, [id, setSelectedBarber, setContentVisible]);
+  }, [dispatch, id, setContentVisible]);
 
-  if (!dataFetched) {
-    // If data is not yet fetched, don't render the component
-    return null;
+  
+
+  
+
+
+  if (loading) {
+    // Display the loading spinner while the data is being fetched
+    return <div className="d-flex justify-content-center align-items-center vh-100">
+      <ClipLoader color={"#123abc"} loading={loading}  size={170} />;
+    </div>
   }
-
   if (!selectedBarber) {
     // Handle the case where the selected barber is not found
-    return <div>Barber not found</div>;
+    return <div className="min-vh-100">Barber not found</div>;
+  }
+
+  if (!dataFetched) {
+    return <div className="min-vh-100">An Error Occured during fetching</div>;
   }
 
   const {

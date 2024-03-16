@@ -2,11 +2,11 @@
 import { combineReducers } from 'redux';
 
 
-import authReducer from './authReducer';
-
+import userReducer from './userReducer';
+import { cityReducer } from './cityReducer';
 const rootReducer = combineReducers({
-   auth: authReducer,
-  
+   auth: userReducer,
+  city: cityReducer,
 });
 
 export default rootReducer;

@@ -95,7 +95,7 @@ const ReviewsCommentSection = ({ reviews, rating }) => {
     <div data-aos="fade-up-right">
       <div className="card card-white post p-3">
         {reviews.map((review) => (
-          <ReviewItem key={review.user_id} review={review} rating={rating} />
+          <ReviewItem key={review._id} review={review} rating={rating} />
         ))}
       </div>
     </div>

@@ -2,11 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { Navbar, Container, Nav ,NavDropdown} from "react-bootstrap";
+import { logoutUser } from '../actions/userActions'; // Import the logout action
 
-const Header = ({ contentVisible, isLoggedIn, logout}) => {
+const Header = ({contentVisible, isAuthenticated, logout }) => { // Destructure the isAuthenticated and logout props
   const handleLogout = () => {
-    // Dispatch the logout action
-    logout();
+    logout(); // Dispatch the logout action when the logout button is clicked
   };
   return (
     <>
@@ -21,7 +21,7 @@ const Header = ({ contentVisible, isLoggedIn, logout}) => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              {isLoggedIn ? (
+              {isAuthenticated ? (
                 <NavDropdown title="Profile" id="basic-nav-dropdown">
                   <NavDropdown.Item>
                     <Link to="/profile" className="nav-link">
@@ -61,11 +61,11 @@ const Header = ({ contentVisible, isLoggedIn, logout}) => {
   );
 };
 const mapStateToProps = (state) => ({
-  isLoggedIn: state.auth.isLoggedIn,
+  isAuthenticated: state.auth.isAuthenticated,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  logout: () => dispatch({ type: 'LOGOUT' }),
+  logout: () => dispatch(logoutUser()), // Connect the logout action to the component's props
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -6,6 +6,8 @@ const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const barberRoutes = require("./routes/barberRoutes");
+const cookieParser = require('cookie-parser');
+
 const connectDB = require('./config/db')
 // Initialize express app
 const app = express();
@@ -13,6 +15,8 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+app.use(cookieParser());
+app.use('/public', express.static('public'));
 
 // Connect to MongoDB
 connectDB();  // Call the MongoDB connection function
