@@ -4,28 +4,21 @@ import ReactPaginate from "react-paginate";
 import BarberCard from "../components/BarberCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faHome } from "@fortawesome/free-solid-svg-icons";
-
-const BarbersList = ({setContentVisible}) => {
+import { useDispatch, useSelector } from "react-redux";
+import { getBarberByNeighborhood } from "../actions/userActions";
+const BarbersList = ({ setContentVisible }) => {
   const { city, neighborhood } = useParams();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10;
-  const [barberData, setBarberData] = useState([]);
+  const dispatch = useDispatch();
+  const barberData = useSelector((state) => state.auth.barberByNeighborhood);
+  const dataFetched = useSelector((state) => state.auth.dataFetched);
 
   useEffect(() => {
-    const fetchBarbers = async () => {
-      try {
-        const response = await fetch(`http://localhost:4000/user/barbers/${city}/${neighborhood}`);
-        const data = await response.json();
-        setBarberData(data);
-        setContentVisible(true);
-      } catch (error) {
-        console.error('Error fetching barbers:', error);
-      }
-    };
-
-    fetchBarbers();
-  }, [city, neighborhood, setContentVisible]);
+    dispatch(getBarberByNeighborhood(city, neighborhood));
+    setContentVisible(true);
+  }, [dispatch, city, neighborhood, setContentVisible]);
 
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -53,17 +46,25 @@ const BarbersList = ({setContentVisible}) => {
           <hr />
         </div>
 
-        <div className="d-flex justify-content-center align-items-center flex-column mb-4">
-          {displayedBarbers.map((barber, index) => (
-            <div
-              key={index}
-              onClick={() => handleBarberCardClick(barber._id)}
-              style={{ cursor: "pointer" }}
-            >
-              <BarberCard barber={barber} />
-            </div>
-          ))}
-        </div>
+        {dataFetched ? (
+      // Render BarberCards if data is fetched
+      <div className="d-flex justify-content-center align-items-center flex-column mb-4">
+        {displayedBarbers.map((barber, index) => (
+          <div
+            key={index}
+            onClick={() => handleBarberCardClick(barber._id)}
+            style={{ cursor: "pointer" }}
+          >
+            <BarberCard barber={barber} />
+          </div>
+        ))}
+      </div>
+    ) : (
+      // Render error message if data is not fetched
+      <div className="d-flex justify-content-center align-items-center flex-column">
+        <p>Barber Data couldn't be fetched. Please try again later.</p>
+      </div>
+    )}
 
         <ReactPaginate
           pageCount={Math.ceil(barberData.length / itemsPerPage)}

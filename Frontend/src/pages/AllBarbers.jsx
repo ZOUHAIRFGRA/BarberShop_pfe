@@ -4,34 +4,22 @@ import BarberCard from "../components/BarberCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faHome } from "@fortawesome/free-solid-svg-icons";
 import { Link ,useNavigate} from "react-router-dom";
-
-const AllBarbers = ({ setContentVisible }) => {
+import { connect } from "react-redux";
+import { fetchBarbers } from "../actions/userActions"; 
+const AllBarbers = ({ setContentVisible, barbers, fetchBarbers}) => {
     const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10;
-  const [barberData, setBarberData] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:4000/user/barbers");
-        const data = await response.json();
-
-        
-        console.log(data)
-        setBarberData(data);
-        setContentVisible(true);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, [setContentVisible]);
+    // Dispatch fetchBarbers action on component mount
+    fetchBarbers();
+    setContentVisible(true); // Assuming setContentVisible is a function passed as a prop
+  }, [setContentVisible, fetchBarbers]);
 
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedBarbers = barberData.slice(startIndex, endIndex);
+  const displayedBarbers = barbers.slice(startIndex, endIndex);
 
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected);
@@ -66,7 +54,7 @@ const AllBarbers = ({ setContentVisible }) => {
         </div>
 
         <ReactPaginate
-          pageCount={Math.ceil(barberData.length / itemsPerPage)}
+          pageCount={Math.ceil(barbers.length / itemsPerPage)}
           pageRangeDisplayed={10}
           marginPagesDisplayed={2}
           onPageChange={handlePageChange}
@@ -92,5 +80,13 @@ const AllBarbers = ({ setContentVisible }) => {
   );
 };
 
-export default AllBarbers;
+const mapStateToProps = (state) => ({
+  barbers: state.auth.barbers, // Assuming you have a barbers array in your auth state
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchBarbers: () => dispatch(fetchBarbers()), // Connect the fetchBarbers action to the component's props
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllBarbers);
 

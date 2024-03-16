@@ -6,6 +6,7 @@ const Barber = require("../models/barberModel.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { check, validationResult } = require("express-validator");
+const sendCookie = require("../utils/sendCookie.js");
 
 // Load JWT_SECRET from environment variables
 const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
@@ -171,13 +172,9 @@ const loginUser = async (req, res) => {
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
-      // Create a JWT token using the JWT_SECRET for users
-      const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, {
-        expiresIn: "24h",
-      });
-      
-      const role = user.role
-      return res.json({ message: "User login successful", token,role });
+      // Send cookie with user token
+      sendCookie(user, 200, res);
+      return; // Return after sending the response
     }
 
     // Check if the barber exists
@@ -189,12 +186,9 @@ const loginUser = async (req, res) => {
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
-      // Create a JWT token using the JWT_SECRET for barbers
-      const token = jwt.sign({ barberId: barber._id }, JWT_SECRET, {
-        expiresIn: "24h",
-      });
-
-      return res.json({ message: "Barber login successful", token });
+      // Send cookie with barber token
+      sendCookie(barber, 200, res);
+      return; // Return after sending the response
     }
 
     // If neither user nor barber is found, return invalid credentials
@@ -207,9 +201,15 @@ const loginUser = async (req, res) => {
 
 // Logout route for both users and barbers
 const logoutUser = (req, res) => {
-  // Simply invalidate the token on the client side
-  res.json({ message: "Logout successful" });
+  // Clear the token cookie by setting it to null and expiring it immediately
+  res.cookie('token', null, {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+  });
+
+  res.status(200).json({ success: true, message: "Logged Out" });
 };
+
 module.exports = {
   registerUser,
   registerBarber,

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { fetchCities } from "../actions/userActions";
 import { useNavigate } from "react-router-dom";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
 import HomeCards from "../components/HomeCards";
@@ -7,11 +9,12 @@ import Skeleton from "react-loading-skeleton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlassLocation } from "@fortawesome/free-solid-svg-icons";
 
-const HomePage = ({ setContentVisible }) => {
-  const [cityNames, setCityNames] = useState([]);
+const HomePage = ({ setContentVisible, cities, fetchCities }) => {
+  // const [cityNames, setCityNames] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
   const navigate = useNavigate();
-  const video = "https://res.cloudinary.com/dgxsx113u/video/upload/f_auto:video,q_auto/v1/barbershopApp/r8p5kdpsdchzczg89ggm";
+  const video =
+    "https://res.cloudinary.com/dgxsx113u/video/upload/f_auto:video,q_auto/v1/barbershopApp/r8p5kdpsdchzczg89ggm";
   const location = "/assets/location.svg";
   const image1 = "/assets/scroll_1.svg";
   const image2 = "/assets/scroll_2.svg";
@@ -26,24 +29,15 @@ const HomePage = ({ setContentVisible }) => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:4000/user/cities");
-        
-        const data = await response.json();
-        console.log(data)
-  
-        // Get a maximum of 16 city names
-        const limitedCityNames = getLimitedCityNames(data, 16);
-        setCityNames(limitedCityNames);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-  
-    fetchData();
-  }, []); // Add an empty dependency array to ensure the effect runs only once on mount
-  
+    // Fetch cities when the component mounts
+    fetchCities();
+  }, [fetchCities]);
+
+  useEffect(() => {
+    // Log cities to console to verify data
+    console.log(cities);
+  }, [cities]); // Add an empty dependency array to ensure the effect runs only once on mount
+
   const handleCitySubmit = () => {
     console.log("Selected City:", selectedCity);
     navigate(`/barbers/${selectedCity}`);
@@ -105,9 +99,9 @@ const HomePage = ({ setContentVisible }) => {
                     onChange={(e) => setSelectedCity(e.target.value)}
                   >
                     <option value="">Select a city</option>
-                    {cityNames.map((cityName) => (
-                      <option key={cityName} value={cityName}>
-                        {cityName}
+                    {cities.map((city) => (
+                      <option key={city._id} value={city.name}>
+                        {city.name}
                       </option>
                     ))}
                   </select>
@@ -288,40 +282,40 @@ const HomePage = ({ setContentVisible }) => {
               </div>
             </div>
           </div>
-          {/* find barber by city  */}
+          {/* find barber by city */}
           <div className="container city-container">
-            <h1>Find your BookMyBarber Specialist By City </h1>
+            <h1>Find your BookMyBarber Specialist By City</h1>
             <div className="city-div">
-      {[...Array(4)].map((_, index) => (
-        <ul key={index} className="city-ul">
-          {[...Array(4)].map((__, liIndex) => {
-            const cityIndex = index * 4 + liIndex;
-            const cityName = cityNames[cityIndex];
-
-            return (
-              <li key={liIndex}>
-                <span className="span-li">
-                  <div
-                    className="span-div"
-                    onClick={() => handleCityClick(cityName)}
-                  >
-                    {cityName && (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M21.282 7.304A1 1 0 0 1 22.8 8.6l-.082.095-9.484 9.78a1.714 1.714 0 0 1-2.34.12l-.126-.118-9.486-9.782A1 1 0 0 1 2.625 7.22l.093.085L12 16.875l9.282-9.571z"></path>
-                      </svg>
-                    )}
-                    {cityName && "  "} {cityName}
-                  </div>
-                </span>
-              </li>
-            );
-          })}
-        </ul>
-      ))}
-    </div>
+              {cities &&
+                Array(Math.ceil(cities.length / 4))
+                  .fill()
+                  .map((_, index) => (
+                    <ul key={index} className="city-ul">
+                      {cities
+                        .slice(index * 4, index * 4 + 4)
+                        .map((city, liIndex) => (
+                          <li key={liIndex}>
+                            <span className="span-li">
+                              <div
+                                className="span-div"
+                                onClick={() => handleCityClick(city.name)}
+                              >
+                                {city && (
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path d="M21.282 7.304A1 1 0 0 1 22.8 8.6l-.082.095-9.484 9.78a1.714 1.714 0 0 1-2.34.12l-.126-.118-9.486-9.782A1 1 0 0 1 2.625 7.22l.093.085L12 16.875l9.282-9.571z"></path>
+                                  </svg>
+                                )}
+                                {city && "  "} {city.name}
+                              </div>
+                            </span>
+                          </li>
+                        ))}
+                    </ul>
+                  ))}
+            </div>
           </div>
         </div>
       )}
@@ -329,4 +323,12 @@ const HomePage = ({ setContentVisible }) => {
   );
 };
 
-export default HomePage;
+const mapStateToProps = (state) => ({
+  cities: state.city.cities, // Assuming you have a cities array in your cityReducer state
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchCities: () => dispatch(fetchCities()), // Connect the fetchCities action to the component's props
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
