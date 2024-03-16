@@ -1,6 +1,12 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const barberSchema = new mongoose.Schema({
+  availableSlots: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Slot'
+    }
+  ],
   name: {
     type: String,
     required: true,
@@ -29,14 +35,18 @@ const barberSchema = new mongoose.Schema({
     default: false,
   },
   image: String,
-  services: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Service',
-  }],
-  reviews: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Review',
-  }],
+  services: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Service",
+    },
+  ],
+  reviews: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
   numberOfReviews: {
     type: Number,
     default: 0,
@@ -47,41 +57,36 @@ const barberSchema = new mongoose.Schema({
   },
   address: String,
   latitude: String,
-  longitude: String, 
+  longitude: String,
   phone: String,
-  workingHours: [{
-    dayOfWeek: String,
-    workingHours: String,
-  }],
+  workingHours: [
+    {
+      dayOfWeek: String,
+      workingHours: String,
+    },
+  ],
   city: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'City',
+    ref: "City",
     required: true,
   },
   neighborhood: {
     type: String,
     required: true,
   },
-  availableSlots: [
-    {
-      dayOfWeek: String, // Add dayOfWeek field to associate each slot with a specific day
-      slot: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Slot'
-      }
-    }
-  ]
-  
+
   // Additional fields or validations as needed
 });
 
-barberSchema.post('save', async function (doc, next) {
+barberSchema.post("save", async function (doc, next) {
   try {
-    const reviews = await mongoose.model('Review').find({ barber: doc._id });
+    const reviews = await mongoose.model("Review").find({ barber: doc._id });
     const numberOfReviews = reviews.length;
-    const averageRating = numberOfReviews > 0
-      ? reviews.reduce((sum, review) => sum + review.rating, 0) / numberOfReviews
-      : 0;
+    const averageRating =
+      numberOfReviews > 0
+        ? reviews.reduce((sum, review) => sum + review.rating, 0) /
+          numberOfReviews
+        : 0;
 
     await this.updateOne({ numberOfReviews, averageRating });
     next();
@@ -91,7 +96,6 @@ barberSchema.post('save', async function (doc, next) {
   }
 });
 
-
-const Barber = mongoose.model('Barber', barberSchema);
+const Barber = mongoose.model("Barber", barberSchema);
 
 module.exports = Barber;

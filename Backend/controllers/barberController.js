@@ -7,7 +7,7 @@ const { validationResult } = require("express-validator");
 const getBarberProfile = async (req, res) => {
   try {
     const barberId = req.user.barberId; // Extract barber's ID from the token
-    const barber = await Barber.findById(barberId).populate("services");
+    const barber = await Barber.findById(barberId).populate("services").populate("availableSlots");;
     if (!barber) {
       return res.status(404).json({ message: "Barber not found" });
     }
@@ -184,7 +184,6 @@ const getAllServicesForBarber = async (req, res) => {
 };
 
 // Create available slots for a barber
-// Create available slots for a barber
 const createAvailableSlots = async (req, res) => {
   // Validate request
   const errors = validationResult(req);
@@ -202,11 +201,20 @@ const createAvailableSlots = async (req, res) => {
       return res.status(404).json({ message: "Barber not found" });
     }
 
-    // Create new slots
+    // Create new slots with the barber reference
     const createdSlots = await Promise.all(slots.map(async (slot) => {
       const newSlot = await Slot.create({
         time: slot.time,
-        availableDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+        availableDays: [
+          { dayOfWeek: "Monday" },
+          { dayOfWeek: "Tuesday" },
+          { dayOfWeek: "Wednesday" },
+          { dayOfWeek: "Thursday" },
+          { dayOfWeek: "Friday" },
+          { dayOfWeek: "Saturday" },
+          { dayOfWeek: "Sunday" }
+        ],
+        barber: barber._id // Set the barber reference
       });
       return newSlot;
     }));
@@ -221,6 +229,8 @@ const createAvailableSlots = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+
 
 
 
@@ -293,20 +303,19 @@ const getAllAvailableSlots = async (req, res) => {
 
   try {
     // Check if the barber exists
-    const barber = await Barber.findById(barberId);
+    const barber = await Barber.findById(barberId).populate('availableSlots');
     if (!barber) {
       return res.status(404).json({ message: "Barber not found" });
     }
 
-    // Ensure barber.availableSlots is populated
-    await barber.populate("availableSlots");
-
+    // Send the populated availableSlots array in the response
     res.status(200).json({ availableSlots: barber.availableSlots });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 module.exports = {
   getBarberProfile,

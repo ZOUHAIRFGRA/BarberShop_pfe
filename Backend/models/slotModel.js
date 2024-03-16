@@ -10,9 +10,19 @@ const slotSchema = new mongoose.Schema({
     enum: ['available', 'booked'],
     default: 'available',
   },
-  availableDays: {
-    type: [String], // Array of strings representing available days (e.g., ["Monday", "Tuesday"])
-    required: true
+  availableDays: [
+    {
+      dayOfWeek: String,
+      status: {
+        type: String,
+        enum: ['available', 'booked'],
+        default: 'available',
+      }
+    }
+  ],
+  barber: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Barber' // Reference to the Barber model
   }
 });
 

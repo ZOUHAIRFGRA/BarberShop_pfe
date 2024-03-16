@@ -10,7 +10,8 @@ const {
     addReviewToBarber,
     getAllReviews,
     getBarberById,
-    bookAppointment
+    bookAppointment,
+    getSlotsByBarberId
 } = require('../controllers/userController');
 
 
@@ -29,6 +30,7 @@ router.post('/add-reviews',authenticateUser, addReviewToBarber);
 router.get('/neighborhoods/:city',  getNeighborhoods);
 
 router.get('/barbers/:id', getBarberById);
+router.get('/barber/:barberId/slots', getSlotsByBarberId);
 
 // Get barbers in a specific neighborhood
 router.get('/barbers/:city/:neighborhood',  getBarbersByNeighborhood);
