@@ -13,7 +13,7 @@ const ServicesSection = ({
   numberOfReviews,
   address,
   services,
-  slots,
+  
   workingHours
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,7 +22,6 @@ const ServicesSection = ({
   );
   const [showModal, setShowModal] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
-console.log(slots)
   const handleBookService = (serviceId) => {
     setSelectedService(serviceId);
     setShowModal(true);
@@ -114,14 +113,15 @@ console.log(slots)
               aria-controls="panelsStayOpen-collapseOne"
             ></button>
           </h2>
-          <ServiceModalBook
+           <ServiceModalBook
         show={showModal}
         handleClose={() => setShowModal(false)}
-        slots={slots}
+        workingHours={workingHours}
         barberId={barberId}
         serviceId={selectedService ? selectedService._id : null}
-        workingHours= {workingHours}
-      />
+        service= {selectedService}
+       
+      /> 
       <div id="panelsStayOpen-collapseOne" className="accordion-collapse collapse show">
         <div className="accordion-body">
           <table className="table">

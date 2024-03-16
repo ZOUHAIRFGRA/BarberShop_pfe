@@ -123,15 +123,17 @@ const getBarberById = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const barber = await Barber.findById(id).populate({
-      path: "reviews",
-      populate: {
-        path: "user",
-        select: "username", // Specify the fields you want to include
-      },
-    }).populate("services")
-    .populate("availableSlots");
-    
+    const barber = await Barber.findById(id)
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "user",
+          select: "username",
+        },
+      })
+      .populate("services")
+      // .populate("availableSlots")
+     
 
     if (!barber) {
       return res.status(404).json({ message: "Barber not found" });
@@ -143,6 +145,7 @@ const getBarberById = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+;
 
 const addReviewToBarber = async (req, res) => {
   // Validate request
@@ -314,8 +317,14 @@ const bookAppointment = async (req, res) => {
       return res.status(400).json({ message: "Selected slot not found" });
     }
 
-    // Check if the selected day is in the availableDays array of the slot
-    if (!slot.availableDays.includes(selectedDay)) {
+    // Find the day entry for the selected day
+    const selectedDayEntry = slot.availableDays.find(day => day.dayOfWeek === selectedDay);
+    if (!selectedDayEntry) {
+      return res.status(400).json({ message: "Selected day not found in slot available days" });
+    }
+
+    // Check if the slot is available on the selected day
+    if (selectedDayEntry.status === 'booked') {
       return res.status(400).json({ message: "Selected slot is not available for booking on the chosen day." });
     }
 
@@ -328,8 +337,8 @@ const bookAppointment = async (req, res) => {
       selectedDay: selectedDay // Include the selected day
     });
 
-    // Update the status of the selected slot to "booked"
-    slot.status = "booked";
+    // Update the status of the selected day for the slot to "booked"
+    selectedDayEntry.status = "booked";
     await slot.save();
 
     res.status(201).json({ message: "Appointment booked successfully", appointment });
@@ -338,6 +347,25 @@ const bookAppointment = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+const getSlotsByBarberId = async (req, res) => {
+  const { barberId } = req.params;
+
+  try {
+    // Find slots associated with the given barberId
+    const slots = await Slot.find({ barber: barberId });
+
+    if (!slots || slots.length === 0) {
+      return res.status(404).json({ message: 'No slots found for this barber' });
+    }
+
+    res.json({ availableSlots: slots });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
 
 
 
@@ -352,5 +380,6 @@ module.exports = {
   getPromotedBarbers,
   getAllReviews,
   getBarberById,
+  getSlotsByBarberId,
   bookAppointment,
 };
