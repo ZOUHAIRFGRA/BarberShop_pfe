@@ -1,5 +1,6 @@
 const express = require("express");
 const Barber = require("../models/barberModel");
+const User = require("../models/userModel");
 const City = require("../models/cityModel");
 const Appointment = require("../models/appointmentModel");
 const Review = require("../models/reviewModel");
@@ -19,7 +20,10 @@ const getAllBarbers = async (req, res) => {
           path: "user",
           select: "username", // Specify the fields you want to include
         },
-      }) // This will populate the 'reviews' field with actual review objects
+      })
+      .populate("services")
+      .populate("availableSlots")
+      .populate("city")
       .exec();
     res.json(barbers);
   } catch (error) {
@@ -40,7 +44,10 @@ const getPromotedBarbers = async (req, res) => {
           path: "user",
           select: "username", // Specify the fields you want to include
         },
-      }) // This will populate the 'reviews' field with actual review objects
+      }).populate("services")
+      .populate("availableSlots")
+      .populate("city")
+       // This will populate the 'reviews' field with actual review objects
       .exec();
 
     // Filter only promoted barbers
@@ -109,7 +116,9 @@ const getBarbersByNeighborhood = async (req, res) => {
           path: "user",
           select: "username", // Specify the fields you want to include
         },
-      })
+      }).populate("services")
+      .populate("availableSlots")
+      .populate("city")
       .exec();
     res.json(barbers);
   } catch (error) {
@@ -132,6 +141,8 @@ const getBarberById = async (req, res) => {
         },
       })
       .populate("services")
+      .populate("city")
+
       // .populate("availableSlots")
      
 
@@ -211,82 +222,7 @@ const getAllReviews = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
-
-// const bookAppointment = async (req, res) => {
-//   try {
-//     // Validate request
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({ errors: errors.array() });
-//     }
-
-//     const { barberId, serviceId, slotId, selectedDay } = req.body;
-
-//     // Check if the barber exists
-//     const barber = await Barber.findById(barberId);
-//     if (!barber) {
-//       return res.status(404).json({ message: "Barber not found" });
-//     }
-
-//     // Check if the service exists
-//     const service = await Service.findById(serviceId);
-//     if (!service) {
-//       return res.status(404).json({ message: "Service not found" });
-//     }
-
-//     // Find the slot based on the provided slot ID
-//     const slot = barber.availableSlots.find(
-//       (slot) => slot._id.toString() === slotId
-//     );
-//     if (!slot) {
-//       return res.status(404).json({ message: "Slot not found" });
-//     }
-
-//     // Fetch the slot object from the database
-//     const slotObject = await Slot.findById(slotId);
-//     if (!slotObject) {
-//       return res.status(404).json({ message: "Slot not found" });
-//     }
-
-//     // Check if the slot is already booked
-//     if (slotObject.status === "booked") {
-//       return res.status(400).json({ message: "Slot is already booked" });
-//     }
-
-//     // Create the appointment
-//     const appointment = await Appointment.create({
-//       user: req.user.id, // Get the user ID from the token
-//       barber: barberId,
-//       service: serviceId,
-//       appointmentTime: slotObject.date,
-//       selectedDay: selectedDay // Include the selected day
-//     });
-
-//     // Update the status of the slot to "booked"
-//     slotObject.status = "booked";
-//     await slotObject.save();
-
-//     // Update available slots for today
-//     if (selectedDay === new Date().toLocaleDateString('en-US', { weekday: 'long' })) {
-//       const currentTime = new Date().getHours() * 60 + new Date().getMinutes();
-//       const availableSlots = barber.availableSlots.filter(slot => {
-//         const slotTime = new Date(slot.date).getHours() * 60 + new Date(slot.date).getMinutes();
-//         return slotTime > currentTime;
-//       });
-//       barber.availableSlots = availableSlots;
-//     }
-
-//     res
-//       .status(201)
-//       .json({ message: "Appointment booked successfully", appointment });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Internal Server Error" });
-//   }
-// };
-// TODO add slots fun to prevent past booking for current day and for past days
-// bookAppointment controller
+};// bookAppointment controller
 const bookAppointment = async (req, res) => {
   try {
     // Validate request
@@ -367,8 +303,76 @@ const getSlotsByBarberId = async (req, res) => {
   }
 };
 
+const getAppointements =  async (req, res) => {
+  try {
+    // Get the user ID from the decoded token
+    const userId = req.user.id;
 
+    // Query appointments for the user
+    const appointments = await Appointment.find({ user: userId }).populate('barber').populate('service');
 
+    res.status(200).json({ success: true, appointments });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
+
+// Route to get user profile
+const getProfile = async (req, res) => {
+  try {
+    // Get the user ID from the decoded token
+    const userId = req.user.id;
+
+    // Find the user by ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
+// Route to update user profile partially
+const updateProfile = async (req, res) => {
+  try {
+    // Get the user ID from the decoded token
+    const userId = req.user.id;
+
+    // Extract fields to update from the request body
+    const fieldsToUpdate = req.body;
+
+    // Validate request body
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    // Find the user by ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Update each field provided in the request body
+    Object.keys(fieldsToUpdate).forEach((field) => {
+      user[field] = fieldsToUpdate[field];
+    });
+
+    // Save the updated user
+    await user.save();
+
+    res.json({ message: 'User profile updated successfully', user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
 
 
 
@@ -383,4 +387,7 @@ module.exports = {
   getBarberById,
   getSlotsByBarberId,
   bookAppointment,
+  getAppointements,
+  getProfile,
+  updateProfile
 };
