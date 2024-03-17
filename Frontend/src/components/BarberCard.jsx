@@ -4,7 +4,8 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 const BarberCard = ({ city, neighborhood, barber }) => {
   const { name, averageRating, numberOfReviews, image, services } = barber;
-
+console.log(barber)
+console.log(neighborhood)
   return (
     <div className="card mb-3">
       <div className="row g-0">
@@ -12,7 +13,7 @@ const BarberCard = ({ city, neighborhood, barber }) => {
           <div className="img-container">
             <img
               src={image}
-              alt={`${name} - ${neighborhood}`}
+              alt={name}
               className="img-fluid rounded-start"
              
             />
