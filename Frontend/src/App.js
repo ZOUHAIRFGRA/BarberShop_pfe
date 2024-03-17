@@ -1,6 +1,6 @@
 // App.js
-import React, { useState } from "react";
-import { BrowserRouter, Route, Routes  } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes ,useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
@@ -16,9 +16,17 @@ import './App.css'
 
 const App = () => {
   const [contentVisible, setContentVisible] = useState(false);
-
+  const { pathname } = useLocation();
+  // always scroll to top on route/path change
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth"
+    });
+  }, [pathname])
   return (
-    <BrowserRouter>
+    <>
       <div>
         <Header contentVisible={contentVisible} />
 
@@ -72,7 +80,7 @@ const App = () => {
 
         <Footer contentVisible={contentVisible} />
       </div>
-    </BrowserRouter>
+    </>
   );
 };
 
