@@ -72,7 +72,7 @@ const BarberDetails = ({ setContentVisible }) => {
     reviews,
     availableSlots,
   } = selectedBarber;
-  
+  console.log(city)
 
   return (
     <>
@@ -124,7 +124,7 @@ const BarberDetails = ({ setContentVisible }) => {
             /{" "}
             <Link
               className="link-primary link-underline-opacity-0"
-              to={`/neighborhoods/${city}`}
+              to={`/barbers/${city.name}`}
             >
               Barbershop
             </Link>{" "}

@@ -5,6 +5,8 @@ import BarberCard from "../components/BarberCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faHome } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
+import { ClipLoader } from "react-spinners";
+
 import { getBarberByNeighborhood } from "../actions/userActions";
 const BarbersList = ({ setContentVisible }) => {
   const { city, neighborhood } = useParams();
@@ -14,10 +16,19 @@ const BarbersList = ({ setContentVisible }) => {
   const dispatch = useDispatch();
   const barberData = useSelector((state) => state.auth.barberByNeighborhood);
   const dataFetched = useSelector((state) => state.auth.dataFetched);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(getBarberByNeighborhood(city, neighborhood));
+    try{
+      dispatch(getBarberByNeighborhood(city, neighborhood));
     setContentVisible(true);
+    }
+    catch (error) { console.error('err :>> ', error)
+  } finally {
+    setLoading(false); // Set loading to false once the data is fetched or if there's an error
+  }
+
+    
   }, [dispatch, city, neighborhood, setContentVisible]);
 
   const startIndex = currentPage * itemsPerPage;
@@ -31,6 +42,16 @@ const BarbersList = ({ setContentVisible }) => {
   const handleBarberCardClick = (barberId) => {
     navigate(`/barbers/${city}/${neighborhood}/${barberId}`);
   };
+
+  if ( !dataFetched) {
+    // Display the loading spinner while the data is being fetched
+    return <div className="d-flex justify-content-center align-items-center vh-100">
+      <ClipLoader color={"#123abc"} loading={loading}  size={170} />;
+    </div>
+  }
+  // if (!dataFetched) {
+  //   return <div className="min-vh-100">An Error Occured during fetching</div>;
+  // }
 
   return (
     <>
@@ -46,25 +67,21 @@ const BarbersList = ({ setContentVisible }) => {
           <hr />
         </div>
 
-        {dataFetched ? (
-      // Render BarberCards if data is fetched
+        
+     
       <div className="d-flex justify-content-center align-items-center flex-column mb-4">
-        {displayedBarbers.map((barber, index) => (
+        {displayedBarbers.map((barber) => (
           <div
-            key={index}
+            key={barber._id}
             onClick={() => handleBarberCardClick(barber._id)}
             style={{ cursor: "pointer" }}
           >
-            <BarberCard barber={barber} />
+            <BarberCard barber={barber} city={city} neighborhood={neighborhood} />
           </div>
         ))}
       </div>
-    ) : (
-      // Render error message if data is not fetched
-      <div className="d-flex justify-content-center align-items-center flex-column">
-        <p>Barber Data couldn't be fetched. Please try again later.</p>
-      </div>
-    )}
+   
+     
 
         <ReactPaginate
           pageCount={Math.ceil(barberData.length / itemsPerPage)}
@@ -88,7 +105,7 @@ const BarbersList = ({ setContentVisible }) => {
             /{" "}
             <Link
               className="link-primary link-underline-opacity-0"
-              to={`/neighborhoods/${city}`}
+              to={`/barbers/${city}`}
             >
               Barbershop
             </Link>{" "}
