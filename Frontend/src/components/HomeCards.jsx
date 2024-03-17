@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../pages/HomePage.css";
 import { HiArrowSmallLeft, HiArrowSmallRight } from "react-icons/hi2";
+import { useNavigate} from "react-router-dom";
 
 function SampleNextArrow({ onClick }) {
   return (
@@ -29,6 +30,7 @@ function SamplePrevArrow({ onClick }) {
 
 export default function HomeCards() {
   const [barbersData, setBarbersData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch data here
@@ -103,8 +105,11 @@ export default function HomeCards() {
             <div key={index} style={{ height: "100%" }}>
               <div
                 key={index}
-                className="card border-white h-100 mt-5"
-                style={{ width: "100%", height: "100%" }}
+                className="card border-white h-100 mt-5 "
+                style={{ width: "100%", height: "100%" , cursor:"pointer"}}
+                onClick={()=>{
+                  navigate(`/barberDetails/${barber._id}`)
+                }}
               >
                 <div style={{ paddingTop: "75%", position: "relative" }}>
                   <img
