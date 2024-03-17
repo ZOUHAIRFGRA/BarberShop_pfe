@@ -6,7 +6,7 @@ const { validationResult } = require("express-validator");
 // Display barber profile
 const getBarberProfile = async (req, res) => {
   try {
-    const barberId = req.user.barberId; // Extract barber's ID from the token
+    const barberId = req.user.id; // Extract barber's ID from the token
     const barber = await Barber.findById(barberId).populate("services").populate("availableSlots");;
     if (!barber) {
       return res.status(404).json({ message: "Barber not found" });
@@ -25,7 +25,7 @@ const updateBarberProfile = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const barberId = req.user.barberId; // Extract barber's ID from the token
+  const barberId = req.user.id; // Extract barber's ID from the token
   const fieldsToUpdate = req.body;
 
   try {
@@ -57,7 +57,7 @@ const addServiceToBarber = async (req, res) => {
   }
 
   // Extract barber's ID from the token
-  const barberId = req.user.barberId; // Assuming the barber's ID is included in the token payload
+  const barberId = req.user.id; // Assuming the barber's ID is included in the token payload
 
   const { name, price, duration, images } = req.body;
 
@@ -95,7 +95,7 @@ const updateServiceForBarber = async (req, res) => {
     const { name, price, duration, images } = req.body;
 
     // Find the barber using the token
-    const barberId = req.user.barberId;
+    const barberId = req.user.id;
     const barber = await Barber.findById(barberId);
     if (!barber) {
       return res.status(404).json({ message: "Barber not found" });
@@ -137,7 +137,7 @@ const deleteServiceForBarber = async (req, res) => {
     const { serviceId } = req.params;
 
     // Find the barber using the token
-    const barberId = req.user.barberId;
+    const barberId = req.user.id;
     const barber = await Barber.findById(barberId);
     if (!barber) {
       return res.status(404).json({ message: "Barber not found" });
@@ -170,7 +170,7 @@ const deleteServiceForBarber = async (req, res) => {
 const getAllServicesForBarber = async (req, res) => {
   try {
     // Find the barber using the token
-    const barberId = req.user.barberId;
+    const barberId = req.user.id;
     const barber = await Barber.findById(barberId).populate("services");
     if (!barber) {
       return res.status(404).json({ message: "Barber not found" });
@@ -192,7 +192,7 @@ const createAvailableSlots = async (req, res) => {
   }
 
   const { slots } = req.body;
-  const barberId = req.user.barberId;
+  const barberId = req.user.id;
 
   try {
     // Check if the barber exists
@@ -239,7 +239,7 @@ const createAvailableSlots = async (req, res) => {
 // Delete a specific available slot for a barber
 const deleteAvailableSlot = async (req, res) => {
   const slotId = req.params.id; // Extracting slot ID from the URL parameter
-  const barberId = req.user.barberId;
+  const barberId = req.user.id;
 
   try {
     // Check if the barber exists
@@ -299,7 +299,7 @@ const updateAvailableSlot = async (req, res) => {
 
 // Get all available slots for a barber
 const getAllAvailableSlots = async (req, res) => {
-  const barberId = req.user.barberId;
+  const barberId = req.user.id;
 
   try {
     // Check if the barber exists
