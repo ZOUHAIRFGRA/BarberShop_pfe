@@ -11,7 +11,10 @@ const {
     getAllReviews,
     getBarberById,
     bookAppointment,
-    getSlotsByBarberId
+    getSlotsByBarberId,
+    getAppointements,
+    getProfile,
+    updateProfile
 } = require('../controllers/userController');
 
 
@@ -34,5 +37,8 @@ router.get('/barber/:barberId/slots', getSlotsByBarberId);
 
 // Get barbers in a specific neighborhood
 router.get('/barbers/:city/:neighborhood',  getBarbersByNeighborhood);
+router.get('/appointements', authenticateUser, getAppointements);
+router.get('/profile', authenticateUser, getProfile);
+router.put('/updateProfile', authenticateUser, updateProfile);
 
 module.exports = router;
