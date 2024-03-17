@@ -41,6 +41,8 @@ export const loginUser = (email, password) => async (dispatch) => {
 // Logout User Action
 export const logoutUser = () => async (dispatch) => {
   try {
+    // Clear the token cookie by setting it to null and expiring it immediately
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
     await axios.post('http://localhost:4000/auth/logout');
     dispatch({ type: LOGOUT_USER_SUCCESS });
   } catch (error) {

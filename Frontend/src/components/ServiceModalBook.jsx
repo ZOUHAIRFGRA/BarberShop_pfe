@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import axios from "axios";
 import "./service.css";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchSlots } from '../actions/userActions';
+import { useNavigate } from 'react-router-dom';
 
 const ServiceModalBook = ({
   show,
@@ -11,32 +14,38 @@ const ServiceModalBook = ({
   service,
   workingHours,
 }) => {
-  const [slots, setSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [selectedDay, setSelectedDay] = useState(null);
+  const [selectedDayDate, setSelectedDayDate] = useState(null);
+
   const [bookingStatus, setBookingStatus] = useState({
     success: false,
     date: null,
   });
   const [showAppointmentDetails, setShowAppointmentDetails] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   // Fetch available slots when the modal is shown
+  const slots = useSelector((state) => state.auth.slots);
+
   useEffect(() => {
-    const fetchSlots = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4000/user/barber/${barberId}/slots`
-        );
-        setSlots(response.data.availableSlots);
-        console.log(response.data.availableSlots)
+        if (barberId) {
+          dispatch(fetchSlots(barberId));
+        }
       } catch (error) {
         console.error("Error fetching slots:", error);
       }
     };
 
     if (show) {
-      fetchSlots();
+      fetchData();
     }
-  }, [show, barberId]);
+  }, [show, barberId, dispatch]);
+  
+  
 
   const handleSlotSelection = (slotId, slotDate, slotStatus) => {
     if (!isPastTime(slotDate) || slotStatus !== "booked") {
@@ -47,9 +56,35 @@ const ServiceModalBook = ({
   };
 
   const handleDaySelection = (dayOfWeek) => {
+    const daysOfWeek = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+  
+    // Calculate the selected date based on the current date and selected day of the week
+    const today = new Date();
+    const currentDay = today.getDay();
+    const selectedDayIndex = daysOfWeek.indexOf(dayOfWeek);
+    let daysToAdd = selectedDayIndex - currentDay;
+    if (daysToAdd < 0) {
+      daysToAdd += 7; // If the selected day is before today, add 7 days to get the next occurrence
+    }
+    const selectedDate = new Date(today);
+    selectedDate.setDate(today.getDate() + daysToAdd);
+    setSelectedDayDate(selectedDate.toLocaleDateString())
+    // Log the selected day and date
+    // console.log(`Selected Day: ${dayOfWeek}, Date: ${selectedDate.toLocaleDateString()}`);
+  
     setSelectedDay(dayOfWeek);
     setSelectedSlot(null); // Reset selected slot when changing the day
   };
+  
+  
 
   const handleContinue = () => {
     setShowAppointmentDetails(true);
@@ -59,13 +94,7 @@ const ServiceModalBook = ({
   const handleBookAppointment = async () => {
     if (selectedSlot && selectedDay) {
       try {
-        // Get the token from localStorage
-        const token = localStorage.getItem("token");
-
-        // Set the Authorization header with the token
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
+        
         const selectedSlotObj = slots.find(slot => slot._id === selectedSlot);
         console.log(selectedSlotObj.time)
         // Make API call to bookAppointment route with authorization header
@@ -76,8 +105,10 @@ const ServiceModalBook = ({
             serviceId,
             selectedSlot: selectedSlotObj.time,
             selectedDay,
+            selectedDayDate: selectedDayDate
           },
-          { headers }
+          { withCredentials: true }
+          
         );
 
         console.log(response.data); // Log response from backend
@@ -98,18 +129,21 @@ const ServiceModalBook = ({
 
   const isPastDay = (dayOfWeek) => {
     const daysOfWeek = [
-      "Sunday",
-      "Monday",
+      "Monday", // Adjust the order of days according to your country's convention
       "Tuesday",
       "Wednesday",
       "Thursday",
       "Friday",
       "Saturday",
+      "Sunday"
     ];
     const currentDayIndex = new Date().getDay(); // 0 for Sunday, 1 for Monday, etc.
     const selectedDayIndex = daysOfWeek.indexOf(dayOfWeek);
-    return selectedDayIndex < currentDayIndex;
+    const adjustedCurrentDayIndex = currentDayIndex === 0 ? 6 : currentDayIndex - 1; // Adjusting for Sunday being the last day
+    return selectedDayIndex < adjustedCurrentDayIndex;
   };
+  
+  
 
   const isPastTime = (slotTime) => {
     const [slotHour, slotMinute] = slotTime.split(":").map(Number);
@@ -135,7 +169,7 @@ const ServiceModalBook = ({
     const selectedSlotObj = slots.find(slot => slot._id === selectedSlot);
     return selectedSlotObj ? selectedSlotObj.time : '';
   };
-  
+ 
 
   return (
     <Modal show={show} onHide={handleClose} dialogClassName="modal-xl">
@@ -148,7 +182,7 @@ const ServiceModalBook = ({
             <p>Appointment confirmed for {bookingStatus.date}</p>
             <Button
               variant="primary"
-              onClick={() => (window.location.href = "/appointment")}
+              onClick={() => (navigate("/appointment"))}
             >
               Show Appointment
             </Button>
@@ -156,7 +190,7 @@ const ServiceModalBook = ({
         ) : showAppointmentDetails ? (
           <div>
             <p>Selected Time: {selectedSlot ? getSelectedSlotTime() : ''}</p>
-            <p>Selected Day: {selectedDay}</p>
+            <p>Selected Day: {selectedDay} {selectedDayDate}</p>
             <p>Service Info: {service.name}</p>
             <p>Service Price: {service.price}</p>
             <Button variant="primary" onClick={handleBookAppointment}>
@@ -172,10 +206,12 @@ const ServiceModalBook = ({
                   onClick={() => {
                     if (!isPastDay(day.dayOfWeek)) {
                       handleDaySelection(day.dayOfWeek);
+                      console.log(selectedDay)
+                      console.log(selectedDayDate)
                     }
                   }}
                   className={
-                    isPastDay(day.dayOfWeek) ? "disabled" : "active"
+                    isPastDay(day.dayOfWeek) ? "disabled text-decoration-line-through pe-none" : "active"
                   }
                   id="carousel-item"
                   style={{
@@ -187,11 +223,12 @@ const ServiceModalBook = ({
                 </div>
               ))}
             </div>
-            <div className="slot-carousel">
+            <div className="carousel">
               {slots.map((slot) => (
                 <div
                   key={slot._id}
-                  className={`slot-item ${
+                  id="carousel-item"
+                  className={` ${
                     slot.status === "booked"
                       ? "disabled"
                       : isPastTime(slot.time) &&
@@ -199,21 +236,19 @@ const ServiceModalBook = ({
                           new Date().toLocaleDateString("en-US", {
                             weekday: "long",
                           })
-                      ? "disabled text-decoration-line-through"
-                      : ""
+                      ? "disabled text-decoration-line-through pe-none"
+                      : "active"
                   }`}
                   onClick={() => {
-                    handleSlotSelection(
-                      slot._id,
-                      slot.time,
-                      slot.status
-                    );
+                    handleSlotSelection(slot._id, slot.time, slot.status);
+                    console.log(slot.time);
                   }}
                   style={{
                     backgroundColor:
                       selectedSlot === slot._id ? "lightblue" : "white",
                     textDecoration:
                       slot.status === "booked" ? "line-through" : "none",
+                      
                   }}
                 >
                   {slot.time}
