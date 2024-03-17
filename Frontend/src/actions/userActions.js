@@ -20,7 +20,8 @@ export const loginUser = (email, password) => async (dispatch) => {
     const config = {
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      withCredentials: true // Send cookies along with the request
     };
 
     const { data } = await axios.post('http://localhost:4000/auth/login', { email, password }, config);
@@ -86,5 +87,35 @@ export const getBarberByNeighborhood = (city, neighborhood) => async (dispatch) 
     dispatch({ type: 'GET_BARBER_BY_NEIGHBORHOOD_SUCCESS', payload: data });
   } catch (error) {
     dispatch({ type: 'GET_BARBER_BY_NEIGHBORHOOD_FAIL', payload: error.message });
+  }
+};
+
+export const fetchSlots = (barberId) => async (dispatch) => {
+  try {
+    const response = await axios.get(`http://localhost:4000/user/barber/${barberId}/slots`);
+    dispatch({ type: 'FETCH_SLOTS_SUCCESS', payload: response.data.availableSlots });
+  } catch (error) {
+    dispatch({ type: 'FETCH_SLOTS_FAIL', payload: error.message });
+  }
+};
+
+export const registerUser = (formData) => async (dispatch) => {
+  try {
+    dispatch({ type: 'REGISTER_USER_REQUEST' });
+
+    const response = await axios.post(
+      "http://localhost:4000/auth/register/user",
+      formData
+    );
+
+    dispatch({
+      type: 'REGISTER_USER_SUCCESS',
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: 'REGISTER_USER_FAIL',
+      payload: error.message,
+    });
   }
 };
