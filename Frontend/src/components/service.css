@@ -1,9 +1,9 @@
-.slot-carousel {
-    display: flex;
-    overflow-x: visible;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    padding: 20px 0;
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
   }
 
   .small-carousel{
