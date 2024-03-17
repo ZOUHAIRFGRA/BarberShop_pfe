@@ -10,7 +10,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlassLocation } from "@fortawesome/free-solid-svg-icons";
 
 const HomePage = ({ setContentVisible, cities, fetchCities }) => {
-  // const [cityNames, setCityNames] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
   const navigate = useNavigate();
   const video =
@@ -23,20 +22,17 @@ const HomePage = ({ setContentVisible, cities, fetchCities }) => {
     words: ["brave", "bold", "yourself", "confident", "colorful", "free"],
     loop: {},
   });
-  // Function to get a limited number of cities (16 in this case)
-  const getLimitedCityNames = (data, limit) => {
-    return data.slice(0, limit).map((city) => city.name);
-  };
+
 
   useEffect(() => {
     // Fetch cities when the component mounts
     fetchCities();
   }, [fetchCities]);
 
-  useEffect(() => {
-    // Log cities to console to verify data
-    console.log(cities);
-  }, [cities]); // Add an empty dependency array to ensure the effect runs only once on mount
+  // useEffect(() => {
+  //   // Log cities to console to verify data
+  //   console.log(cities);
+  // }, [cities]); // Add an empty dependency array to ensure the effect runs only once on mount
 
   const handleCitySubmit = () => {
     console.log("Selected City:", selectedCity);
