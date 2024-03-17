@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import axios from "axios";
+import { Form, Button, Container, Row, Col,Card,Modal,Alert } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../actions/userActions";
+import { Link, useNavigate } from "react-router-dom";
+
 const Register = ({ setContentVisible }) => {
+  const dispatch = useDispatch();
+  const { loading, error, success } = useSelector((state) => state.auth);
+
   useEffect(() => {
     setContentVisible(true);
   }, [setContentVisible]);
@@ -10,6 +16,7 @@ const Register = ({ setContentVisible }) => {
     username: "",
     CIN: "",
     email: "",
+    phoneNumber: "",
     password: "",
     confirmPassword: "",
   });
@@ -17,7 +24,8 @@ const Register = ({ setContentVisible }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
-
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -37,31 +45,27 @@ const Register = ({ setContentVisible }) => {
       setPasswordsMatch(false);
       return;
     }
-    try {
-      const response = await axios.post(
-        "http://localhost:4000/auth/register/user",
-        formData
-      );
-      console.log(response.data);
-      // Redirect or show success message
-      setFormData({
-        username: "",
-        CIN: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      });
-    } catch (error) {
-      console.error(error);
-      // Handle error
-    }
+    dispatch(registerUser(formData));
   };
 
+  // Function to handle closing the success modal
+  const handleModalClose = () => {
+    setShowSuccessModal(false);
+    navigate("/login"); // Redirect to sign in page after successful registration
+  };
+
+  // Listen for changes in the success state
+  useEffect(() => {
+    if (success) {
+      setShowSuccessModal(true);
+    }
+  }, [success]);
+
   return (
-    <Container className="min-vh-100 mt-auto ">
-      <Row className="justify-content-center">
-        <Col md={6}>
-          <h2>Register</h2>
+    <Container className="min-vh-100 d-flex justify-content-center align-items-center ">
+      <Card style={{ width: "550px", border: "1px solid #ced4da" }}>
+        <Card.Body md={6}>
+          <h2 className="text-center mb-4">Register</h2>
           <Form onSubmit={handleSubmit}>
             <Row>
               <Col>
@@ -73,6 +77,8 @@ const Register = ({ setContentVisible }) => {
                     name="username"
                     value={formData.username}
                     onChange={handleChange}
+                    required
+                    
                   />
                 </Form.Group>
               </Col>
@@ -85,22 +91,44 @@ const Register = ({ setContentVisible }) => {
                     name="CIN"
                     value={formData.CIN}
                     onChange={handleChange}
+                    required
+                    
                   />
                 </Form.Group>
               </Col>
             </Row>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </Form.Group>
 
-            <Form.Group as={Row} controlId="formBasicPassword">
+            <Row>
+              <Col>
+                <Form.Group controlId="formBasicEmail">
+                  <Form.Label>Email address</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group controlId="formBasicPhoneNumber" className="pb-2">
+                  <Form.Label>PhoneNumber</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="Enter PhoneNumber"
+                    name="phoneNumber"
+                    value={formData.phoneNumber}
+                    onChange={handleChange}
+                    required
+                    
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Form.Group as={Row} controlId="formBasicPassword" className="pb-2">
               <Form.Label column sm={3}>
                 Password
               </Form.Label>
@@ -111,6 +139,8 @@ const Register = ({ setContentVisible }) => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
+                  required
+                  
                 />
               </Col>
               <Col sm={2}>
@@ -134,6 +164,8 @@ const Register = ({ setContentVisible }) => {
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
+                  required
+                  
                 />
               </Col>
               <Col sm={2}>
@@ -156,12 +188,32 @@ const Register = ({ setContentVisible }) => {
               </Form.Group>
             )}
 
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" className="d-block m-auto">
               Register
             </Button>
           </Form>
-        </Col>
-      </Row>
+          <div className="mt-3 text-center">
+            Already have an account? <Link to="/">Sign In</Link>
+          </div>
+          {loading && <p>Loading...</p>}
+          {error && <Alert variant="danger">Error: {error}</Alert>}
+          {/* Success Modal */}
+          <Modal show={showSuccessModal} onHide={handleModalClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Registration Successful</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>Your registration was successful! You can now </p>
+              <Link to="/login">sign in here.</Link>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="primary" onClick={handleModalClose}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </Card.Body>
+      </Card>
     </Container>
   );
 };
