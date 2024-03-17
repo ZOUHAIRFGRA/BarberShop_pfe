@@ -28,7 +28,7 @@ const registerUser = async (req, res) => {
     CIN,
     // firstName,
     // lastName,
-    // phoneNumber,
+    phoneNumber,
     // address,
     role
   } = req.body;
@@ -53,7 +53,7 @@ const registerUser = async (req, res) => {
       CIN,
       // firstName,
       // lastName,
-      // phoneNumber,
+       phoneNumber: phoneNumber || null ,
       // address,
       role: role || 'user',
     });
@@ -171,6 +171,7 @@ const loginUser = async (req, res) => {
       if (!passwordMatch) {
         return res.status(401).json({ message: "Invalid credentials" });
       }
+      console.log("login success",user)
 
       // Send cookie with user token
       sendCookie(user, 200, res);
