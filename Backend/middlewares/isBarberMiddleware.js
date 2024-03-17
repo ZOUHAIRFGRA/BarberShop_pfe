@@ -3,8 +3,8 @@ const Barber = require('../models/barberModel');
 const isBarber = async (req, res, next) => {
   try {
     // Assuming the decoded token contains barberId
-    const barberId = req.user.barberId;
-
+    const barberId = req.user.id;
+    console.log(barberId)
     // Check if the user is a barber
     const barber = await Barber.findById(barberId);
     if (!barber) {

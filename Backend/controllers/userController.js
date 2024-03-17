@@ -156,7 +156,7 @@ const addReviewToBarber = async (req, res) => {
 
   // Extract review details
   const { barberId, rating, comment } = req.body;
-  const userId = req.user.userId; // Assuming you have user information stored in the request object
+  const userId = req.user.id; // Assuming you have user information stored in the request object
 
   try {
     // Check if the barber exists
@@ -256,7 +256,7 @@ const getAllReviews = async (req, res) => {
 
 //     // Create the appointment
 //     const appointment = await Appointment.create({
-//       user: req.user.userId, // Get the user ID from the token
+//       user: req.user.id, // Get the user ID from the token
 //       barber: barberId,
 //       service: serviceId,
 //       appointmentTime: slotObject.date,
@@ -295,7 +295,7 @@ const bookAppointment = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { barberId, serviceId, selectedSlot, selectedDay } = req.body;
+    const { barberId, serviceId, selectedSlot, selectedDay,selectedDayDate } = req.body;
 
     // Check if the barber exists
     const barber = await Barber.findById(barberId);
@@ -330,11 +330,12 @@ const bookAppointment = async (req, res) => {
 
     // Create the appointment
     const appointment = await Appointment.create({
-      user: req.user.userId, // Get the user ID from the token
+      user: req.user.id, // Get the user ID from the token
       barber: barberId,
       service: serviceId,
       appointmentTime: selectedSlot,
-      selectedDay: selectedDay // Include the selected day
+      selectedDay: selectedDay, // Include the selected day
+      selectedDayDate : selectedDayDate,
     });
 
     // Update the status of the selected day for the slot to "booked"

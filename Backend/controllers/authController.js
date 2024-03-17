@@ -189,6 +189,7 @@ const loginUser = async (req, res) => {
 
       // Send cookie with barber token
       sendCookie(barber, 200, res);
+      console.log(barber)
       return; // Return after sending the response
     }
 
