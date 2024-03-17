@@ -2,7 +2,9 @@ import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import ServiceModalBook from "./ServiceModalBook";
-import {Button} from 'react-bootstrap';
+import {Button, Modal} from 'react-bootstrap';
+import {  useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const ServicesSection = ({
   barberId,
@@ -16,18 +18,42 @@ const ServicesSection = ({
   
   workingHours
 }) => {
+  const [redirectTimer, setRedirectTimer] = useState(3);
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const filteredServices = services.filter((service) =>
     service.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const [showModal, setShowModal] = useState(false);
+  const [showRedirectModal, setRedirectModal] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
   const handleBookService = (serviceId) => {
-    setSelectedService(serviceId);
-    setShowModal(true);
+    if (!isLoggedIn) {
+      // Start countdown timer
+      const timer = setInterval(() => {
+        setRedirectTimer(prevTimer => prevTimer - 1);
+      }, 1000);
+
+      // Show modal indicating redirection
+      setRedirectModal(true);
+
+      // Redirect to login page after countdown
+      setTimeout(() => {
+        clearInterval(timer);
+        // Store current path in local storage before redirecting to login
+        localStorage.setItem("redirectPath", window.location.pathname);
+        // Redirect user to login page
+        navigate("/login");
+      }, redirectTimer * 1000);
+    } else {
+      setSelectedService(serviceId);
+      setShowModal(true);
+    }
   };
 
   return (
+    <>
     <div className="col-md-8 col-sm-12">
       <div style={{ position: "relative" }}>
         <img className="d-block w-100" src={image} alt={`${name} - ${city}`} />
@@ -151,6 +177,16 @@ const ServicesSection = ({
       </div>
       <div className="space" style={{ height: "24px" }}></div>
     </div>
+    {/* Modal for redirection message */}
+    <Modal show={showRedirectModal} onHide={() => setRedirectModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Redirecting...</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>You need to login to book. Redirecting to login page in {redirectTimer}...</p>
+        </Modal.Body>
+      </Modal>
+    </>
   );
 };
 
