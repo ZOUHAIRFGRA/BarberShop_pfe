@@ -11,7 +11,6 @@ import "aos/dist/aos.css";
 import RatingSection from "../components/RatingSection";
 import ReviewsCommentSection from "../components/ReviewsCommentSection";
 import ServicesSection from "../components/ServicesSection";
-import { css } from "@emotion/react";
 import { ClipLoader } from "react-spinners";
 
 AOS.init({
