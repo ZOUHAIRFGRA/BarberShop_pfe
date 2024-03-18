@@ -11,7 +11,7 @@ import {
   FETCH_ALL_BARBERS_FAIL
   
 } from '../constants/userConstants';
-
+const API_URL = process.env.REACT_APP_API_URL;
 // Login User Action
 export const loginUser = (email, password) => async (dispatch) => {
   try {
@@ -24,7 +24,7 @@ export const loginUser = (email, password) => async (dispatch) => {
       withCredentials: true // Send cookies along with the request
     };
 
-    const { data } = await axios.post('http://localhost:4000/auth/login', { email, password }, config);
+    const { data } = await axios.post(`${API_URL}/auth/login`, { email, password }, config);
     dispatch({
       type: LOGIN_USER_SUCCESS,
       payload: data.user
@@ -42,7 +42,7 @@ export const logoutUser = () => async (dispatch) => {
   try {
     // Clear the token cookie by setting it to null and expiring it immediately
     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
-    await axios.post('http://localhost:4000/auth/logout');
+    await axios.post(`${API_URL}/auth/logout`);
     dispatch({ type: LOGOUT_USER_SUCCESS });
   } catch (error) {
     dispatch({
@@ -55,7 +55,7 @@ export const logoutUser = () => async (dispatch) => {
 // Action to fetch cities
 export const fetchCities = () => async (dispatch) => {
   try {
-    const response = await axios.get('http://localhost:4000/user/cities');
+    const response = await axios.get(`${API_URL}/user/cities`);
     const data = response.data;
     dispatch({ type: FETCH_CITIES_SUCCESS, payload: data });
   } catch (error) {
@@ -64,7 +64,7 @@ export const fetchCities = () => async (dispatch) => {
 };
 export const fetchBarbers = () => async (dispatch) => {
   try {
-    const response = await axios.get('http://localhost:4000/user/barbers');
+    const response = await axios.get(`${API_URL}/user/barbers`);
     const data = response.data;
     dispatch({ type: FETCH_ALL_BARBERS_SUCCESS, payload: data });
   } catch (error) {
@@ -73,7 +73,7 @@ export const fetchBarbers = () => async (dispatch) => {
 };
 export const getBarberById = (barberId) => async (dispatch) => {
   try {
-    const response = await axios.get(`http://localhost:4000/user/barbers/${barberId}`);
+    const response = await axios.get(`${API_URL}/user/barbers/${barberId}`);
     const data = response.data;
     dispatch({ type: 'GET_BARBER_BY_ID_SUCCESS', payload: data });
   } catch (error) {
@@ -83,7 +83,7 @@ export const getBarberById = (barberId) => async (dispatch) => {
 
 export const getBarberByNeighborhood = (city, neighborhood) => async (dispatch) => {
   try {
-    const response = await axios.get(`http://localhost:4000/user/barbers/${city}/${neighborhood}`);
+    const response = await axios.get(`${API_URL}/user/barbers/${city}/${neighborhood}`);
     const data =  response.data;
     dispatch({ type: 'GET_BARBER_BY_NEIGHBORHOOD_SUCCESS', payload: data });
   } catch (error) {
@@ -93,10 +93,43 @@ export const getBarberByNeighborhood = (city, neighborhood) => async (dispatch) 
 
 export const fetchSlots = (barberId) => async (dispatch) => {
   try {
-    const response = await axios.get(`http://localhost:4000/user/barber/${barberId}/slots`);
+    const response = await axios.get(`${API_URL}/user/barber/${barberId}/slots`);
     dispatch({ type: 'FETCH_SLOTS_SUCCESS', payload: response.data.availableSlots });
   } catch (error) {
     dispatch({ type: 'FETCH_SLOTS_FAIL', payload: error.message });
+  }
+};
+export const fetchAppointments = () => async (dispatch) => {
+  try {
+    const response = await axios.get(`${API_URL}/user/appointements`, { withCredentials: true });
+    dispatch({ type: 'FETCH_APPOINTEMENTS_SUCCESS', payload:response.data.appointments });
+  } catch (error) {
+    dispatch({ type: 'FETCH_APPOINTEMENTS_FAIL', payload: error.message });
+  }
+};
+export const fetchUser = () => async (dispatch) => {
+  try {
+    const response = await axios.get(`${API_URL}/user/profile`, { withCredentials: true });
+    console.log(response)
+    dispatch({ type: 'FETCH_USER_SUCCESS', payload:response.data.user });
+  } catch (error) {
+    dispatch({ type: 'FETCH_USER_FAIL', payload: error.message });
+  }
+};
+export const fetchReviews = () => async (dispatch) => {
+  try {
+    dispatch({ type: 'FETCH_REVIEWS_REQUEST' });
+
+    const response = await axios.get(`${API_URL}/user/barbers-reviews`);
+    dispatch({
+      type: 'FETCH_REVIEWS_SUCCESS',
+      payload: response.data.reviews
+    });
+  } catch (error) {
+    dispatch({
+      type: 'FETCH_REVIEWS_FAILURE',
+      payload: error.message
+    });
   }
 };
 
@@ -105,7 +138,7 @@ export const registerUser = (formData) => async (dispatch) => {
     dispatch({ type: 'REGISTER_USER_REQUEST' });
 
     const response = await axios.post(
-      "http://localhost:4000/auth/register/user",
+      `${API_URL}/auth/register/user`,
       formData
     );
 

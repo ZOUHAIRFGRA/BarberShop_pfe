@@ -18,7 +18,10 @@ const initialState = {
   barberByNeighborhood: [],
   barbers: [],
   slots: [],
-  success: false// Add an initial state for barbers
+  success: false,
+  reviews: [], 
+  appointements:[],
+  userData: null
 };
 
 const userReducer = (state = initialState, action) => {
@@ -102,12 +105,42 @@ const userReducer = (state = initialState, action) => {
       return { ...state, loading: false, slots: action.payload, error: null };
     case "FETCH_SLOTS_FAIL":
       return { ...state, loading: false, error: action.payload };
-      case 'REGISTER_USER_REQUEST':
-        return { ...state, loading: true };
-      case 'REGISTER_USER_SUCCESS':
-        return { ...state, loading: false, error: null,success: true };
-      case 'REGISTER_USER_FAIL':
-        return { ...state, loading: false, error: action.payload, success: false };
+    case "FETCH_APPOINTEMENTS_REQUEST":
+      return { ...state, loading: true };
+    case "FETCH_APPOINTEMENTS_SUCCESS":
+      return { ...state, loading: false, appointements: action.payload, error: null };
+    case "FETCH_APPOINTEMENTS_FAIL":
+      return { ...state, loading: false, error: action.payload };
+    case "FETCH_USER_REQUEST":
+      return { ...state, loading: true };
+    case "FETCH_USER_SUCCESS":
+      return { ...state, loading: false, userData: action.payload, error: null };
+    case "FETCH_USER_FAIL":
+      return { ...state, loading: false, error: action.payload };
+    case "FETCH_REVIEWS_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        reviews: action.payload,
+        error: null,
+      };
+    case "FETCH_REVIEWS_FAILURE":
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case "REGISTER_USER_REQUEST":
+      return { ...state, loading: true };
+    case "REGISTER_USER_SUCCESS":
+      return { ...state, loading: false, error: null, success: true };
+    case "REGISTER_USER_FAIL":
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        success: false,
+      };
     default:
       return state;
   }

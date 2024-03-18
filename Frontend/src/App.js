@@ -19,7 +19,7 @@ import Cookies from 'js-cookie';
 const App = () => {
 
   const dispatch = useDispatch();
-
+console.log(process.env.REACT_APP_API_URL)
   useEffect(() => {
     const checkAuth = async () => {
       try {

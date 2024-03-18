@@ -22,8 +22,8 @@ const Profile = ({ setContentVisible }) => {
     const fetchUserProfile = async () => {
       try {
         // Make API request to fetch user profile
-        const response = await axios.get('http://localhost:4000/user/profile', { withCredentials: true });
-        console.log(response.data.user)
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/user/profile`, { withCredentials: true });
+        console.log(response)
         // Set user data in state
         setUser(response.data.user);
         setLoading(false);
@@ -44,7 +44,7 @@ const Profile = ({ setContentVisible }) => {
     return <div>Error: {error}</div>;
   }
   // eslint-disable-next-line no-unused-vars
-  const {_id,name,email,CIN,address,phoneNumber,username} = user
+  const {name,email,CIN,address,phoneNumber,username} = user
   const renderMainContent = () => {
     switch (currentContent) {
       case "profile":
