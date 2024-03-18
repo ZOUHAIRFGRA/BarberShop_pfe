@@ -13,8 +13,31 @@ import Login from "./pages/Login";
 import NoPage from "./pages/NoPage";
 import Profile from "./pages/Profile";
 import './App.css'
-
+import { useDispatch } from 'react-redux';
+import { LOGIN_USER_SUCCESS } from "./constants/userConstants";
+import Cookies from 'js-cookie';
 const App = () => {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        // Check if the authentication token exists in the cookie
+        // You might need to implement a function to read the token from the cookie
+        const token = Cookies.get('token');
+        console.log(token) // Implement this function
+        if (token) {
+          // Dispatch LOGIN_USER_SUCCESS action if token exists
+          dispatch({ type: LOGIN_USER_SUCCESS });
+        }
+      } catch (error) {
+        console.error('Error checking authentication:', error);
+      }
+    };
+
+    checkAuth();
+  }, [dispatch]);
   const [contentVisible, setContentVisible] = useState(false);
   const { pathname } = useLocation();
   // always scroll to top on route/path change
