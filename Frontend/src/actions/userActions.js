@@ -25,7 +25,6 @@ export const loginUser = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post('http://localhost:4000/auth/login', { email, password }, config);
-
     dispatch({
       type: LOGIN_USER_SUCCESS,
       payload: data.user
