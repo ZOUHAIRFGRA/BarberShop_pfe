@@ -26,8 +26,8 @@ app.use('/public', express.static('public'));
 
 // Connect to MongoDB
 connectDB();  // Call the MongoDB connection function
-app.use('/',(req,res)=>{
-  res.send('Server is running')
+app.get('/',(req,res)=>{
+  res.json('Server is running')
 })
 // Routes
 app.use('/auth', authRoutes);
