@@ -29,6 +29,7 @@ const Profile = ({ setContentVisible }) => {
         setLoading(false);
       } catch (error) {
         // Handle error
+        console.log(error)
         setError(error.response.data.message);
         setLoading(false);
       }
