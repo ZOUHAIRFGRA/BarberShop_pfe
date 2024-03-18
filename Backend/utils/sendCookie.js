@@ -14,6 +14,7 @@ const sendCookie = (user = {}, statusCode, res) => {
     ),
     httpOnly: false,
     SameSite: "None",
+    secure: true,
   };
 
   res.status(statusCode).cookie("token", token, options).json({
