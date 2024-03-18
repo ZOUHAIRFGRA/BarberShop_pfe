@@ -1,30 +1,26 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAppointments } from "../actions/userActions";
 const Appointements = () => {
-  const [appointments, setAppointments] = useState([]);
+  const dispatch = useDispatch();
+  const appointments = useSelector((state) => state.auth.appointments);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchAppointments = async () => {
+    const fetchData = async () => {
       try {
-        // Make API request to fetch appointments
-        const response = await axios.get("http://localhost:4000/user/appointements", { withCredentials: true });
-
-        // Set appointments data in state
-        setAppointments(response.data.appointments);
-        console.log(response.data)
+        dispatch(fetchAppointments);
         setLoading(false);
       } catch (error) {
         // Handle error
-        setError(error.response.data.message);
+        setError(error);
         setLoading(false);
       }
     };
 
-    fetchAppointments();
-  }, []);
+    fetchData();
+  }, [dispatch]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -40,10 +36,17 @@ const Appointements = () => {
       {appointments.map((appointment) => (
         <div key={appointment._id} className="card">
           <div className="card-body">
-            <h5 className="card-title">Appointment with {appointment.barber.name}</h5>
+            <h5 className="card-title">
+              Appointment with {appointment.barber.name}
+            </h5>
             <p className="card-text">Service: {appointment.service.name}</p>
-            <p className="card-text">Appointment Time: {appointment.appointmentTime}</p>
-            <p className="card-text">Appointment Date: {appointment.selectedDay} | {appointment.selectedDayDate} </p>
+            <p className="card-text">
+              Appointment Time: {appointment.appointmentTime}
+            </p>
+            <p className="card-text">
+              Appointment Date: {appointment.selectedDay} |{" "}
+              {appointment.selectedDayDate}{" "}
+            </p>
             {/* Add more appointment details as needed */}
           </div>
         </div>

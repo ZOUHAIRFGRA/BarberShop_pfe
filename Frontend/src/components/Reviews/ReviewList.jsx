@@ -1,31 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import ReviewCard from './ReviewCard';
-import './ReviewList.css'
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchReviews } from "../../actions/userActions";
+import ReviewCard from "./ReviewCard";
+import "./ReviewList.css";
 
 const ReviewList = () => {
-  const [reviews, setReviews] = useState([]);
+  // const [reviews, setReviews] = useState([]);
+  const dispatch = useDispatch();
+  const reviews = useSelector((state) => state.auth.reviews);
 
   useEffect(() => {
-    const fetchReviews = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:4000/user/barbers-reviews');
-        const data = await response.json();
-
-        // Assuming reviews are directly in the data (modify this based on your data structure)
-        const allReviews = data.reviews.map(review => ({
-          ...review,
-          barberName: review.barber, // Replace with the correct property
-        }));
-        setReviews(allReviews);
-        console.log(allReviews)
+        await dispatch(fetchReviews());
       } catch (error) {
-        console.error('Error fetching reviews:', error);
+        console.error("Error fetching data:", error);
       }
     };
-
-    fetchReviews();
-  }, []);
-
+    fetchData();
+  }, [dispatch]);
+useEffect(()=>{console.log(reviews)},[reviews])
   // Function to get 3 random reviews
   const getRandomReviews = () => {
     const shuffledReviews = reviews.sort(() => 0.5 - Math.random());
@@ -33,10 +27,9 @@ const ReviewList = () => {
   };
 
   const randomReviews = getRandomReviews();
-
   return (
-    <div className='container pt-5'>
-      <h1 className='text-center pb-4'>Barbershops - customer reviews</h1>
+    <div className="container pt-5">
+      <h1 className="text-center pb-4">Barbershops - customer reviews</h1>
       <div id="reviewCarousel" className="carousel slide" data-bs-ride="carousel">
         <div className="carousel-inner">
           {randomReviews.reduce((chunks, item, index) => {
