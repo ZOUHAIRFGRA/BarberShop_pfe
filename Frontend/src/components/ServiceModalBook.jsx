@@ -99,7 +99,7 @@ const ServiceModalBook = ({
         console.log(selectedSlotObj.time)
         // Make API call to bookAppointment route with authorization header
         const response = await axios.post(
-          "http://localhost:4000/user/bookAppoitement",
+          `${process.env.REACT_APP_API_URL}/user/bookAppointement`,
           {
             barberId,
             serviceId,
