@@ -16,7 +16,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'https://barber-shop-pfe-client.vercel.app', // Replace with the origin of your frontend application
+  origin: 'https://barber-shop-pfe.vercel.app', // Replace with the origin of your frontend application
   credentials: true ,
   // Allow credentials (cookies) to be sent and received
 }));
