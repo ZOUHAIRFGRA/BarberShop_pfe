@@ -36,7 +36,7 @@ export default function HomeCards() {
     // Fetch data here
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:4000/user/promoted-barbers");
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/user/promoted-barbers`);
         const data = await response.json();
         
         setBarbersData(data);
