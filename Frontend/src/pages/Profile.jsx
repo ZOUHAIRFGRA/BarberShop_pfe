@@ -2,9 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import UpdateProfile from "../components/UpdateProfile";
 import Appointements from "../components/Appointements";
+import  axios  from "axios";
 
 const Profile = ({ setContentVisible }) => {
   const [currentContent, setCurrentContent] = useState("");
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     setContentVisible(true);
@@ -14,6 +18,33 @@ const Profile = ({ setContentVisible }) => {
     setCurrentContent(content);
   };
 
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        // Make API request to fetch user profile
+        const response = await axios.get('http://localhost:4000/user/profile', { withCredentials: true });
+        console.log(response.data.user)
+        // Set user data in state
+        setUser(response.data.user);
+        setLoading(false);
+      } catch (error) {
+        // Handle error
+        setError(error.response.data.message);
+        setLoading(false);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+  // eslint-disable-next-line no-unused-vars
+  const {_id,name,email,CIN,address,phoneNumber,username} = user
   const renderMainContent = () => {
     switch (currentContent) {
       case "profile":
@@ -34,7 +65,7 @@ const Profile = ({ setContentVisible }) => {
       default:
         return (
           <div className="div2">
-            <h2>Welcome, Zouhair!</h2>
+            <h2>Welcome, {username}!</h2>
             <div className="div3">
               <div className="div4">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 89">
@@ -66,8 +97,8 @@ const Profile = ({ setContentVisible }) => {
               style={{ width: "100px", height: "100px", objectFit: "cover" }}
             />
             <div className="d-flex flex-column">
-              <h4 className="mt-4">Zouhair Fouiguira</h4>
-            <p className="">0796969696</p>
+              <h4 className="mt-4">{name}</h4>
+            <p className="">{phoneNumber}</p>
             </div>
             
           </div>
