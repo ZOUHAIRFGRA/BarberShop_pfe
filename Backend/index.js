@@ -16,8 +16,9 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:3000', // Replace with the origin of your frontend application
-  credentials: true // Allow credentials (cookies) to be sent and received
+  origin: 'https://barber-shop-pfe-client.vercel.app/', // Replace with the origin of your frontend application
+  credentials: true ,
+  // Allow credentials (cookies) to be sent and received
 }));
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
