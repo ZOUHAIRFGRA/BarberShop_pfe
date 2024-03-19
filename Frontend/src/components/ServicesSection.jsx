@@ -19,7 +19,8 @@ const ServicesSection = ({
   workingHours
 }) => {
   const [redirectTimer, setRedirectTimer] = useState(3);
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  console.log(isAuthenticated)
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const filteredServices = services.filter((service) =>
@@ -29,7 +30,7 @@ const ServicesSection = ({
   const [showRedirectModal, setRedirectModal] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
   const handleBookService = (serviceId) => {
-    if (!isLoggedIn) {
+    if (!isAuthenticated) {
       // Start countdown timer
       const timer = setInterval(() => {
         setRedirectTimer(prevTimer => prevTimer - 1);
