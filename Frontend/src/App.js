@@ -26,7 +26,8 @@ console.log(process.env.REACT_APP_API_URL)
         // Check if the authentication token exists in the cookie
         // You might need to implement a function to read the token from the cookie
         const token = Cookies.get('token');
-        console.log(token) // Implement this function
+        console.log(token)
+        console.log(document.cookie) // Implement this function
         if (token) {
           // Dispatch LOGIN_USER_SUCCESS action if token exists
           dispatch({ type: LOGIN_USER_SUCCESS });

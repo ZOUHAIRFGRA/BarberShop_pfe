@@ -46,6 +46,14 @@
   .slot-item:last-child {
     margin-right: 0;
   }
+  #carousel-item:last-child {
+    margin-right: 0;
+    
+  }
+  #carousel-item:first-child {
+    margin-left: 0;
+    
+  }
   .disabled:hover{
     cursor: not-allowed;
     

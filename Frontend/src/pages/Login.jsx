@@ -19,6 +19,7 @@ const Login = () => {
         setError(response.payload); // Display error message if login fails
       } 
       const redirectPath = localStorage.getItem("redirectPath");
+      
       if (redirectPath) {
         // Clear the stored path
         localStorage.removeItem("redirectPath");
