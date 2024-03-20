@@ -2,17 +2,20 @@
   display: flex;
   overflow-x: auto;
   align-items: center;
-  justify-content: center;
-  padding: 20px 0;
-  }
+  justify-content: flex-start; /* Adjusted */
+  padding: 20px 10px; /* Adjusted */
+  min-width: 100%; /* Ensures the carousel takes the full width */
+}
 
-  .small-carousel{
-    display: flex;
-    overflow-x: auto;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 0;
-  }
+.small-carousel {
+  display: flex;
+  overflow-x: auto;
+  align-items: center;
+  justify-content: flex-start; /* Adjusted */
+  padding: 20px 10px; /* Adjusted */
+  min-width: 100%; /* Ensures the carousel takes the full width */
+}
+
   #carousel-item{
     flex: 0 0 auto;
     width: 100px;
