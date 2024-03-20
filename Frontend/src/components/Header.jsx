@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navbar, Container, Nav ,NavDropdown} from "react-bootstrap";
-import { logoutUser } from '../actions/userActions'; // Import the logout action
+import { fetchUser, logoutUser } from '../actions/userActions'; // Import the logout action
+import {useNavigate} from 'react-router-dom'
+const Header = ({contentVisible }) => { 
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
 
-const Header = ({contentVisible, isAuthenticated, logout }) => { // Destructure the isAuthenticated and logout props
+  
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const handleLogout = () => {
-    logout(); // Dispatch the logout action when the logout button is clicked
+    dispatch(logoutUser()); 
+    navigate('/')// Dispatch the logout action when the logout button is clicked
   };
   return (
     <>
@@ -60,12 +66,6 @@ const Header = ({contentVisible, isAuthenticated, logout }) => { // Destructure 
   </>
   );
 };
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
 
-const mapDispatchToProps = (dispatch) => ({
-  logout: () => dispatch(logoutUser()), // Connect the logout action to the component's props
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;

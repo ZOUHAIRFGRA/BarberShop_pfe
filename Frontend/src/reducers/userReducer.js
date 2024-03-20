@@ -19,18 +19,19 @@ const initialState = {
   barbers: [],
   slots: [],
   success: false,
-  reviews: [], 
-  appointements:[],
-  userData: null
+  reviews: [],
+  appointements: [],
+  userData: null,
 };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_USER_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
+    case 'LOAD_USER_REQUEST':
+        return {
+            loading: true,
+            isAuthenticated: false,
+        };
     case LOGIN_USER_SUCCESS:
       return {
         ...state,
@@ -49,14 +50,15 @@ const userReducer = (state = initialState, action) => {
       };
     case LOGOUT_USER_SUCCESS:
       return {
-        ...state,
-        isAuthenticated: false,
+        loading: false,
         user: null,
+        isAuthenticated: false,
         error: null,
       };
     case LOGOUT_USER_FAIL:
       return {
         ...state,
+        loading: false,
         error: action.payload,
       };
     case FETCH_ALL_BARBERS_SUCCESS:
@@ -108,15 +110,30 @@ const userReducer = (state = initialState, action) => {
     case "FETCH_APPOINTEMENTS_REQUEST":
       return { ...state, loading: true };
     case "FETCH_APPOINTEMENTS_SUCCESS":
-      return { ...state, loading: false, appointements: action.payload, error: null };
+      return {
+        ...state,
+        loading: false,
+        appointements: action.payload,
+        error: null,
+      };
     case "FETCH_APPOINTEMENTS_FAIL":
       return { ...state, loading: false, error: action.payload };
     case "FETCH_USER_REQUEST":
-      return { ...state, loading: true };
+      return { loading: true, isAuthenticated: false };
     case "FETCH_USER_SUCCESS":
-      return { ...state, loading: false, userData: action.payload, error: null };
+      return {
+        isAuthenticated: true,
+        loading: false,
+        userData: action.payload,
+        error: null,
+      };
     case "FETCH_USER_FAIL":
-      return { ...state, loading: false, error: action.payload };
+      return {
+        loading: false,
+        isAuthenticated: false,
+        user: null,
+        error: action.payload,
+      };
     case "FETCH_REVIEWS_SUCCESS":
       return {
         ...state,

@@ -2,9 +2,10 @@ const Barber = require("../models/barberModel");
 const Service = require("../models/serviceModel");
 const Slot = require("../models/slotModel");
 const { validationResult } = require("express-validator");
+const catchAsync = require('../middlewares/catchAsync');
 
 // Display barber profile
-const getBarberProfile = async (req, res) => {
+const getBarberProfile = catchAsync(async (req, res) => {
   try {
     const barberId = req.user.id; // Extract barber's ID from the token
     const barber = await Barber.findById(barberId).populate("services").populate("availableSlots");;
@@ -16,9 +17,9 @@ const getBarberProfile = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 
-const updateBarberProfile = async (req, res) => {
+const updateBarberProfile = catchAsync(async (req, res) => {
   // Validate request
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -46,10 +47,10 @@ const updateBarberProfile = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 
 // Add service to barber
-const addServiceToBarber = async (req, res) => {
+const addServiceToBarber = catchAsync(async (req, res) => {
   // Validate request
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -87,9 +88,9 @@ const addServiceToBarber = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 // Update service for a barber
-const updateServiceForBarber = async (req, res) => {
+const updateServiceForBarber = catchAsync(async (req, res) => {
   try {
     const { serviceId } = req.params;
     const { name, price, duration, images } = req.body;
@@ -129,10 +130,10 @@ const updateServiceForBarber = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 
 // Delete service for a barber
-const deleteServiceForBarber = async (req, res) => {
+const deleteServiceForBarber = catchAsync(async (req, res) => {
   try {
     const { serviceId } = req.params;
 
@@ -164,10 +165,10 @@ const deleteServiceForBarber = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 
 // Get all services for a barber
-const getAllServicesForBarber = async (req, res) => {
+const getAllServicesForBarber = catchAsync(async (req, res) => {
   try {
     // Find the barber using the token
     const barberId = req.user.id;
@@ -181,10 +182,10 @@ const getAllServicesForBarber = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 
 // Create available slots for a barber
-const createAvailableSlots = async (req, res) => {
+const createAvailableSlots = catchAsync(async (req, res) => {
   // Validate request
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -228,7 +229,7 @@ const createAvailableSlots = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 
 
 
@@ -237,7 +238,7 @@ const createAvailableSlots = async (req, res) => {
 
 
 // Delete a specific available slot for a barber
-const deleteAvailableSlot = async (req, res) => {
+const deleteAvailableSlot = catchAsync(async (req, res) => {
   const slotId = req.params.id; // Extracting slot ID from the URL parameter
   const barberId = req.user.id;
 
@@ -265,10 +266,10 @@ const deleteAvailableSlot = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 
 // Update available slot for a barber
-const updateAvailableSlot = async (req, res) => {
+const updateAvailableSlot = catchAsync(async (req, res) => {
   const slotId = req.params.id; // Extracting slot ID from the URL parameter
 
   // Validate request
@@ -295,10 +296,10 @@ const updateAvailableSlot = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 
 // Get all available slots for a barber
-const getAllAvailableSlots = async (req, res) => {
+const getAllAvailableSlots = catchAsync(async (req, res) => {
   const barberId = req.user.id;
 
   try {
@@ -314,7 +315,7 @@ const getAllAvailableSlots = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 
 
 module.exports = {
