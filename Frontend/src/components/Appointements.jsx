@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchAppointments } from "../actions/userActions";
+// import { useDispatch, useSelector } from "react-redux";
+// import { fetchAppointments } from "../actions/userActions";
+import axios from 'axios'
 const Appointements = () => {
-  const dispatch = useDispatch();
-  const appointments = useSelector((state) => state.auth.appointments);
+  // const dispatch = useDispatch();
+  // const appointments = useSelector((state) => state.auth.appointements);
+  const [appointments,setAppointments] = useState([])
+  console.log(appointments)
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        dispatch(fetchAppointments);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/user/appointements`, { withCredentials: true });
+    console.log(response.data.appointments)
+    setAppointments(response.data.appointments)
         setLoading(false);
       } catch (error) {
         // Handle error
@@ -20,7 +25,8 @@ const Appointements = () => {
     };
 
     fetchData();
-  }, [dispatch]);
+  }, []);
+
 
   if (loading) {
     return <div>Loading...</div>;
