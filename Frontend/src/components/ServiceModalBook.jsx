@@ -159,7 +159,7 @@ const ServiceModalBook = ({
   useEffect(() => {
     // Set selected day to today by default
     const today = new Date().toLocaleDateString("en-US", { weekday: "long" });
-    setSelectedDay(today);
+    handleDaySelection(today);
   }, []);
   const getSelectedSlotTime = () => {
     if (!selectedSlot || !slots) {
