@@ -1,7 +1,8 @@
 const City = require('../models/cityModel');
+const catchAsync = require('../middlewares/catchAsync');
 
 // Create a new city
-const createCity = async (req, res) => {
+const createCity = catchAsync(async (req, res) => {
   const { name, neighborhoods } = req.body;
 
   try {
@@ -20,10 +21,10 @@ const createCity = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
-};
+});
 
 // Update a city
-const updateCity = async (req, res) => {
+const updateCity = catchAsync(async (req, res) => {
   const { cityName } = req.params;
   const { name, neighborhoods } = req.body;
 
@@ -46,9 +47,9 @@ const updateCity = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
-};
+});
 // Get all cities
-const getAllCities = async (req, res) => {
+const getAllCities = catchAsync(async (req, res) => {
   try {
     const cities = await City.find();
     res.status(200).json({ cities });
@@ -56,10 +57,10 @@ const getAllCities = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
-};
+});
 
 // Add a neighborhood to an existing city
-const addNeighborhood = async (req, res) => {
+const addNeighborhood = catchAsync(async (req, res) => {
   const { cityName, neighborhood } = req.body;
 
   try {
@@ -78,11 +79,11 @@ const addNeighborhood = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
-};
+});
 
 
 // Delete a city and its neighborhoods
-const deleteCity = async (req, res) => {
+const deleteCity = catchAsync(async (req, res) => {
   const { cityName } = req.params;
 
   try {
@@ -97,7 +98,7 @@ const deleteCity = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
-};
+});
 
 module.exports = {
   createCity,
