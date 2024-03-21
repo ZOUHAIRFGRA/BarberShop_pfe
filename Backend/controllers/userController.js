@@ -8,10 +8,11 @@ const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const Service = require("../models/serviceModel");
 const Slot = require("../models/slotModel");
+const catchAsync = require('../middlewares/catchAsync');
 
 // Get all barbers
 
-const getAllBarbers = async (req, res) => {
+const getAllBarbers = catchAsync(async (req, res) => {
   try {
     const barbers = await Barber.find()
       .populate({
@@ -30,11 +31,11 @@ const getAllBarbers = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 
 
 // Get promoted barbers
-const getPromotedBarbers = async (req, res) => {
+const getPromotedBarbers = catchAsync(async (req, res) => {
   try {
     // Retrieve all barbers in the database
     const barbers = await Barber.find()
@@ -60,10 +61,10 @@ const getPromotedBarbers = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 
 // Get cities with at least 1 neighborhood
-const getCities = async (req, res) => {
+const getCities = catchAsync(async (req, res) => {
   try {
     const cities = await City.find({
       neighborhoods: { $exists: true, $not: { $size: 0 } },
@@ -73,10 +74,10 @@ const getCities = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 
 // Get neighborhoods with at least 1 barber in a specific city
-const getNeighborhoods = async (req, res) => {
+const getNeighborhoods = catchAsync(async (req, res) => {
   const { city } = req.params;
 
   try {
@@ -96,10 +97,10 @@ const getNeighborhoods = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 
 // Get barbers in a specific neighborhood
-const getBarbersByNeighborhood = async (req, res) => {
+const getBarbersByNeighborhood = catchAsync(async (req, res) => {
   const { city, neighborhood } = req.params;
 
   try {
@@ -125,10 +126,10 @@ const getBarbersByNeighborhood = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 
 // Get one barber by ID
-const getBarberById = async (req, res) => {
+const getBarberById = catchAsync(async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -155,10 +156,10 @@ const getBarberById = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 ;
 
-const addReviewToBarber = async (req, res) => {
+const addReviewToBarber = catchAsync(async (req, res) => {
   // Validate request
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -193,11 +194,11 @@ const addReviewToBarber = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 
 // Get all reviews
 // Get all reviews
-const getAllReviews = async (req, res) => {
+const getAllReviews = catchAsync(async (req, res) => {
   try {
     // Retrieve all reviews in the database and populate the associated Barber and User data
     const reviews = await Review.find()
@@ -222,8 +223,8 @@ const getAllReviews = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};// bookAppointment controller
-const bookAppointment = async (req, res) => {
+});// bookAppointment controlle)r
+const bookAppointment = catchAsync(async (req, res) => {
   try {
     // Validate request
     const errors = validationResult(req);
@@ -283,9 +284,9 @@ const bookAppointment = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 
-const getSlotsByBarberId = async (req, res) => {
+const getSlotsByBarberId = catchAsync(async (req, res) => {
   const { barberId } = req.params;
 
   try {
@@ -301,9 +302,9 @@ const getSlotsByBarberId = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
-};
+});
 
-const getAppointements =  async (req, res) => {
+const getAppointements =  catchAsync(async (req, res) => {
   try {
     // Get the user ID from the decoded token
     const userId = req.user.id;
@@ -316,10 +317,10 @@ const getAppointements =  async (req, res) => {
     console.error(error);
     res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
-};
+});
 
 // Route to get user profile
-const getProfile = async (req, res) => {
+const getProfile = catchAsync(async (req, res) => {
   try {
     // Get the user ID from the decoded token
     const userId = req.user.id;
@@ -336,9 +337,9 @@ const getProfile = async (req, res) => {
     console.error(error);
     res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
-};
+});
 // Route to update user profile partially
-const updateProfile = async (req, res) => {
+const updateProfile = catchAsync(async (req, res) => {
   try {
     // Get the user ID from the decoded token
     const userId = req.user.id;
@@ -372,7 +373,7 @@ const updateProfile = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
-};
+});
 
 
 

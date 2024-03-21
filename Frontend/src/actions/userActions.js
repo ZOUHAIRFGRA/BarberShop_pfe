@@ -29,6 +29,7 @@ export const loginUser = (email, password) => async (dispatch) => {
       type: LOGIN_USER_SUCCESS,
       payload: data.user
     });
+    console.log(data.user)
   } catch (error) {
     dispatch({
       type: LOGIN_USER_FAIL,
@@ -40,15 +41,10 @@ export const loginUser = (email, password) => async (dispatch) => {
 // Logout User Action
 export const logoutUser = () => async (dispatch) => {
   try {
-    // Clear the token cookie by setting it to null and expiring it immediately
-    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
-    await axios.post(`${API_URL}/auth/logout`);
+    await axios.get(`${API_URL}/auth/logout`);
     dispatch({ type: LOGOUT_USER_SUCCESS });
   } catch (error) {
-    dispatch({
-      type: LOGOUT_USER_FAIL,
-      payload: error.response.data.message
-    });
+    dispatch({ type: LOGOUT_USER_FAIL, payload: error.response.data.message });
   }
 };
 

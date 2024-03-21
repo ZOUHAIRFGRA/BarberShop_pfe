@@ -12,6 +12,6 @@ const {
 router.post("/register/user", [check("email").isEmail(), check("password").isLength({ min: 6 })], registerUser);
 router.post("/register/barber", [check("email").isEmail(), check("password").isLength({ min: 6 })], registerBarber);
 router.post("/login", [check("email").isEmail(), check("password").isLength({ min: 6 })], loginUser);
-router.post("/logout", logoutUser);
+router.get("/logout", logoutUser);
 
 module.exports = router;

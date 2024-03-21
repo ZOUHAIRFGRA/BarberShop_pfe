@@ -6,14 +6,15 @@ const Barber = require("../models/barberModel.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { check, validationResult } = require("express-validator");
-const sendCookie = require("../utils/sendCookie.js");
+const sendCookie = require("../utils/sendCookie");
+const catchAsync = require('../middlewares/catchAsync');
 
 // Load JWT_SECRET from environment variables
 const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
 
 // Registration route for users
 
-const registerUser = async (req, res) => {
+const registerUser = catchAsync(async (req, res) => {
   // Validate request
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -30,7 +31,7 @@ const registerUser = async (req, res) => {
     // lastName,
     phoneNumber,
     // address,
-    role
+    role,
   } = req.body;
 
   try {
@@ -53,9 +54,9 @@ const registerUser = async (req, res) => {
       CIN,
       // firstName,
       // lastName,
-       phoneNumber: phoneNumber || null ,
+      phoneNumber: phoneNumber || null,
       // address,
-      role: role || 'user',
+      role: role || "user",
     });
 
     // Create a JWT token using the JWT_SECRET
@@ -68,11 +69,11 @@ const registerUser = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 
 // Registration route for barbers
 // Registration route for barbers
-const registerBarber = async (req, res) => {
+const registerBarber = catchAsync(async (req, res) => {
   // Validate request
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -101,7 +102,9 @@ const registerBarber = async (req, res) => {
     // Check if the barber already exists
     const existingBarber = await Barber.findOne({ email });
     if (existingBarber) {
-      return res.status(400).json({ message: "Barber with this email already exists" });
+      return res
+        .status(400)
+        .json({ message: "Barber with this email already exists" });
     }
 
     // Find the city based on the provided name
@@ -111,9 +114,13 @@ const registerBarber = async (req, res) => {
     }
 
     // Find the neighborhood based on the provided name within the found city
-    const neighborhood = city.neighborhoods.find(n => n.name === neighborhoodName);
+    const neighborhood = city.neighborhoods.find(
+      (n) => n.name === neighborhoodName
+    );
     if (!neighborhood) {
-      return res.status(404).json({ message: "Neighborhood not found in the specified city" });
+      return res
+        .status(404)
+        .json({ message: "Neighborhood not found in the specified city" });
     }
 
     // Hash the password
@@ -147,12 +154,11 @@ const registerBarber = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
-
+});
 
 // Login route for both users and barbers
 
-const loginUser = async (req, res) => {
+const loginUser = catchAsync(async (req, res) => {
   // Validate request
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -171,7 +177,7 @@ const loginUser = async (req, res) => {
       if (!passwordMatch) {
         return res.status(401).json({ message: "Invalid credentials" });
       }
-      console.log("login success",user)
+      console.log("login success", user);
 
       // Send cookie with user token
       sendCookie(user, 200, res);
@@ -189,7 +195,7 @@ const loginUser = async (req, res) => {
 
       // Send cookie with barber token
       sendCookie(barber, 200, res);
-      console.log(barber)
+      console.log(barber);
       return; // Return after sending the response
     }
 
@@ -199,18 +205,23 @@ const loginUser = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-};
+});
 
 // Logout route for both users and barbers
-const logoutUser = (req, res) => {
+const logoutUser =  catchAsync(async (req, res) => {
   // Clear the token cookie by setting it to null and expiring it immediately
-  res.cookie('token', null, {
+  res.cookie("token", null, {
     expires: new Date(Date.now()),
     httpOnly: true,
   });
 
+  res.status(200).json({
+    success: true,
+    message: "Logged Out",
+  });
+
   res.status(200).json({ success: true, message: "Logged Out" });
-};
+});
 
 module.exports = {
   registerUser,

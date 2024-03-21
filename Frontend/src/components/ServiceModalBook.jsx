@@ -46,7 +46,7 @@ const ServiceModalBook = ({
   }, [show, barberId, dispatch]);
   
   
-
+useEffect(()=>{console.log(slots)},[slots])
   const handleSlotSelection = (slotId, slotDate, slotStatus) => {
     if (!isPastTime(slotDate) || slotStatus !== "booked") {
       setSelectedSlot(slotId);

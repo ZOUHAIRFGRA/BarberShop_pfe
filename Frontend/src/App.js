@@ -13,14 +13,18 @@ import Login from "./pages/Login";
 import NoPage from "./pages/NoPage";
 import Profile from "./pages/Profile";
 import './App.css'
-import { useDispatch } from 'react-redux';
-import { LOGIN_USER_SUCCESS } from "./constants/userConstants";
-import Cookies from 'js-cookie';
+import { useDispatch, useSelector } from 'react-redux';
+import {fetchUser} from './actions/userActions'
+import PrivateRoute from './Routes/PrivateRoute';
+
+// import { LOGIN_USER_SUCCESS } from "./constants/userConstants";
+// import Cookies from 'js-cookie';
 const App = () => {
 
   const dispatch = useDispatch();
 console.log(process.env.REACT_APP_API_URL)
-  useEffect(() => {
+  /* useEffect(() => {
+
     const checkAuth = async () => {
       try {
         // Check if the authentication token exists in the cookie
@@ -38,7 +42,15 @@ console.log(process.env.REACT_APP_API_URL)
     };
 
     checkAuth();
+  }, [dispatch]); */
+  useEffect(() => {
+    dispatch(fetchUser());
   }, [dispatch]);
+  
+  const  isAuthenticated  = useSelector((state) => state.auth.isAuthenticated);
+console.log(isAuthenticated)
+
+
   const [contentVisible, setContentVisible] = useState(false);
   const { pathname } = useLocation();
   // always scroll to top on route/path change
@@ -88,10 +100,12 @@ console.log(process.env.REACT_APP_API_URL)
             path="/login"
             element={<Login setContentVisible={setContentVisible} />}
           />
-          <Route
-            path="/profile"
-            element={<Profile setContentVisible={setContentVisible}/>}
-          />
+         
+           <Route path="/profile" element={
+            <PrivateRoute>
+              <Profile setContentVisible={setContentVisible}/>
+            </PrivateRoute>
+          } />
           <Route
             path="/register"
             element={<Register setContentVisible={setContentVisible} />}
