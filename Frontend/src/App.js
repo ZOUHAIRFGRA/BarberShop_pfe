@@ -14,7 +14,7 @@ import NoPage from "./pages/NoPage";
 import Profile from "./pages/Profile";
 import './App.css'
 import { useDispatch, useSelector } from 'react-redux';
-import {fetchUser} from './actions/userActions'
+import {fetchUser, loadUser} from './actions/userActions'
 import PrivateRoute from './Routes/PrivateRoute';
 
 // import { LOGIN_USER_SUCCESS } from "./constants/userConstants";
@@ -22,7 +22,7 @@ import PrivateRoute from './Routes/PrivateRoute';
 const App = () => {
 
   const dispatch = useDispatch();
-console.log(process.env.REACT_APP_API_URL)
+// console.log(process.env.REACT_APP_API_URL)
   /* useEffect(() => {
 
     const checkAuth = async () => {
@@ -44,11 +44,11 @@ console.log(process.env.REACT_APP_API_URL)
     checkAuth();
   }, [dispatch]); */
   useEffect(() => {
-    dispatch(fetchUser());
+    dispatch(loadUser());
   }, [dispatch]);
   
   const  isAuthenticated  = useSelector((state) => state.auth.isAuthenticated);
-console.log(isAuthenticated)
+// console.log(isAuthenticated)
 
 
   const [contentVisible, setContentVisible] = useState(false);

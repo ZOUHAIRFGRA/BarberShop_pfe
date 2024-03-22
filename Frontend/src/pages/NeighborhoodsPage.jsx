@@ -6,19 +6,27 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
 import { fetchCities } from "../actions/userActions";
-
+import { Alert } from "react-bootstrap";
+import { ClipLoader } from "react-spinners";
 const NeighborhoodsPage = ({ setContentVisible, cities, fetchCities }) => {
   const { city, neighborhood } = useParams();
   const [selectedCity, setSelectedCity] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    const fetchData = async () => {
       try {
         // Fetch cities when the component mounts
-        fetchCities();
-        
+       await fetchCities();
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
+        setError(error.response?.data?.message || "An error occurred");
+        setLoading(false);
       }
+    };
+    fetchData();
       setContentVisible(true);
   }, [setContentVisible, fetchCities]);
 
@@ -32,6 +40,16 @@ const NeighborhoodsPage = ({ setContentVisible, cities, fetchCities }) => {
   const neighborhoods = selectedCity ? selectedCity.neighborhoods : [];
   // console.log("neighborhoods: ", neighborhoods);
   // console.log(selectedCity);
+
+  if (loading) {
+    // Display the loading spinner while the data is being fetched
+    return <div className="d-flex justify-content-center align-items-center vh-100">
+      <ClipLoader color={"#123abc"} loading={loading}  size={170} />;
+    </div>
+  }
+  if (error) {
+    return <Alert variant="danger">Error: {error}</Alert>;
+  }
   return (
     <div className="container">
       <section className="about-1">
