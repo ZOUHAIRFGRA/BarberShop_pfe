@@ -5,8 +5,8 @@ import BarberCard from "../components/BarberCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faHome } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
+import { Alert } from "react-bootstrap";
 import { ClipLoader } from "react-spinners";
-
 import { getBarberByNeighborhood } from "../actions/userActions";
 const BarbersList = ({ setContentVisible }) => {
   const { city, neighborhood } = useParams();
@@ -15,20 +15,23 @@ const BarbersList = ({ setContentVisible }) => {
   const itemsPerPage = 10;
   const dispatch = useDispatch();
   const barberData = useSelector((state) => state.auth.barberByNeighborhood);
-  const dataFetched = useSelector((state) => state.auth.dataFetched);
+  // const dataFetched = useSelector((state) => state.auth.dataFetched);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    try{
-      dispatch(getBarberByNeighborhood(city, neighborhood));
-    setContentVisible(true);
-    }
-    catch (error) { console.error('err :>> ', error)
-  } finally {
-    setLoading(false); // Set loading to false once the data is fetched or if there's an error
-  }
-
-    
+    const fetchData = async () => {
+      try {
+        await dispatch(getBarberByNeighborhood(city, neighborhood));
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setError(error.response?.data?.message || "An error occurred");
+        setLoading(false);
+      }
+    };
+    fetchData();
+    setContentVisible(true); // Assuming setContentVisible is a function passed as a prop
   }, [dispatch, city, neighborhood, setContentVisible]);
 
   const startIndex = currentPage * itemsPerPage;
@@ -43,11 +46,16 @@ const BarbersList = ({ setContentVisible }) => {
     navigate(`/barbers/${city}/${neighborhood}/${barberId}`);
   };
 
-  if ( !dataFetched) {
+  if (loading) {
     // Display the loading spinner while the data is being fetched
-    return <div className="d-flex justify-content-center align-items-center vh-100">
-      <ClipLoader color={"#123abc"} loading={loading}  size={170} />;
-    </div>
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <ClipLoader color={"#123abc"} loading={loading} size={170} />;
+      </div>
+    );
+  }
+  if (error) {
+    return <Alert variant="danger">Error: {error}</Alert>;
   }
   // if (!dataFetched) {
   //   return <div className="min-vh-100">An Error Occured during fetching</div>;
@@ -67,21 +75,21 @@ const BarbersList = ({ setContentVisible }) => {
           <hr />
         </div>
 
-        
-     
-      <div className="d-flex justify-content-center align-items-center flex-column mb-4">
-        {displayedBarbers.map((barber) => (
-          <div
-            key={barber._id}
-            onClick={() => handleBarberCardClick(barber._id)}
-            style={{ cursor: "pointer" }}
-          >
-            <BarberCard barber={barber} city={city} neighborhood={neighborhood} />
-          </div>
-        ))}
-      </div>
-   
-     
+        <div className="d-flex justify-content-center align-items-center flex-column mb-4">
+          {displayedBarbers.map((barber) => (
+            <div
+              key={barber._id}
+              onClick={() => handleBarberCardClick(barber._id)}
+              style={{ cursor: "pointer" }}
+            >
+              <BarberCard
+                barber={barber}
+                city={city}
+                neighborhood={neighborhood}
+              />
+            </div>
+          ))}
+        </div>
 
         <ReactPaginate
           pageCount={Math.ceil(barberData.length / itemsPerPage)}

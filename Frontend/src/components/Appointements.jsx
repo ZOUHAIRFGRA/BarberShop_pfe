@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAppointments } from "../actions/userActions";
 import axios from 'axios'
+import { Alert } from "react-bootstrap";
+import { ClipLoader } from "react-spinners";
 const Appointements = () => {
   // const dispatch = useDispatch();
   // const appointments = useSelector((state) => state.auth.appointements);
   const [appointments,setAppointments] = useState([])
-  console.log(appointments)
+  // console.log(appointments)
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -27,13 +29,14 @@ const Appointements = () => {
     fetchData();
   }, []);
 
-
   if (loading) {
-    return <div>Loading...</div>;
+    // Display the loading spinner while the data is being fetched
+    return <div className="d-flex justify-content-center align-items-center vh-100">
+      <ClipLoader color={"#123abc"} loading={loading}  size={170} />;
+    </div>
   }
-
   if (error) {
-    return <div>Error: {error}</div>;
+    return <Alert variant="danger">Error: {error}</Alert>;
   }
 
   return (

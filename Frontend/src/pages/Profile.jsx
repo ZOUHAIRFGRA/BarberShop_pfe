@@ -2,50 +2,49 @@ import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import UpdateProfile from "../components/UpdateProfile";
 import Appointements from "../components/Appointements";
-import  axios  from "axios";
-
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUser } from "../actions/userActions";
+import { Alert } from "react-bootstrap";
+import { ClipLoader } from "react-spinners";
 const Profile = ({ setContentVisible }) => {
   const [currentContent, setCurrentContent] = useState("");
-  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.userData);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchUser());
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setError(error.response?.data?.message || "An error occurred");
+        setLoading(false);
+      }
+    };
+    fetchData();
     setContentVisible(true);
-  }, [setContentVisible]);
+  }, [dispatch, setContentVisible]);
 
   const handleLinkClick = (content) => {
     setCurrentContent(content);
   };
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        // Make API request to fetch user profile
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/user/profile`, { withCredentials: true });
-        console.log(response)
-        // Set user data in state
-        setUser(response.data.user);
-        setLoading(false);
-      } catch (error) {
-        // Handle error
-        console.log(error)
-        setError(error.response.data.message);
-        setLoading(false);
-      }
-    };
-
-    fetchUserProfile();
-  }, []);
   if (loading) {
-    return <div>Loading...</div>;
+    // Display the loading spinner while the data is being fetched
+    return <div className="d-flex justify-content-center align-items-center vh-100">
+      <ClipLoader color={"#123abc"} loading={loading}  size={170} />;
+    </div>
+  }
+  if (error) {
+    return <Alert variant="danger">Error: {error}</Alert>;
   }
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+
   // eslint-disable-next-line no-unused-vars
-  const {name,email,CIN,address,phoneNumber,username} = user
+  const { name, email, CIN, address, phoneNumber, username } = user;
   const renderMainContent = () => {
     switch (currentContent) {
       case "profile":
@@ -99,9 +98,8 @@ const Profile = ({ setContentVisible }) => {
             />
             <div className="d-flex flex-column">
               <h4 className="mt-4">{name}</h4>
-            <p className="">{phoneNumber}</p>
+              <p className="">{phoneNumber}</p>
             </div>
-            
           </div>
           <ul className="link-list">
             <li

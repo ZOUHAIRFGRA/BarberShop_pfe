@@ -181,7 +181,7 @@ useEffect(()=>{console.log(slots)},[slots])
             <p>Appointment confirmed for {bookingStatus.date}</p>
             <Button
               variant="primary"
-              onClick={() => (navigate("/appointment"))}
+              onClick={() => (navigate("/profile"))}
             >
               Show Appointment
             </Button>

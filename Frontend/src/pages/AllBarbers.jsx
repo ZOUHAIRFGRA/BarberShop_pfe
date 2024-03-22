@@ -3,20 +3,37 @@ import ReactPaginate from "react-paginate";
 import BarberCard from "../components/BarberCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faHome } from "@fortawesome/free-solid-svg-icons";
-import { Link ,useNavigate} from "react-router-dom";
-import { connect } from "react-redux";
-import { fetchBarbers } from "../actions/userActions"; 
-const AllBarbers = ({ setContentVisible, barbers, fetchBarbers}) => {
-    const navigate = useNavigate();
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBarbers } from "../actions/userActions";
+import { Alert } from "react-bootstrap";
+import { ClipLoader } from "react-spinners";
+
+const AllBarbers = ({ setContentVisible }) => {
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10;
-
+  const dispatch = useDispatch();
+  const barbers = useSelector((state) => state.auth.barbers);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   useEffect(() => {
-    // Dispatch fetchBarbers action on component mount
-    fetchBarbers();
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchBarbers());
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setError(error.response?.data?.message || "An error occurred");
+        setLoading(false);
+      }
+    };
+    fetchData();
     setContentVisible(true); // Assuming setContentVisible is a function passed as a prop
-  }, [setContentVisible, fetchBarbers]);
-
+  }, [setContentVisible, dispatch]);
+  // useEffect(() => {
+  //   console.log("barber from com", barbers);
+  // }, [barbers]);
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const displayedBarbers = barbers.slice(startIndex, endIndex);
@@ -28,6 +45,16 @@ const AllBarbers = ({ setContentVisible, barbers, fetchBarbers}) => {
   const handleBarberCardClick = (barberId) => {
     navigate(`/barberDetails/${barberId}`);
   };
+
+  if (loading) {
+    // Display the loading spinner while the data is being fetched
+    return <div className="d-flex justify-content-center align-items-center vh-100">
+      <ClipLoader color={"#123abc"} loading={loading}  size={170} />;
+    </div>
+  }
+  if (error) {
+    return <Alert variant="danger">Error: {error}</Alert>;
+  }
 
   return (
     <>
@@ -80,13 +107,4 @@ const AllBarbers = ({ setContentVisible, barbers, fetchBarbers}) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  barbers: state.auth.barbers, // Assuming you have a barbers array in your auth state
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchBarbers: () => dispatch(fetchBarbers()), // Connect the fetchBarbers action to the component's props
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AllBarbers);
-
+export default AllBarbers;

@@ -27,18 +27,26 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_USER_REQUEST:
-    case 'LOAD_USER_REQUEST':
-        return {
-            loading: true,
-            isAuthenticated: false,
-        };
+    case "LOAD_USER_REQUEST":
+      return {
+        loading: true,
+        isAuthenticated: false,
+      };
     case LOGIN_USER_SUCCESS:
+    case "LOAD_USER_SUCCESS":
       return {
         ...state,
         loading: false,
         isAuthenticated: true,
         user: action.payload,
         error: null,
+      };
+    case "LOAD_USER_FAIL":
+      return {
+        loading: false,
+        isAuthenticated: false,
+        user: null,
+        error: action.payload,
       };
     case LOGIN_USER_FAIL:
       return {
@@ -132,6 +140,17 @@ const userReducer = (state = initialState, action) => {
         loading: false,
         isAuthenticated: false,
         user: null,
+        error: action.payload,
+      };
+    case "UPDATE_USER_SUCCESS":
+      return {
+        ...state,
+        userData: { ...state.userData, message: action.payload },
+        error: null,
+      };
+    case "UPDATE_USER_FAIL":
+      return {
+        ...state,
         error: action.payload,
       };
     case "FETCH_REVIEWS_SUCCESS":
