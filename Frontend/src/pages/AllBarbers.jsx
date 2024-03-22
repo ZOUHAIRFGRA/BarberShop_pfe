@@ -72,7 +72,7 @@ const AllBarbers = ({ setContentVisible }) => {
           {displayedBarbers.map((barber, index) => (
             <div
               key={index}
-              onClick={() => handleBarberCardClick(barber.id)}
+              onClick={() => handleBarberCardClick(barber._id)}
               style={{ cursor: "pointer" }}
             >
               <BarberCard barber={barber} />
