@@ -1,22 +1,44 @@
-import React from "react";
+import { useRef, useEffect } from 'react';
+import L from 'leaflet';
+import markerIcon from 'leaflet/dist/images/marker-icon.png'; 
 
-function App() {
-  return (
-    <div className="card">
-      <div className="App">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d53183.14994985655!2d-7.63970056367578!3d33.58072865725071!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7d3a9223b51f5%3A0x55d379e0d8106412!2sThe%20BARBER%20SHOP%20-%20CASABLANCA%20(%20STAR%20)!5e0!3m2!1sen!2sus!4v1705086115581!5m2!1sen!2sus"
-          title="Barber Shop Location"
-          width="100%"
-          height="300"
-          style={{ borderRadius: 5 }}
-          allowFullScreen=""
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
-      </div>
-    </div>
-  );
-}
+const BarberLocationMap = ({latitude,longitude,address}) => {
+  const mapRef = useRef(null);
 
-export default App;
+  useEffect(() => {
+    if (!mapRef.current) {
+      mapRef.current = L.map('map').setView([latitude || 33.545973, longitude || -7.624513], 10);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(mapRef.current);
+    }
+
+    // Clear existing markers
+    mapRef.current.eachLayer(layer => {
+      if (layer instanceof L.Marker) {
+        mapRef.current.removeLayer(layer);
+      }
+    });
+
+    // Create a custom icon
+    const customIcon = L.icon({
+      iconUrl: markerIcon, // Use the imported marker icon image
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      tooltipAnchor: [16, -28],
+      shadowSize: [41, 41]
+    });
+
+    // Add marker to the map with custom icon
+    if (latitude && longitude) {
+      L.marker([latitude, longitude], { icon: customIcon }).addTo(mapRef.current)
+        .bindPopup(address || 'Barber Location')
+        .openPopup();
+    }
+  }, [latitude, longitude, address]);
+
+  return <div id="map" style={{ height: '300px', width: '100%' }} />;
+};
+
+export default BarberLocationMap;

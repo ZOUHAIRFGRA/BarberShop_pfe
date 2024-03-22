@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import { getBarberById } from '../actions/userActions';
+import { useDispatch, useSelector } from "react-redux";
+import { getBarberById } from "../actions/userActions";
 import { Link, useParams } from "react-router-dom";
 import WorkingHoursCard from "../components/WorkingHoursCard";
-import Location from "../components/localisation";
+import BarberLocationMap from "../components/localisation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import AOS from "aos";
@@ -19,8 +19,8 @@ AOS.init({
 const BarberDetails = ({ setContentVisible }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const selectedBarber = useSelector(state => state.auth.selectedBarber);
-  const dataFetched = useSelector(state => state.auth.dataFetched);
+  const selectedBarber = useSelector((state) => state.auth.selectedBarber);
+  const dataFetched = useSelector((state) => state.auth.dataFetched);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -38,16 +38,13 @@ const BarberDetails = ({ setContentVisible }) => {
     fetchData();
   }, [dispatch, id, setContentVisible]);
 
-  
-
-  
-
-
   if (loading) {
     // Display the loading spinner while the data is being fetched
-    return <div className="d-flex justify-content-center align-items-center vh-100">
-      <ClipLoader color={"#123abc"} loading={loading}  size={170} />;
-    </div>
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <ClipLoader color={"#123abc"} loading={loading} size={170} />;
+      </div>
+    );
   }
   if (!selectedBarber) {
     // Handle the case where the selected barber is not found
@@ -72,47 +69,52 @@ const BarberDetails = ({ setContentVisible }) => {
     reviews,
     availableSlots,
   } = selectedBarber;
-  console.log(city)
+  // console.log(city)
 
   return (
     <>
       <div className="container">
         {/* {selectedBarber && ( */}
-          <>
-            <div className="row">
-              <ServicesSection
-                barberId = {_id}
-                address={address}
-                city={city}
-                image={image}
-                name={name}
-                averageRating={averageRating.toFixed(1)}
-                numberOfReviews={numberOfReviews}
-                services={services}
-                slots= {availableSlots}
-                workingHours = {workingHours}
-              />
-              <div className="col-md-4 col-sm-12">
-                <Location />
+        <>
+          <div className="row">
+            <ServicesSection
+              barberId={_id}
+              address={address}
+              city={city}
+              image={image}
+              name={name}
+              averageRating={averageRating.toFixed(1)}
+              numberOfReviews={numberOfReviews}
+              services={services}
+              slots={availableSlots}
+              workingHours={workingHours}
+            />
+            <div className="col-md-4 col-sm-12">
+              <BarberLocationMap />
+              
                 <WorkingHoursCard workingHours={workingHours} phone={phone} />
-              </div>
-            </div>
-            <br />
-            <div className="row">
-              <div className="col-md-8">
-                <RatingSection
-                  rating={averageRating.toFixed(1)}
-                  reviewCount={numberOfReviews}
-                  reviews={reviews}
-                />
 
-                <br />
-                <hr />
-                {/* Reviews comment section */}
-                <ReviewsCommentSection rating={averageRating.toFixed(1)} reviews={reviews} />
-              </div>
             </div>
-          </>
+          </div>
+          <br />
+          <div className="row">
+            <div className="col-md-8">
+              <RatingSection
+                rating={averageRating.toFixed(1)}
+                reviewCount={numberOfReviews}
+                reviews={reviews}
+              />
+
+              <br />
+              <hr />
+              {/* Reviews comment section */}
+              <ReviewsCommentSection
+                rating={averageRating.toFixed(1)}
+                reviews={reviews}
+              />
+            </div>
+          </div>
+        </>
         {/* )} */}
         {/* Pagination */}
 
