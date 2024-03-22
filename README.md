@@ -86,6 +86,22 @@ Start the server
 ```bash
   npm start
 ```
+Go to the Back End directory
+
+```bash
+  cd Backend
+```
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run dev
+```
 
 
 ## Deployment
