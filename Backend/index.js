@@ -13,13 +13,20 @@ const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db')
 // Initialize express app
 const app = express();
-
+// On Master Branch :
 // Middleware
 app.use(cors({
   origin: 'http://localhost:3000', // Replace with the origin of your frontend application
   credentials: true ,
   // Allow credentials (cookies) to be sent and received
 }));
+// On main branch
+// Middleware
+/* app.use(cors({
+  origin: 'https://barber-shop-pfe.vercel.app', // Replace with the origin of your frontend application
+  credentials: true ,
+  // Allow credentials (cookies) to be sent and received
+})); */
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
