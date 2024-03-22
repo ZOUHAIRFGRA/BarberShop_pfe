@@ -1,21 +1,9 @@
 import axios from 'axios';
-import {
-  LOGIN_USER_REQUEST,
-  LOGIN_USER_SUCCESS,
-  LOGIN_USER_FAIL,
-  LOGOUT_USER_SUCCESS,
-  LOGOUT_USER_FAIL,
-  FETCH_CITIES_SUCCESS,
-  FETCH_CITIES_FAIL,
-  FETCH_ALL_BARBERS_SUCCESS,
-  FETCH_ALL_BARBERS_FAIL
-  
-} from '../constants/userConstants';
 const API_URL = process.env.REACT_APP_API_URL;
 // Login User Action
 export const loginUser = (email, password) => async (dispatch) => {
   try {
-    dispatch({ type: LOGIN_USER_REQUEST });
+    dispatch({ type: "LOGIN_USER_REQUEST" });
 
     const config = {
       headers: {
@@ -26,13 +14,13 @@ export const loginUser = (email, password) => async (dispatch) => {
 
     const { data } = await axios.post(`${API_URL}/auth/login`, { email, password }, config);
     dispatch({
-      type: LOGIN_USER_SUCCESS,
+      type: "LOGIN_USER_SUCCESS",
       payload: data.user
     });
     console.log(data.user)
   } catch (error) {
     dispatch({
-      type: LOGIN_USER_FAIL,
+      type: "LOGIN_USER_FAIL",
       payload: error.response.data.message
     });
   }
@@ -42,9 +30,9 @@ export const loginUser = (email, password) => async (dispatch) => {
 export const logoutUser = () => async (dispatch) => {
   try {
     await axios.get(`${API_URL}/auth/logout`);
-    dispatch({ type: LOGOUT_USER_SUCCESS });
+    dispatch({ type: "LOGOUT_USER_SUCCESS" });
   } catch (error) {
-    dispatch({ type: LOGOUT_USER_FAIL, payload: error.response.data.message });
+    dispatch({ type: "LOGOUT_USER_FAIL", payload: error.response.data.message });
   }
 };
 
@@ -53,9 +41,9 @@ export const fetchCities = () => async (dispatch) => {
   try {
     const response = await axios.get(`${API_URL}/user/cities`);
     const data = response.data;
-    dispatch({ type: FETCH_CITIES_SUCCESS, payload: data });
+    dispatch({ type: "FETCH_CITIES_SUCCESS", payload: data });
   } catch (error) {
-    dispatch({ type: FETCH_CITIES_FAIL, payload: error.message });
+    dispatch({ type: "FETCH_CITIES_FAIL", payload: error.message });
   }
 };
 export const fetchBarbers = () => async (dispatch) => {
@@ -64,9 +52,9 @@ export const fetchBarbers = () => async (dispatch) => {
     // console.log('barbers',response)
     const data = response.data;
     // console.log(data)
-    dispatch({ type: FETCH_ALL_BARBERS_SUCCESS, payload: data });
+    dispatch({ type: "FETCH_ALL_BARBERS_SUCCESS", payload: data });
   } catch (error) {
-    dispatch({ type: FETCH_ALL_BARBERS_FAIL, payload: error.message });
+    dispatch({ type: "FETCH_ALL_BARBERS_FAIL", payload: error.message });
     console.log(error.message)
   }
 };

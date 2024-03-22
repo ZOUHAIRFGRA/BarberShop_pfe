@@ -47,6 +47,8 @@ const ServiceModalBook = ({
   
   
 useEffect(()=>{console.log(slots)},[slots])
+
+
   const handleSlotSelection = (slotId, slotDate, slotStatus) => {
     if (!isPastTime(slotDate) || slotStatus !== "booked") {
       setSelectedSlot(slotId);
@@ -170,6 +172,24 @@ useEffect(()=>{console.log(slots)},[slots])
     const selectedSlotObj = slots.find(slot => slot._id === selectedSlot);
     return selectedSlotObj ? selectedSlotObj.time : '';
   };
+  const sortedSlots = slots.slice().sort((a, b) => {
+    // Convert time strings to Date objects for comparison
+    const timeA = new Date(`01/01/2020 ${a.time}`);
+    const timeB = new Date(`01/01/2020 ${b.time}`);
+    return timeA - timeB;
+  });
+  console.log("sortedSlots",sortedSlots)
+
+  const isSlotDisabled = (slot, selectedDay, isPastTime) => {
+    const dayAvailability = slot.availableDays.find(
+      (day) => day.dayOfWeek === selectedDay
+    );
+    return (
+      dayAvailability &&
+      (dayAvailability.status === "booked" ||
+        (isPastTime(slot.time) && selectedDay === new Date().toLocaleDateString("en-US", { weekday: "long" })))
+    );
+  };
   return (
     <Modal show={show} onHide={handleClose} dialogClassName="modal-xl">
       <Modal.Header closeButton>
@@ -223,33 +243,19 @@ useEffect(()=>{console.log(slots)},[slots])
               ))}
             </div>
             <div className="carousel">
-              {slots.map((slot) => (
+              {sortedSlots.map((slot) => (
                 <div
-                  key={slot._id}
-                  id="carousel-item"
-                  className={` ${
-                    slot.status === "booked"
-                      ? "disabled"
-                      : isPastTime(slot.time) &&
-                        selectedDay ===
-                          new Date().toLocaleDateString("en-US", {
-                            weekday: "long",
-                          })
-                      ? "disabled text-decoration-line-through pe-none"
-                      : "active"
-                  }`}
-                  onClick={() => {
-                    handleSlotSelection(slot._id, slot.time, slot.status);
-                    console.log(slot.time);
-                  }}
-                  style={{
-                    backgroundColor:
-                      selectedSlot === slot._id ? "lightblue" : "white",
-                    textDecoration:
-                      slot.status === "booked" ? "line-through" : "none",
-                      
-                  }}
-                >
+                key={slot._id}
+                id="carousel-item"
+                className={` ${
+                  isSlotDisabled(slot, selectedDay, isPastTime) ? "disabled" : "active"
+                }`}
+                onClick={() => handleSlotSelection(slot._id, slot.time, slot.status)}
+                style={{
+                  backgroundColor: selectedSlot === slot._id ? "lightblue" : "white",
+                  textDecoration: isSlotDisabled(slot, selectedDay, isPastTime) ? "line-through" : "none",
+                }}
+              >
                   {slot.time}
                 </div>
               ))}
