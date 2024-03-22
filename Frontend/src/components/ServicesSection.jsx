@@ -20,7 +20,6 @@ const ServicesSection = ({
 }) => {
   const [redirectTimer, setRedirectTimer] = useState(3);
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-  console.log(isAuthenticated)
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const filteredServices = services.filter((service) =>

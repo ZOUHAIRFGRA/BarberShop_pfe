@@ -61,10 +61,13 @@ export const fetchCities = () => async (dispatch) => {
 export const fetchBarbers = () => async (dispatch) => {
   try {
     const response = await axios.get(`${API_URL}/user/barbers`);
+    // console.log('barbers',response)
     const data = response.data;
+    // console.log(data)
     dispatch({ type: FETCH_ALL_BARBERS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: FETCH_ALL_BARBERS_FAIL, payload: error.message });
+    console.log(error.message)
   }
 };
 export const getBarberById = (barberId) => async (dispatch) => {
@@ -106,10 +109,31 @@ export const fetchAppointments = () => async (dispatch) => {
 export const fetchUser = () => async (dispatch) => {
   try {
     const response = await axios.get(`${API_URL}/user/profile`, { withCredentials: true });
-    console.log(response)
+    // console.log(response)
     dispatch({ type: 'FETCH_USER_SUCCESS', payload:response.data.user });
   } catch (error) {
     dispatch({ type: 'FETCH_USER_FAIL', payload: error.message });
+  }
+};
+
+
+export const updateUser = (userData) => async (dispatch) => {
+  try {
+    const response = await axios.put(`${API_URL}/user/updateProfile`, userData, { withCredentials: true });
+    dispatch({ type: 'UPDATE_USER_SUCCESS', payload: response.data.message });
+  } catch (error) {
+    dispatch({ type: 'UPDATE_USER_FAIL', payload: error.message });
+  }
+};
+
+
+export const loadUser = () => async (dispatch) => {
+  try {
+    const response = await axios.get(`${API_URL}/user/profile`, { withCredentials: true });
+    // console.log(response)
+    dispatch({ type: 'LOAD_USER_SUCCESS', payload:response.data.user });
+  } catch (error) {
+    dispatch({ type: 'LOAD_USER_FAIL', payload: error.message });
   }
 };
 export const fetchReviews = () => async (dispatch) => {

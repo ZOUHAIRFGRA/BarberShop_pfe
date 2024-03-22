@@ -8,7 +8,7 @@ const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 const Service = require("../models/serviceModel");
 const Slot = require("../models/slotModel");
-const catchAsync = require('../middlewares/catchAsync');
+const catchAsync = require("../middlewares/catchAsync");
 
 // Get all barbers
 
@@ -33,7 +33,6 @@ const getAllBarbers = catchAsync(async (req, res) => {
   }
 });
 
-
 // Get promoted barbers
 const getPromotedBarbers = catchAsync(async (req, res) => {
   try {
@@ -45,10 +44,11 @@ const getPromotedBarbers = catchAsync(async (req, res) => {
           path: "user",
           select: "username", // Specify the fields you want to include
         },
-      }).populate("services")
+      })
+      .populate("services")
       .populate("availableSlots")
       .populate("city")
-       // This will populate the 'reviews' field with actual review objects
+      // This will populate the 'reviews' field with actual review objects
       .exec();
 
     // Filter only promoted barbers
@@ -117,7 +117,8 @@ const getBarbersByNeighborhood = catchAsync(async (req, res) => {
           path: "user",
           select: "username", // Specify the fields you want to include
         },
-      }).populate("services")
+      })
+      .populate("services")
       .populate("availableSlots")
       .populate("city")
       .exec();
@@ -142,10 +143,9 @@ const getBarberById = catchAsync(async (req, res) => {
         },
       })
       .populate("services")
-      .populate("city")
+      .populate("city");
 
-      // .populate("availableSlots")
-     
+    // .populate("availableSlots")
 
     if (!barber) {
       return res.status(404).json({ message: "Barber not found" });
@@ -157,8 +157,6 @@ const getBarberById = catchAsync(async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
-;
-
 const addReviewToBarber = catchAsync(async (req, res) => {
   // Validate request
   const errors = validationResult(req);
@@ -223,7 +221,9 @@ const getAllReviews = catchAsync(async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-});// bookAppointment controlle)r
+}); 
+// bookAppointment controller
+
 const bookAppointment = catchAsync(async (req, res) => {
   try {
     // Validate request
@@ -232,7 +232,8 @@ const bookAppointment = catchAsync(async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { barberId, serviceId, selectedSlot, selectedDay,selectedDayDate } = req.body;
+    const { barberId, serviceId, selectedSlot, selectedDay, selectedDayDate } =
+      req.body;
 
     // Check if the barber exists
     const barber = await Barber.findById(barberId);
@@ -255,14 +256,23 @@ const bookAppointment = catchAsync(async (req, res) => {
     }
 
     // Find the day entry for the selected day
-    const selectedDayEntry = slot.availableDays.find(day => day.dayOfWeek === selectedDay);
+    const selectedDayEntry = slot.availableDays.find(
+      (day) => day.dayOfWeek === selectedDay
+    );
     if (!selectedDayEntry) {
-      return res.status(400).json({ message: "Selected day not found in slot available days" });
+      return res
+        .status(400)
+        .json({ message: "Selected day not found in slot available days" });
     }
 
     // Check if the slot is available on the selected day
-    if (selectedDayEntry.status === 'booked') {
-      return res.status(400).json({ message: "Selected slot is not available for booking on the chosen day." });
+    if (selectedDayEntry.status === "booked") {
+      return res
+        .status(400)
+        .json({
+          message:
+            "Selected slot is not available for booking on the chosen day.",
+        });
     }
 
     // Create the appointment
@@ -272,14 +282,16 @@ const bookAppointment = catchAsync(async (req, res) => {
       service: serviceId,
       appointmentTime: selectedSlot,
       selectedDay: selectedDay, // Include the selected day
-      selectedDayDate : selectedDayDate,
+      selectedDayDate: selectedDayDate,
     });
 
     // Update the status of the selected day for the slot to "booked"
     selectedDayEntry.status = "booked";
     await slot.save();
 
-    res.status(201).json({ message: "Appointment booked successfully", appointment });
+    res
+      .status(201)
+      .json({ message: "Appointment booked successfully", appointment });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -294,28 +306,32 @@ const getSlotsByBarberId = catchAsync(async (req, res) => {
     const slots = await Slot.find({ barber: barberId });
 
     if (!slots || slots.length === 0) {
-      return res.status(404).json({ message: 'No slots found for this barber' });
+      return res
+        .status(404)
+        .json({ message: "No slots found for this barber" });
     }
 
     res.json({ availableSlots: slots });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
-const getAppointements =  catchAsync(async (req, res) => {
+const getAppointements = catchAsync(async (req, res) => {
   try {
     // Get the user ID from the decoded token
     const userId = req.user.id;
 
     // Query appointments for the user
-    const appointments = await Appointment.find({ user: userId }).populate('barber').populate('service');
+    const appointments = await Appointment.find({ user: userId })
+      .populate("barber")
+      .populate("service");
 
     res.status(200).json({ success: true, appointments });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 });
 
@@ -329,16 +345,20 @@ const getProfile = catchAsync(async (req, res) => {
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found' });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
     res.status(200).json({ success: true, user });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 });
 // Route to update user profile partially
+const bcrypt = require('bcrypt');
+
 const updateProfile = catchAsync(async (req, res) => {
   try {
     // Get the user ID from the decoded token
@@ -353,28 +373,42 @@ const updateProfile = catchAsync(async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
+    // Check if the username is being updated and if it's already taken
+    if (fieldsToUpdate.username) {
+      const existingUser = await User.findOne({ username: fieldsToUpdate.username });
+      if (existingUser && existingUser._id.toString() !== userId) {
+        return res.status(400).json({ message: "Username is already taken" });
+      }
+    }
+
     // Find the user by ID
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     // Update each field provided in the request body
-    Object.keys(fieldsToUpdate).forEach((field) => {
-      user[field] = fieldsToUpdate[field];
+    Object.keys(fieldsToUpdate).forEach(async (field) =>{
+      if (field === 'password') {
+        // If updating password, hash the new password
+        const newPassword = fieldsToUpdate[field];
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user[field] = hashedPassword;
+      } else {
+        user[field] = fieldsToUpdate[field];
+      }
     });
 
     // Save the updated user
     await user.save();
 
-    res.json({ message: 'User profile updated successfully', user });
+    res.json({ message: "User profile updated successfully", user });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
 
 
 module.exports = {
@@ -390,5 +424,5 @@ module.exports = {
   bookAppointment,
   getAppointements,
   getProfile,
-  updateProfile
+  updateProfile,
 };

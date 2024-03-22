@@ -46,7 +46,7 @@ const ServiceModalBook = ({
   }, [show, barberId, dispatch]);
   
   
-
+useEffect(()=>{console.log(slots)},[slots])
   const handleSlotSelection = (slotId, slotDate, slotStatus) => {
     if (!isPastTime(slotDate) || slotStatus !== "booked") {
       setSelectedSlot(slotId);
@@ -92,7 +92,7 @@ const ServiceModalBook = ({
  
 
   const handleBookAppointment = async () => {
-    if (selectedSlot && selectedDay) {
+    if (selectedSlot && selectedDay && selectedDayDate) {
       try {
         
         const selectedSlotObj = slots.find(slot => slot._id === selectedSlot);
@@ -159,7 +159,8 @@ const ServiceModalBook = ({
   useEffect(() => {
     // Set selected day to today by default
     const today = new Date().toLocaleDateString("en-US", { weekday: "long" });
-    handleDaySelection(today);
+    handleDaySelection(today)
+    // setSelectedDay(today);
   }, []);
   const getSelectedSlotTime = () => {
     if (!selectedSlot || !slots) {
@@ -169,8 +170,6 @@ const ServiceModalBook = ({
     const selectedSlotObj = slots.find(slot => slot._id === selectedSlot);
     return selectedSlotObj ? selectedSlotObj.time : '';
   };
- 
-
   return (
     <Modal show={show} onHide={handleClose} dialogClassName="modal-xl">
       <Modal.Header closeButton>
@@ -182,7 +181,7 @@ const ServiceModalBook = ({
             <p>Appointment confirmed for {bookingStatus.date}</p>
             <Button
               variant="primary"
-              onClick={() => (navigate("/appointment"))}
+              onClick={() => (navigate("/profile"))}
             >
               Show Appointment
             </Button>
@@ -206,8 +205,8 @@ const ServiceModalBook = ({
                   onClick={() => {
                     if (!isPastDay(day.dayOfWeek)) {
                       handleDaySelection(day.dayOfWeek);
-                      console.log(selectedDay)
-                      console.log(selectedDayDate)
+                      // console.log(selectedDay)
+                      // console.log(selectedDayDate)
                     }
                   }}
                   className={
