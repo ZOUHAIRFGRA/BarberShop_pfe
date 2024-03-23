@@ -19,8 +19,8 @@ AOS.init({
 const BarberDetails = ({ setContentVisible }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const selectedBarber = useSelector((state) => state.auth.selectedBarber);
-  const dataFetched = useSelector((state) => state.auth.dataFetched);
+  const selectedBarber = useSelector((state) => state.user.selectedBarber);
+  const dataFetched = useSelector((state) => state.user.dataFetched);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

@@ -6,7 +6,7 @@ import { Alert } from "react-bootstrap";
 import { ClipLoader } from "react-spinners";
 const Appointements = () => {
   // const dispatch = useDispatch();
-  // const appointments = useSelector((state) => state.auth.appointements);
+  // const appointments = useSelector((state) => state.user.appointements);
   const [appointments,setAppointments] = useState([])
   // console.log(appointments)
   const [loading, setLoading] = useState(true);

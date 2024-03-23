@@ -27,7 +27,7 @@ const ServiceModalBook = ({
   const navigate = useNavigate();
 
   // Fetch available slots when the modal is shown
-  const slots = useSelector((state) => state.auth.slots);
+  const slots = useSelector((state) => state.user.slots);
 
   useEffect(() => {
     const fetchData = async () => {
