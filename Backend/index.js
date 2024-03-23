@@ -15,18 +15,18 @@ const connectDB = require('./config/db')
 const app = express();
 // On Master Branch :
 // Middleware
+// app.use(cors({
+//   origin: 'https://barber-shop-pfe.vercel.app', // Replace with the origin of your frontend application
+//   credentials: true ,
+//   // Allow credentials (cookies) to be sent and received
+// }));
+// On main branch
+// Middleware
 app.use(cors({
   origin: 'https://barber-shop-pfe.vercel.app', // Replace with the origin of your frontend application
   credentials: true ,
   // Allow credentials (cookies) to be sent and received
 }));
-// On main branch
-// Middleware
-/* app.use(cors({
-  origin: 'https://barber-shop-pfe.vercel.app', // Replace with the origin of your frontend application
-  credentials: true ,
-  // Allow credentials (cookies) to be sent and received
-})); */
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
