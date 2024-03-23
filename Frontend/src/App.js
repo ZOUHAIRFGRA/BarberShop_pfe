@@ -1,6 +1,6 @@
 // App.js
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes ,useLocation } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
@@ -12,45 +12,24 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import NoPage from "./pages/NoPage";
 import Profile from "./pages/Profile";
-import './App.css'
-import { useDispatch, useSelector } from 'react-redux';
-import {fetchUser, loadUser} from './actions/userActions'
-import PrivateRoute from './Routes/PrivateRoute';
+import "./App.css";
+import { useDispatch, useSelector } from "react-redux";
+import { loadUser } from "./actions/userActions";
+import PrivateRoute from "./Routes/PrivateRoute";
+import BarberInterface from "./components/barberComponents/BarberInterface";
+import BarberLogin from "./components/barberComponents/BarberLogin";
 
 // import { LOGIN_USER_SUCCESS } from "./constants/userConstants";
 // import Cookies from 'js-cookie';
 const App = () => {
-
   const dispatch = useDispatch();
-// console.log(process.env.REACT_APP_API_URL)
-  /* useEffect(() => {
-
-    const checkAuth = async () => {
-      try {
-        // Check if the authentication token exists in the cookie
-        // You might need to implement a function to read the token from the cookie
-        const token = Cookies.get('token');
-        console.log(token)
-        console.log(document.cookie) // Implement this function
-        if (token) {
-          // Dispatch LOGIN_USER_SUCCESS action if token exists
-          dispatch({ type: LOGIN_USER_SUCCESS });
-        }
-      } catch (error) {
-        console.error('Error checking authentication:', error);
-      }
-    };
-
-    checkAuth();
-  }, [dispatch]); */
+  // console.log(process.env.REACT_APP_API_URL)
   useEffect(() => {
     dispatch(loadUser());
   }, [dispatch]);
-  
-  const  isAuthenticated  = useSelector((state) => state.auth.isAuthenticated);
-// console.log(isAuthenticated)
 
-
+  const isAuthenticated = useSelector((state) => state.barber.isAuthenticated);
+ 
   const [contentVisible, setContentVisible] = useState(false);
   const { pathname } = useLocation();
   // always scroll to top on route/path change
@@ -58,9 +37,9 @@ const App = () => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
-  }, [pathname])
+  }, [pathname]);
   return (
     <>
       <div>
@@ -100,12 +79,15 @@ const App = () => {
             path="/login"
             element={<Login setContentVisible={setContentVisible} />}
           />
-         
-           <Route path="/profile" element={
-            <PrivateRoute>
-              <Profile setContentVisible={setContentVisible}/>
-            </PrivateRoute>
-          } />
+
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile setContentVisible={setContentVisible} />
+              </PrivateRoute>
+            }
+          />
           <Route
             path="/register"
             element={<Register setContentVisible={setContentVisible} />}
@@ -114,6 +96,18 @@ const App = () => {
             path="*"
             element={<NoPage setContentVisible={setContentVisible} />}
           />
+          <Route path="/barber-login" element={<BarberLogin />} />
+
+          {/* Protected routes for barber interface
+          <Route
+            path="/barber-interface"
+            element={
+              <PrivateRoute>
+                <BarberInterface />
+              </PrivateRoute>
+            }
+          /> */}
+          <Route path="/barber-interface/*" element={<BarberInterface />} />
         </Routes>
 
         <Footer contentVisible={contentVisible} />
