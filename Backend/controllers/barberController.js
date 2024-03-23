@@ -3,7 +3,6 @@ const Service = require("../models/serviceModel");
 const Slot = require("../models/slotModel");
 const { validationResult } = require("express-validator");
 const catchAsync = require('../middlewares/catchAsync');
-
 // Display barber profile
 const getBarberProfile = catchAsync(async (req, res) => {
   try {
@@ -49,6 +48,8 @@ const updateBarberProfile = catchAsync(async (req, res) => {
   }
 });
 
+
+
 // Add service to barber
 const addServiceToBarber = catchAsync(async (req, res) => {
   // Validate request
@@ -92,7 +93,7 @@ const addServiceToBarber = catchAsync(async (req, res) => {
 // Update service for a barber
 const updateServiceForBarber = catchAsync(async (req, res) => {
   try {
-    const { serviceId } = req.params;
+    const  serviceId  = req.params.id;
     const { name, price, duration, images } = req.body;
 
     // Find the barber using the token
@@ -135,7 +136,7 @@ const updateServiceForBarber = catchAsync(async (req, res) => {
 // Delete service for a barber
 const deleteServiceForBarber = catchAsync(async (req, res) => {
   try {
-    const { serviceId } = req.params;
+    const  serviceId  = req.params.id;
 
     // Find the barber using the token
     const barberId = req.user.id;
@@ -184,6 +185,8 @@ const getAllServicesForBarber = catchAsync(async (req, res) => {
   }
 });
 
+
+
 // Create available slots for a barber
 const createAvailableSlots = catchAsync(async (req, res) => {
   // Validate request
@@ -230,12 +233,6 @@ const createAvailableSlots = catchAsync(async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
-
-
-
-
-
 
 // Delete a specific available slot for a barber
 const deleteAvailableSlot = catchAsync(async (req, res) => {
@@ -316,6 +313,8 @@ const getAllAvailableSlots = catchAsync(async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
+
 
 
 module.exports = {
