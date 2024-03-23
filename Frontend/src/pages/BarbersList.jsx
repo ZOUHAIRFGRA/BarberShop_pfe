@@ -14,8 +14,8 @@ const BarbersList = ({ setContentVisible }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10;
   const dispatch = useDispatch();
-  const barberData = useSelector((state) => state.auth.barberByNeighborhood);
-  // const dataFetched = useSelector((state) => state.auth.dataFetched);
+  const barberData = useSelector((state) => state.user.barberByNeighborhood);
+  // const dataFetched = useSelector((state) => state.user.dataFetched);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 

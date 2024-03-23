@@ -6,8 +6,8 @@ import { Form, Button, Row, Col, Modal } from "react-bootstrap";
 const UpdateProfile = () => {
   const dispatch = useDispatch();
 
-  const userData = useSelector((state) => state.auth.userData);
-  const error = useSelector((state) => state.auth.error);
+  const userData = useSelector((state) => state.user.userData);
+  const error = useSelector((state) => state.user.error);
 
   const [formData, setFormData] = useState({
     firstName: userData.firstName || "",

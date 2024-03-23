@@ -1,0 +1,203 @@
+import axios from 'axios';
+const API_URL = process.env.REACT_APP_API_URL;
+// Action Types
+export const FETCH_BARBER_PROFILE_SUCCESS = 'FETCH_BARBER_PROFILE_SUCCESS';
+export const FETCH_BARBER_PROFILE_FAILURE = 'FETCH_BARBER_PROFILE_FAILURE';
+export const UPDATE_BARBER_PROFILE_SUCCESS = 'UPDATE_BARBER_PROFILE_SUCCESS';
+export const UPDATE_BARBER_PROFILE_FAILURE = 'UPDATE_BARBER_PROFILE_FAILURE';
+export const ADD_SERVICE_SUCCESS = 'ADD_SERVICE_SUCCESS';
+export const ADD_SERVICE_FAILURE = 'ADD_SERVICE_FAILURE';
+export const FETCH_ALL_SERVICES_SUCCESS = 'FETCH_ALL_SERVICES_SUCCESS';
+export const FETCH_ALL_SERVICES_FAILURE = 'FETCH_ALL_SERVICES_FAILURE';
+export const DELETE_SERVICE_SUCCESS = 'DELETE_SERVICE_SUCCESS';
+export const DELETE_SERVICE_FAILURE = 'DELETE_SERVICE_FAILURE';
+export const CREATE_SLOTS_SUCCESS = 'CREATE_SLOTS_SUCCESS';
+export const CREATE_SLOTS_FAILURE = 'CREATE_SLOTS_FAILURE';
+export const DELETE_SLOT_SUCCESS = 'DELETE_SLOT_SUCCESS';
+export const DELETE_SLOT_FAILURE = 'DELETE_SLOT_FAILURE';
+export const UPDATE_SLOT_SUCCESS = 'UPDATE_SLOT_SUCCESS';
+export const UPDATE_SLOT_FAILURE = 'UPDATE_SLOT_FAILURE';
+export const FETCH_ALL_SLOTS_SUCCESS = 'FETCH_ALL_SLOTS_SUCCESS';
+export const FETCH_ALL_SLOTS_FAILURE = 'FETCH_ALL_SLOTS_FAILURE';
+
+// Action Creators
+export const loginBarber = (email, password) => async (dispatch) => {
+    try {
+    //   dispatch({ type: "LOGIN_BARBER_REQUEST" });
+  
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true // Send cookies along with the request
+      };
+  
+      const { data } = await axios.post(`${API_URL}/auth/login`, { email, password }, config);
+      dispatch({
+        type: "LOGIN_BARBER_SUCCESS",
+        payload: data.user
+      });
+      console.log(data)
+    } catch (error) {
+      dispatch({
+        type: "LOGIN_USER_FAIL",
+        payload: error.response.data.message
+      });
+    }
+  };
+  
+  export const registerBarber = (formData) => async (dispatch) => {
+    try {
+    //   dispatch({ type: 'REGISTER_BARBER_REQUEST' });
+  
+      const response = await axios.post(
+        `${API_URL}/auth/register/barber`,
+        formData
+      );
+  
+      dispatch({
+        type: 'REGISTER_BARBER_SUCCESS',
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: 'REGISTER_BARBER_FAIL',
+        payload: error.message,
+      });
+    }
+  };
+  // Logout User Action
+  export const logoutBarber = () => async (dispatch) => {
+    try {
+      await axios.get(`${API_URL}/auth/logout`, { withCredentials: true });
+      dispatch({ type: "LOGOUT_BARBER_SUCCESS" });
+    } catch (error) {
+      dispatch({ type: "LOGOUT_BARBER_FAIL", payload: error.response.data.message });
+    }
+  };
+
+  export const loadBarber = () => async (dispatch) => {
+    try {
+      const response = await axios.get(`${API_URL}/barber/getprofile`, { withCredentials: true });
+      console.log(response)
+      dispatch({ type: 'LOAD_BARBER_SUCCESS', payload:response.data.user });
+    } catch (error) {
+      dispatch({ type: 'LOAD_BARBER_FAILURE', payload: error.message });
+    }
+  };
+export const fetchBarberProfile = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${API_URL}/barber/getprofile`, { withCredentials: true });
+      dispatch({ type: FETCH_BARBER_PROFILE_SUCCESS, payload: response.data });
+    } catch (error) {
+      dispatch({ type: FETCH_BARBER_PROFILE_FAILURE, payload: error.message });
+    }
+  };
+};
+
+export const updateBarberProfile = (updatedProfile) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(`${API_URL}/barber/Updateprofile`, updatedProfile, { withCredentials: true });
+      dispatch({ type: UPDATE_BARBER_PROFILE_SUCCESS, payload: response.data });
+    } catch (error) {
+      dispatch({ type: UPDATE_BARBER_PROFILE_FAILURE, payload: error.message });
+    }
+  };
+};
+
+
+// Service Actions
+export const addServiceToBarber = (serviceData) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`${API_URL}/barber/add-service`, serviceData, { withCredentials: true });
+      dispatch({ type: ADD_SERVICE_SUCCESS, payload: response.data });
+    } catch (error) {
+      dispatch({ type: ADD_SERVICE_FAILURE, payload: error.message });
+    }
+  };
+};
+export const updateServiceForBarber = (serviceId, serviceData) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(`${API_URL}/barber/updateService/${serviceId}`, serviceData, { withCredentials: true });
+      dispatch({ type: "UPDATE_SERVICE_SUCCESS", payload: response.data });
+    } catch (error) {
+      dispatch({ type: "UPDATE_SERVICE_FAILURE", payload: error.message });
+    }
+  };
+};
+
+export const fetchAllServicesForBarber = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${API_URL}/barber/getServices`, { withCredentials: true });
+      dispatch({ type: FETCH_ALL_SERVICES_SUCCESS, payload: response.data });
+    } catch (error) {
+      dispatch({ type: FETCH_ALL_SERVICES_FAILURE, payload: error.message });
+    }
+  };
+};
+
+export const deleteServiceForBarber = (serviceId) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`${API_URL}/barber/deleteService/${serviceId}`, { withCredentials: true });
+      dispatch({ type: DELETE_SERVICE_SUCCESS, payload: serviceId });
+    } catch (error) {
+      dispatch({ type: DELETE_SERVICE_FAILURE, payload: error.message });
+    }
+  };
+};
+
+
+
+
+
+
+// Slot Actions
+export const createSlotsForBarber = (slotsData) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`${API_URL}/barber/createSlots`, slotsData, { withCredentials: true });
+      dispatch({ type: CREATE_SLOTS_SUCCESS, payload: response.data });
+    } catch (error) {
+      dispatch({ type: CREATE_SLOTS_FAILURE, payload: error.message });
+    }
+  };
+};
+
+export const deleteSlotForBarber = (slotId) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`${API_URL}/barber/deleteSlots/${slotId}`, { withCredentials: true });
+      dispatch({ type: DELETE_SLOT_SUCCESS, payload: slotId });
+    } catch (error) {
+      dispatch({ type: DELETE_SLOT_FAILURE, payload: error.message });
+    }
+  };
+};
+
+export const updateSlotForBarber = (slotId, updatedSlot) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(`${API_URL}/barber/updateSlots/${slotId}`, updatedSlot, { withCredentials: true });
+      dispatch({ type: UPDATE_SLOT_SUCCESS, payload: response.data });
+    } catch (error) {
+      dispatch({ type: UPDATE_SLOT_FAILURE, payload: error.message });
+    }
+  };
+};
+
+export const fetchAllSlotsForBarber = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${API_URL}/barber/getSlots`, { withCredentials: true });
+      dispatch({ type: FETCH_ALL_SLOTS_SUCCESS, payload: response.data });
+    } catch (error) {
+      dispatch({ type: FETCH_ALL_SLOTS_FAILURE, payload: error.message });
+    }
+  };
+};
