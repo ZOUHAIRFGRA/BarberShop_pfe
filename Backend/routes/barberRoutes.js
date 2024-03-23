@@ -27,11 +27,11 @@ router.post('/createSlots', authenticateUser, isBarber, createAvailableSlots);
 router.put('/updateSlots/:id', authenticateUser, isBarber, updateAvailableSlot);
 router.delete('/deleteSlots/:id', authenticateUser, isBarber, deleteAvailableSlot);
 router.get('/getSlots', authenticateUser, isBarber, getAllAvailableSlots);
-
-
 router.get('/getServices', authenticateUser, isBarber, getAllServicesForBarber);
-router.put('/updateService', authenticateUser, isBarber, updateServiceForBarber);
-router.delete('/deleteService', authenticateUser, isBarber, deleteServiceForBarber);
+
+
+router.put('/updateService/:id', authenticateUser, isBarber, updateServiceForBarber);
+router.delete('/deleteService/:id', authenticateUser, isBarber, deleteServiceForBarber);
 
 
 
