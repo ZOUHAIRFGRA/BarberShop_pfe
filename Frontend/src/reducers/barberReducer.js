@@ -24,6 +24,7 @@ const initialState = {
   services: [],
   slots: [],
   error: null,
+  appointments: [],
 };
 
 const barberReducer = (state = initialState, action) => {
@@ -78,12 +79,14 @@ const barberReducer = (state = initialState, action) => {
         profile: action.payload,
         error: null,
       };
-    case ADD_SERVICE_SUCCESS:
-      return {
-        ...state,
-        services: [...state.services, action.payload],
-        error: null,
-      };
+      case ADD_SERVICE_SUCCESS:
+        return {
+          ...state,
+          // Append the new service to the services array
+          services: [...state.services, action.payload],
+          error: null,
+        };
+      
     case FETCH_ALL_SERVICES_SUCCESS:
       return {
         ...state,
@@ -124,20 +127,48 @@ const barberReducer = (state = initialState, action) => {
         slots: action.payload,
         error: null,
       };
-    case "UPDATE_SERVICE_FOR_BARBER_SUCCESS":
-      return {
-        ...state,
-        // Update the services array with the updated service
-        services: state.services.map((service) =>
-          service._id === action.payload._id ? action.payload : service
-        ),
-        error: null,
-      };
-    case "UPDATE_SERVICE_FOR_BARBER_FAILURE":
-      return {
-        ...state,
-        error: action.payload,
-      };
+      case "UPDATE_SERVICE_SUCCESS":
+        console.log("Updated service payload:", action.payload);
+        return {
+          ...state,
+          // Update the services array with the updated service
+          services: state.services.map((service) =>
+            service._id === action.payload._id ? action.payload : service
+          ),
+          error: null,
+        };
+      case "UPDATE_SERVICE_FAILURE":
+        console.error("Update service failure:", action.payload);
+        return {
+          ...state,
+          error: action.payload,
+        };
+        case "FETCH_ALL_APPOINTMENTS_SUCCESS":
+          return {
+            ...state,
+            appointments: action.payload,
+            error: null,
+          };
+        case "FETCH_ALL_APPOINTMENTS_FAILURE":
+          return {
+            ...state,
+            error: action.payload,
+          };
+        case "APPROVE_APPOINTMENT_SUCCESS":
+        case "REJECT_APPOINTMENT_SUCCESS":
+          return {
+            ...state,
+            appointments: state.appointments.map((appointment) =>
+              appointment._id === action.payload._id ? action.payload : appointment
+            ),
+            error: null,
+          };
+        case "APPROVE_APPOINTMENT_FAILURE":
+        case "REJECT_APPOINTMENT_FAILURE":
+          return {
+            ...state,
+            error: action.payload,
+          };
     default:
       return state;
   }

@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import 'leaflet/dist/leaflet.js'
 import 'leaflet/dist/leaflet.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import './index.css';
 import App from './App';
