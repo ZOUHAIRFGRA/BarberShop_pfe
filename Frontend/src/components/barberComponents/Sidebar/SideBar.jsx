@@ -14,34 +14,34 @@ import { IoMdHelpCircle } from "react-icons/io";
 
 const routes = [
   {
-    path: "/",
+    path: "/barber-interface/appointments",
     name: "Appointments",
     icon: <FaUser />,
   },
   {
-    path: "/services",
+    path: "/barber-interface",
     name: "Services",
     icon:  <MdMiscellaneousServices />,
   },
   {
-    path: "/analytics",
+    path: "/barber-interface/analytics",
     name: "Analytics",
     icon: <IoAnalyticsSharp />
     
   },
   {
-    path: "/settings",
+    path: "/barber-interface/settings",
     name: "Settings",
     icon: <BiCog style={{ cursor: "pointer" }} />,
     exact: true,
     subRoutes: [
       {
-        path: "/settings/profile",
+        path: "/barber-interface/settings/profile",
         name: "Profile ",
         icon: <FaUser />,
       },
       {
-        path: "/settings/help",
+        path: "/barber-interface/settings/help",
         name: "help",
         icon: <IoMdHelpCircle />
         ,
@@ -49,12 +49,12 @@ const routes = [
     ],
   },
   {
-    path: "/worktime",
+    path: "/barber-interface/worktime",
     name: "Worktime",
     icon: <FaBusinessTime />,
   },
   {
-    path: "/legout",
+    path: "/barber-interface/legout",
     name: "Logout",
     icon: <FiLogOut />,
   },
