@@ -1,19 +1,23 @@
-import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
-import Swal from 'sweetalert2'
-import { deleteServiceForBarber, fetchAllServicesForBarber } from '../../actions/barberActions'
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { ClipLoader } from "react-spinners";
+import Swal from 'sweetalert2';
+import { deleteServiceForBarber, fetchAllServicesForBarber } from '../../actions/barberActions';
 
 function Services() {
-  const dispatch = useDispatch()
-  useEffect(()=>{
-    dispatch(fetchAllServicesForBarber())
-  },[dispatch])
-  const services = useSelector((state) => state.barber.services)
-  useEffect(()=>{console.log(services)},[services])
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true); // State to track loading status
+  const services = useSelector((state) => state.barber.services);
 
-  const HandelDelete = (id) => {
+  useEffect(() => {
+    // Fetch services when the component mounts
+    dispatch(fetchAllServicesForBarber())
+      .then(() => setLoading(false)) // Set loading to false once services are fetched
+      .catch(() => setLoading(false)); // In case of error, also set loading to false
+  }, [dispatch]);
+
+  const handleDelete = (id) => {
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -25,20 +29,39 @@ function Services() {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteServiceForBarber(id))
-        Swal.fire({
-          title: 'Deleted!',
-          text: 'Your file has been deleted.',
-          icon: 'success',
-        })
+          .then(() => {
+            Swal.fire({
+              title: 'Deleted!',
+              text: 'Your file has been deleted.',
+              icon: 'success',
+            });
+          })
+          .catch((error) => {
+            console.error('Error deleting service:', error);
+            Swal.fire({
+              title: 'Error!',
+              text: 'Failed to delete service.',
+              icon: 'error',
+            });
+          });
       }
-    })
+    });
+  };
+
+  // Show loading indicator if loading is true
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <ClipLoader color={"#123abc"} loading={loading} size={170} />;
+      </div>
+    );
   }
+
   return (
     <>
-      <ToastContainer />
       <div className="container">
         <h2>List of my Services:</h2>
-        <Link to="/services/addservice">
+        <Link to="/barber-interface/services/addservice">
           <button className="btn btn-primary">Ajouter Service</button>
         </Link>
         <div className="table-responsive">
@@ -46,7 +69,7 @@ function Services() {
             <thead>
               <tr>
                 <th>Name</th>
-                {/* <th>Description</th> */}
+                <th>Description</th>
                 <th>Price</th>
                 <th>Duration</th>
                 <th>Actions</th>
@@ -56,7 +79,7 @@ function Services() {
               {services.map((serv) => (
                 <tr key={serv._id}>
                   <td>{serv.name}</td>
-                  {/* <td>{serv.description}</td> */}
+                  <td>{serv.description}</td>
                   <td>{serv.price}</td>
                   <td>{serv.duration}</td>
                   <td>
@@ -65,7 +88,7 @@ function Services() {
                     </Link>
                     <button
                       className="btn btn-danger"
-                      onClick={() => HandelDelete(serv._id)}
+                      onClick={() => handleDelete(serv._id)}
                     >
                       Supprimer
                     </button>
@@ -77,7 +100,7 @@ function Services() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default Services
+export default Services;

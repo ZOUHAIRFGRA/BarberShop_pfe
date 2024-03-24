@@ -1,20 +1,21 @@
-import { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
-import { Form, Button, Container } from "react-bootstrap";
-
-import { toast } from 'react-toastify'
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Form, Button, Container } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import { updateServiceForBarber } from '../../actions/barberActions';
 import 'react-toastify/dist/ReactToastify.css'
-import { updateServiceForBarber } from '../../actions/barberActions'
+
 export default function EditService() {
   const { id } = useParams(); // Get the service ID from the URL params
   const dispatch = useDispatch();
   const services = useSelector((state) => state.barber.services);
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: '',
     price: '',
+    description:'',
     duration: '',
     images: '',
   });
@@ -22,19 +23,19 @@ export default function EditService() {
   useEffect(() => {
     // Find the service with the matching ID
     const service = services.find((serv) => serv._id === id);
-    console.log(service)
     if (service) {
       // Populate the form with the existing service values
       setFormData({
         name: service.name,
         price: service.price,
+        description: service.description,
         duration: service.duration,
         images: service.images,
       });
     }
   }, [id, services]);
 
-  const { name, price, duration, images } = formData;
+  const { name, price, duration, images,description } = formData;
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -45,14 +46,16 @@ export default function EditService() {
     // Dispatch the update service action
     dispatch(updateServiceForBarber(id, formData));
     console.log(services)
-    // navigate('/barber-interface')
-    toast.success('Le service a été modifié avec succès!', { theme: 'dark' })  };
-
- 
+     navigate('/barber-interface')
+    toast.success('Le service a été modifié avec succès!', { theme: 'dark' });
+  };
+  
 
   return (
     <Container>
       <h2>Edit Service</h2>
+      <Button variant="primary" onClick={()=>{toast("Wow so easy !")}}>Notify !</Button>
+
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="serviceName">
           <Form.Label>Name</Form.Label>
@@ -70,6 +73,15 @@ export default function EditService() {
             type="number"
             value={price}
             name="price"
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group controlId="servicedescription">
+          <Form.Label>description</Form.Label>
+          <Form.Control
+            type="text"
+            value={description}
+            name="description"
             onChange={handleChange}
           />
         </Form.Group>
@@ -97,7 +109,9 @@ export default function EditService() {
         <Button variant="primary" type="submit">
           Submit
         </Button>
+
       </Form>
+
     </Container>
-  )
+  );
 }
