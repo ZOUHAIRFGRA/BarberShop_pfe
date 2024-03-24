@@ -1,6 +1,7 @@
 const Barber = require("../models/barberModel");
 const Service = require("../models/serviceModel");
 const Slot = require("../models/slotModel");
+const Appointment = require("../models/appointmentModel");
 const { validationResult } = require("express-validator");
 const catchAsync = require('../middlewares/catchAsync');
 // Display barber profile
@@ -61,7 +62,7 @@ const addServiceToBarber = catchAsync(async (req, res) => {
   // Extract barber's ID from the token
   const barberId = req.user.id; // Assuming the barber's ID is included in the token payload
 
-  const { name, price, duration, images } = req.body;
+  const { name, price,description, duration, images } = req.body;
 
   try {
     // Check if the barber exists
@@ -74,6 +75,7 @@ const addServiceToBarber = catchAsync(async (req, res) => {
     const service = await Service.create({
       name,
       price,
+      description,
       duration,
       images,
     });
@@ -92,46 +94,41 @@ const addServiceToBarber = catchAsync(async (req, res) => {
 });
 // Update service for a barber
 const updateServiceForBarber = catchAsync(async (req, res) => {
+  // Extract service ID from the request parameters
+  const serviceId = req.params.id;
+
   try {
-    const  serviceId  = req.params.id;
-    const { name, price, duration, images } = req.body;
+    // Extract barber's ID from the token
+    const barberId = req.user.id; // Assuming the barber's ID is included in the token payload
 
-    // Find the barber using the token
-    const barberId = req.user.id;
-    const barber = await Barber.findById(barberId);
-    if (!barber) {
-      return res.status(404).json({ message: "Barber not found" });
+    // Check if the service exists
+    let service = await Service.findById(serviceId);
+    if (!service) {
+      return res.status(404).json({ message: "Service not found" });
     }
 
-    // Find the service in the barber's services
-    const serviceIndex = barber.services.findIndex(
-      (service) => service.toString() === serviceId
-    );
-    if (serviceIndex === -1) {
-      return res
-        .status(404)
-        .json({ message: "Service not found for this barber" });
+    
+
+    // Update service fields
+    for (const key in req.body) {
+      if (Object.hasOwnProperty.call(req.body, key)) {
+        service[key] = req.body[key];
+      }
     }
 
-    // Update the service details
-    const serviceToUpdate = barber.services[serviceIndex];
-    serviceToUpdate.name = name;
-    serviceToUpdate.price = price;
-    serviceToUpdate.duration = duration;
-    serviceToUpdate.images = images;
+    // Save the updated service
+    service = await service.save();
 
-    // Save the updated barber
-    await barber.save();
-
-    res.json({
-      message: "Service updated successfully",
-      service: serviceToUpdate,
-    });
+    res.status(200).json({ message: "Service updated successfully", service });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
+
+
+
 
 // Delete service for a barber
 const deleteServiceForBarber = catchAsync(async (req, res) => {
@@ -315,6 +312,72 @@ const getAllAvailableSlots = catchAsync(async (req, res) => {
 });
 
 
+// Controller to fetch all appointments for a specific barber
+const getAllAppointmentsForBarber = async (req, res) => {
+  try {
+    const barberId = req.user.id; // Assuming the barber's ID is stored in the request user object
+    const appointments = await Appointment.find({ barber: barberId })
+    .populate('service', 'name')
+    .populate('user', 'username');
+    res.status(200).json({ success: true, appointments });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
+
+const approveAppointment = async (req, res) => {
+  try {
+    const { appointmentId } = req.params;
+    
+    // Find the appointment by ID
+    let appointment = await Appointment.findById(appointmentId)
+    .populate('service', 'name')
+    .populate('user', 'username');
+
+    if (!appointment) {
+      return res.status(404).json({ success: false, message: 'Appointment not found' });
+    }
+
+    // Update appointment status to approved
+    appointment.status = 'approved';
+    
+    // Save the updated appointment
+    appointment = await appointment.save();
+
+    res.status(200).json({ success: true, message: 'Appointment approved successfully', appointment });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
+
+const rejectAppointment = async (req, res) => {
+  try {
+    const { appointmentId } = req.params;
+    
+    // Find the appointment by ID
+    let appointment = await Appointment.findById(appointmentId)
+    .populate('service', 'name')
+    .populate('user', 'username');
+    
+
+    if (!appointment) {
+      return res.status(404).json({ success: false, message: 'Appointment not found' });
+    }
+
+    // Update appointment status to rejected
+    appointment.status = 'rejected';
+    
+    // Save the updated appointment
+    appointment = await appointment.save();
+
+    res.status(200).json({ success: true, message: 'Appointment rejected successfully', appointment });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
 
 
 module.exports = {
@@ -328,4 +391,7 @@ module.exports = {
   updateServiceForBarber,
   deleteServiceForBarber,
   getAllServicesForBarber,
+  getAllAppointmentsForBarber,
+  approveAppointment,
+rejectAppointment
 };

@@ -28,6 +28,11 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  status: {
+    type: String,
+    enum: ['approved', 'rejected'],
+    default: 'approved', // Set default value to 'approved'
+  },
   // Additional fields or validations as needed
 });
 

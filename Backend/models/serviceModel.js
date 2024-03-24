@@ -13,6 +13,9 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  description:{
+    type: String
+  },
   images: [{
     type: String, // Assuming the images are stored as URLs
   }],
