@@ -12,16 +12,18 @@ import AddService from "../../pages/barberPages/AddService";
 import EditService from "../../pages/barberPages/EditService";
 import { useDispatch } from "react-redux";
 import { loadBarber } from "../../actions/barberActions";
+import { ToastContainer } from 'react-toastify';
 
 const BarberInterface = () => {
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(loadBarber());
-  }, [dispatch]);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(loadBarber());
+  // }, [dispatch]);
 
   return (
     <SideBar>
+      <ToastContainer/>
       <Routes>
         <Route path="/appointments" element={<Appointments />} />
         <Route index element={<Services />} />
