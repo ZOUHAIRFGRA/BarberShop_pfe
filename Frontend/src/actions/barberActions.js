@@ -113,7 +113,7 @@ export const addServiceToBarber = (serviceData) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(`${API_URL}/barber/add-service`, serviceData, { withCredentials: true });
-      dispatch({ type: ADD_SERVICE_SUCCESS, payload: response.data });
+      dispatch({ type: ADD_SERVICE_SUCCESS, payload: response.data.service });
     } catch (error) {
       dispatch({ type: ADD_SERVICE_FAILURE, payload: error.message });
     }
@@ -123,6 +123,7 @@ export const updateServiceForBarber = (serviceId, serviceData) => {
   return async (dispatch) => {
     try {
       const response = await axios.put(`${API_URL}/barber/updateService/${serviceId}`, serviceData, { withCredentials: true });
+      // console.log(response)
       dispatch({ type: "UPDATE_SERVICE_SUCCESS", payload: response.data });
     } catch (error) {
       dispatch({ type: "UPDATE_SERVICE_FAILURE", payload: error.message });
@@ -152,6 +153,41 @@ export const deleteServiceForBarber = (serviceId) => {
   };
 };
 
+// Fetch all appointments for barber
+export const fetchAllAppointmentsForBarber = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${API_URL}/barber/getApp`, { withCredentials: true });
+      dispatch({ type: "FETCH_ALL_APPOINTMENTS_SUCCESS", payload: response.data.appointments });
+    } catch (error) {
+      dispatch({ type: "FETCH_ALL_APPOINTMENTS_FAILURE", payload: error.message });
+    }
+  };
+};
+
+// Approve appointment
+export const approveAppointment = (appointmentId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.patch(`${API_URL}/barber/appointments/approve/${appointmentId}`, null, { withCredentials: true });
+      dispatch({ type: "APPROVE_APPOINTMENT_SUCCESS", payload: response.data.appointment });
+    } catch (error) {
+      dispatch({ type: "APPROVE_APPOINTMENT_FAILURE", payload: error.message });
+    }
+  };
+};
+
+// Reject appointment
+export const rejectAppointment = (appointmentId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.patch(`${API_URL}/barber/appointments/reject/${appointmentId}`, null, { withCredentials: true });
+      dispatch({ type: "REJECT_APPOINTMENT_SUCCESS", payload: response.data.appointment });
+    } catch (error) {
+      dispatch({ type: "REJECT_APPOINTMENT_FAILURE", payload: error.message });
+    }
+  };
+};
 
 
 
