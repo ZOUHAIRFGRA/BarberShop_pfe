@@ -7,7 +7,7 @@ import "./ReviewList.css";
 const ReviewList = () => {
   // const [reviews, setReviews] = useState([]);
   const dispatch = useDispatch();
-  const reviews = useSelector((state) => state.auth.reviews);
+  const reviews = useSelector((state) => state.user.reviews);
 
   useEffect(() => {
     const fetchData = async () => {

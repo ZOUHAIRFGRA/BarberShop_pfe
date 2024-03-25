@@ -11,7 +11,7 @@ const Profile = ({ setContentVisible }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.userData);
+  const user = useSelector((state) => state.user.userData);
 
   useEffect(() => {
     const fetchData = async () => {

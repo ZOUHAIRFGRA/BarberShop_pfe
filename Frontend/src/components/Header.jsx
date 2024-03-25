@@ -9,7 +9,7 @@ const Header = ({contentVisible }) => {
   const navigate = useNavigate()
 
   
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.user);
   const handleLogout = () => {
     dispatch(logoutUser()); 
     navigate('/')// Dispatch the logout action when the logout button is clicked

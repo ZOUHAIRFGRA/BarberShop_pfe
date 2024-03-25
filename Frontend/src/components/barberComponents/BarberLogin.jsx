@@ -1,43 +1,37 @@
-import React, { useState } from "react";
-import { Container, Form, Button, Card, Alert } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { loginUser } from "../actions/userActions";
-import { useNavigate, Link } from "react-router-dom";
+// Login.js
+import React, { useState } from 'react';
+import { Container, Form, Button, Card, Alert } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { useNavigate, Link } from 'react-router-dom';
+import { loginBarber } from '../../actions/barberActions';
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await dispatch(loginUser(email, password));
-      if (response && response.type === "LOGIN_USER_FAIL") {
+      const response = await dispatch(loginBarber(email, password));
+      if (response && response.type === 'LOGIN_BARBER_FAIL') {
         setError(response.payload); // Display error message if login fails
-      } 
-      const redirectPath = localStorage.getItem("redirectPath");
-      
-      if (redirectPath) {
-        // Clear the stored path
-        localStorage.removeItem("redirectPath");
-        navigate(redirectPath); // Redirect user to the stored path
       } else {
-        navigate("/"); // If there's no stored path, redirect to home page
+        navigate('/barber-interface'); // Redirect to BarberInterface upon successful login
       }
     } catch (error) {
-      console.error("Error:", error);
-      setError("An error occurred. Please try again.");
+      console.error('Error:', error);
+      setError('An error occurred. Please try again.');
     }
   };
 
   return (
     <Container className="d-flex justify-content-center align-items-center min-vh-100">
-      <Card style={{ width: "500px", border: "1px solid #ced4da" }}>
+      <Card style={{ width: '500px', border: '1px solid #ced4da' }}>
         <Card.Body>
-          <h2 className="text-center mb-4">Log In</h2>
+          <h2 className="text-center mb-4">Barber Log In</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formBasicEmail">
@@ -65,10 +59,7 @@ const Login = () => {
             </Button>
           </Form>
           <div className="mt-3 text-center">
-            Dont have an account? <Link to="/register">Sign Up</Link>
-          </div>
-          <div className="mt-3 text-center">
-           Are you a barber? <Link to="/barber-login">Click here</Link>
+            Dont have an account? <Link to="/barber-register">Sign Up</Link>
           </div>
         </Card.Body>
       </Card>

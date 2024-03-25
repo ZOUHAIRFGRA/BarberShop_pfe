@@ -27,6 +27,11 @@ const reviewSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  status: {
+    type: String,
+    enum: ['pending', 'reported', 'approved'],
+    default: 'pending',
+  },
   // Additional fields or validations as needed
 });
 
