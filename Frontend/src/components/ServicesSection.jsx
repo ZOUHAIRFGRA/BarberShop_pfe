@@ -19,7 +19,7 @@ const ServicesSection = ({
   workingHours
 }) => {
   const [redirectTimer, setRedirectTimer] = useState(3);
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector(state => state.user.isAuthenticated);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const filteredServices = services.filter((service) =>

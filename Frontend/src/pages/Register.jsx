@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Register = ({ setContentVisible }) => {
   const dispatch = useDispatch();
-  const { loading, error, success } = useSelector((state) => state.auth);
+  const { loading, error, success } = useSelector((state) => state.user);
 
   useEffect(() => {
     setContentVisible(true);
