@@ -37,7 +37,7 @@ export const loginBarber = (email, password) => async (dispatch) => {
         type: "LOGIN_BARBER_SUCCESS",
         payload: data.user
       });
-      console.log(data)
+      // console.log(data)
     } catch (error) {
       dispatch({
         type: "LOGIN_USER_FAIL",
@@ -79,7 +79,7 @@ export const loginBarber = (email, password) => async (dispatch) => {
   export const loadBarber = () => async (dispatch) => {
     try {
       const response = await axios.get(`${API_URL}/barber/getprofile`, { withCredentials: true });
-      console.log(response)
+      // console.log(response)
       dispatch({ type: 'LOAD_BARBER_SUCCESS', payload:response.data.user });
     } catch (error) {
       dispatch({ type: 'LOAD_BARBER_FAILURE', payload: error.message });
@@ -298,7 +298,7 @@ export const fetchReviews = () => {
     dispatch({ type: "FETCH_REVIEWS_REQUEST" });
     try {
       const response = await axios.get(`${API_URL}/barber/getReviews`, { withCredentials: true });
-      console.log("response from action",response)
+      // console.log("response from action",response)
       dispatch({ type: "FETCH_REVIEWS_SUCCESS", payload: response.data.reviews });
     } catch (error) {
       dispatch({ type: "FETCH_REVIEWS_FAILURE", payload: error.message });
