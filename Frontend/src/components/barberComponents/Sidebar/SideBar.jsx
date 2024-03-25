@@ -1,6 +1,6 @@
 import { NavLink ,useNavigate} from "react-router-dom";
 import { FaBars, FaUser, FaBusinessTime } from "react-icons/fa";
-import { MdMiscellaneousServices, MdReviews } from "react-icons/md";
+import { MdMiscellaneousServices, MdReviews, MdUpdate } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 import { BiCog } from "react-icons/bi";
 import { useEffect, useState } from "react";
@@ -53,9 +53,9 @@ const routes = [
         icon: <FaUser />,
       },
       {
-        path: "/barber-interface/settings/help",
-        name: "help",
-        icon: <IoMdHelpCircle />
+        path: "/barber-interface/settings/updateProfile",
+        name: "updateProfile",
+        icon: <MdUpdate />
         ,
       }
     ],

@@ -12,6 +12,7 @@ import Profile from "../../pages/barberPages/Profile";
 import AddService from "../../pages/barberPages/AddService";
 import AddSlot from "../../pages/barberPages/AddSlot";
 import EditService from "../../pages/barberPages/EditService";
+import UpdateProfile from "../../pages/barberPages/UpdateProfile";
 // import { useDispatch } from "react-redux";
 // import { loadBarber } from "../../actions/barberActions";
 import { ToastContainer } from 'react-toastify';
@@ -35,6 +36,7 @@ const BarberInterface = () => {
         <Route path="/settings" element={<Setting />} />
         <Route path="/reviews" element={<ReviewList />} />
         <Route path="/settings/profile" element={<Profile />} />
+        <Route path="/settings/updateProfile" element={<UpdateProfile />} />
         <Route path="/services/addservice" element={<AddService />} />
         <Route path="/slots/addslot" element={<AddSlot />} />
         <Route path="/services/editservice/:id" element={<EditService />} />

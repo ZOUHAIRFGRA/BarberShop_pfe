@@ -18,6 +18,7 @@ import { loadUser } from "./actions/userActions";
 import PrivateRoute from "./Routes/PrivateRoute";
 import BarberInterface from "./components/barberComponents/BarberInterface";
 import BarberLogin from "./components/barberComponents/BarberLogin";
+import BarberRegister from "./pages/barberPages/BarberRegister";
 
 // import { LOGIN_USER_SUCCESS } from "./constants/userConstants";
 // import Cookies from 'js-cookie';
@@ -114,6 +115,7 @@ const App = () => {
             element={<NoPage setContentVisible={setContentVisible} />}
           />
           <Route path="/barber-login" element={<BarberLogin />} />
+          <Route path="/barber-register" element={<BarberRegister />} />
            <Route
             path="/barber-interface/*"
             element={
