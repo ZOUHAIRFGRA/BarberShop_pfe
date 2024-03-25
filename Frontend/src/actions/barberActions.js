@@ -232,6 +232,18 @@ export const rejectAppointment = (appointmentId) => {
   };
 };
 
+export const reportReview = (reviewId) => {
+  return async (dispatch) => {
+   
+    try {
+      const response = await axios.patch(`${API_URL}/barber/report/${reviewId}`, null, { withCredentials: true });
+      dispatch({ type: "REPORT_REVIEW_SUCCESS", payload: response.data.review });
+    } catch (error) {
+      dispatch({ type: "REPORT_REVIEW_FAIL", payload: error.message });
+    }
+  };
+};
+
 
 
 
@@ -280,3 +292,18 @@ export const fetchAllSlotsForBarber = () => {
     }
   };
 };
+
+export const fetchReviews = () => {
+  return async (dispatch) => {
+    dispatch({ type: "FETCH_REVIEWS_REQUEST" });
+    try {
+      const response = await axios.get(`${API_URL}/barber/getReviews`, { withCredentials: true });
+      console.log("response from action",response)
+      dispatch({ type: "FETCH_REVIEWS_SUCCESS", payload: response.data.reviews });
+    } catch (error) {
+      dispatch({ type: "FETCH_REVIEWS_FAILURE", payload: error.message });
+    }
+  };
+};
+
+

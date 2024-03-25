@@ -2,6 +2,7 @@ const Barber = require("../models/barberModel");
 const Service = require("../models/serviceModel");
 const Slot = require("../models/slotModel");
 const Appointment = require("../models/appointmentModel");
+const Review = require("../models/reviewModel");
 const { validationResult } = require("express-validator");
 const catchAsync = require('../middlewares/catchAsync');
 // Display barber profile
@@ -410,7 +411,7 @@ const getAllReviewsForBarber = async (req, res) => {
     const barberId = req.user.id;
 
     // Find all reviews for the given barber ID
-    const reviews = await Review.find({ barber: barberId }).populate('user', 'username email');
+    const reviews = await Review.find({ barber: barberId }).populate('user');
 
     res.status(200).json({ reviews });
   } catch (error) {
@@ -418,7 +419,25 @@ const getAllReviewsForBarber = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+const reportReview = async (req, res) => {
+  const { reviewId } = req.params;
+  try {
+    // Find the review by ID
+    let review = await Review.findById(reviewId).populate('user');
+    if (!review) {
+      return res.status(404).json({ message: 'Review not found' });
+    }
 
+    // Update the status of the review to reported
+    review.status = 'reported';
+    review = await review.save();
+
+    res.status(200).json({  success: true,message: 'Review reported successfully', review });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({  success: false,message: 'Internal Server Error' });
+  }
+};
 
 
 module.exports = {
@@ -434,5 +453,7 @@ module.exports = {
   getAllServicesForBarber,
   getAllAppointmentsForBarber,
   approveAppointment,
-rejectAppointment
+rejectAppointment,
+getAllReviewsForBarber,
+reportReview
 };

@@ -67,6 +67,9 @@ const Login = () => {
           <div className="mt-3 text-center">
             Dont have an account? <Link to="/register">Sign Up</Link>
           </div>
+          <div className="mt-3 text-center">
+           Are you a barber? <Link to="/barber-login">Click here</Link>
+          </div>
         </Card.Body>
       </Card>
     </Container>
