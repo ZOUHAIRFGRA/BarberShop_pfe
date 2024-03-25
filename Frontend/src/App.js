@@ -32,6 +32,22 @@ const App = () => {
  
   const [contentVisible, setContentVisible] = useState(false);
   const { pathname } = useLocation();
+
+  // Function to check if the current route matches the BarberInterface route
+  const isBarberInterfaceRoute = pathname.startsWith("/barber-interface");
+
+  // Conditionally render the Header and Footer based on the route
+  const renderHeader = !isBarberInterfaceRoute && (
+    <>
+      <Header contentVisible={contentVisible} />
+    </>
+  );
+  const renderFooter = !isBarberInterfaceRoute && (
+    <>
+      <Footer contentVisible={contentVisible} />
+    </>
+  );
+
   // always scroll to top on route/path change
   useEffect(() => {
     window.scrollTo({
@@ -43,7 +59,8 @@ const App = () => {
   return (
     <>
       <div>
-        <Header contentVisible={contentVisible} />
+        {/* Render Header and Footer conditionally */}
+        {renderHeader}
 
         <Routes>
           <Route
@@ -97,20 +114,25 @@ const App = () => {
             element={<NoPage setContentVisible={setContentVisible} />}
           />
           <Route path="/barber-login" element={<BarberLogin />} />
-
-          {/* Protected routes for barber interface
-          <Route
-            path="/barber-interface"
+           <Route
+            path="/barber-interface/*"
             element={
               <PrivateRoute>
                 <BarberInterface />
               </PrivateRoute>
             }
-          /> */}
-          <Route path="/barber-interface/*" element={<BarberInterface />} />
+          /> 
+          {/* <Route path="/barber-interface/*" element={<BarberInterface />} /> */}
         </Routes>
+        {renderFooter}
 
-        <Footer contentVisible={contentVisible} />
+        {/* Do not render Header and Footer in BarberInterface route
+        {!isBarberInterfaceRoute && (
+          <>
+            <Header contentVisible={contentVisible} />
+            <Footer contentVisible={contentVisible} />
+          </>
+        )} */}
       </div>
     </>
   );

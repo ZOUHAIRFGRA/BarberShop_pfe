@@ -17,7 +17,9 @@ const {
   getAllServicesForBarber,
   getAllAppointmentsForBarber,
   approveAppointment,
-rejectAppointment
+  getAllReviewsForBarber,
+rejectAppointment,
+reportReview
       
 } = require('../controllers/barberController');
 
@@ -32,7 +34,9 @@ router.delete('/deleteSlots/:id', authenticateUser, isBarber, deleteAvailableSlo
 router.get('/getSlots', authenticateUser, isBarber, getAllAvailableSlots);
 router.get('/getServices', authenticateUser, isBarber, getAllServicesForBarber);
 router.get('/getApp', authenticateUser, isBarber, getAllAppointmentsForBarber);
+router.get('/getReviews', authenticateUser, isBarber, getAllReviewsForBarber);
 
+router.patch('/report/:reviewId', authenticateUser, isBarber,reportReview);
 
 router.patch('/appointments/approve/:appointmentId', authenticateUser, isBarber, approveAppointment);
 router.patch('/appointments/reject/:appointmentId', authenticateUser, isBarber, rejectAppointment);

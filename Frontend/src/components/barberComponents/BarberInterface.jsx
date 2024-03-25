@@ -12,9 +12,10 @@ import Profile from "../../pages/barberPages/Profile";
 import AddService from "../../pages/barberPages/AddService";
 import AddSlot from "../../pages/barberPages/AddSlot";
 import EditService from "../../pages/barberPages/EditService";
-import { useDispatch } from "react-redux";
-import { loadBarber } from "../../actions/barberActions";
+// import { useDispatch } from "react-redux";
+// import { loadBarber } from "../../actions/barberActions";
 import { ToastContainer } from 'react-toastify';
+import ReviewList from "../../pages/barberPages/ReviewsList";
 
 const BarberInterface = () => {
 
@@ -32,6 +33,7 @@ const BarberInterface = () => {
         <Route path="/analytics" element={<Statistics />} />
         <Route path="/worktime" element={<Slots />} />
         <Route path="/settings" element={<Setting />} />
+        <Route path="/reviews" element={<ReviewList />} />
         <Route path="/settings/profile" element={<Profile />} />
         <Route path="/services/addservice" element={<AddService />} />
         <Route path="/slots/addslot" element={<AddSlot />} />

@@ -25,7 +25,8 @@ const initialState = {
   slots: [],
   error: null,
   appointments: [],
-  slots: [],
+  reviews: [],
+  reportedReview: null,
 };
 
 const barberReducer = (state = initialState, action) => {
@@ -48,6 +49,14 @@ const barberReducer = (state = initialState, action) => {
         user: null,
         error: action.payload,
       };
+      case "REGISTER_BARBER_SUCCESS":
+        return {
+          ...state,
+          loading: false,
+          error: null,
+          success: true,
+        };
+    
     case "LOGOUT_BARBER_SUCCESS":
       return {
         ...state,
@@ -164,8 +173,18 @@ const barberReducer = (state = initialState, action) => {
         ),
         error: null,
       };
+    case "REPORT_REVIEW_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        reviews: state.reviews.map((review) =>
+          review._id === action.payload._id ? action.payload : review
+        ),
+      };
     case "APPROVE_APPOINTMENT_FAILURE":
     case "REJECT_APPOINTMENT_FAILURE":
+    case "REPORT_REVIEW_FAIL":
       return {
         ...state,
         error: action.payload,
@@ -206,6 +225,25 @@ const barberReducer = (state = initialState, action) => {
       };
     case "CREATE_SLOTS_FAILURE":
       return { ...state, loading: false, error: action.payload };
+    case "FETCH_REVIEWS_REQUEST":
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case "FETCH_REVIEWS_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        reviews: action.payload,
+        error: null,
+      };
+    case "FETCH_REVIEWS_FAILURE":
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
 
     default:
       return state;
