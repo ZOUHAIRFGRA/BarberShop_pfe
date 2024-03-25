@@ -198,6 +198,16 @@ export const updateAvailableSlot = (updatedSlots) => {
       dispatch({ type: 'UPDATE_SLOT_FAILURE', payload: error.message });
     }  };
 };
+export const createAvailableSlots = (slots) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`${API_URL}/barber/createSlots`, { slots }, { withCredentials: true });
+      dispatch({ type: 'CREATE_SLOTS_SUCCESS', payload: response.data.createdSlots });
+    } catch (error) {
+      dispatch({ type: 'CREATE_SLOTS_FAILURE', payload: error.message });
+    }
+  };
+};
 // Approve appointment
 export const approveAppointment = (appointmentId) => {
   return async (dispatch) => {

@@ -402,6 +402,25 @@ const rejectAppointment = async (req, res) => {
 };
 
 
+
+
+const getAllReviewsForBarber = async (req, res) => {
+  try {
+    // Get the authenticated user ID (barber) from the token
+    const barberId = req.user.id;
+
+    // Find all reviews for the given barber ID
+    const reviews = await Review.find({ barber: barberId }).populate('user', 'username email');
+
+    res.status(200).json({ reviews });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
+
 module.exports = {
   getBarberProfile,
   updateBarberProfile,
