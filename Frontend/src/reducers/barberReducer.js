@@ -25,6 +25,7 @@ const initialState = {
   slots: [],
   error: null,
   appointments: [],
+  slots: [],
 };
 
 const barberReducer = (state = initialState, action) => {
@@ -169,6 +170,28 @@ const barberReducer = (state = initialState, action) => {
             ...state,
             error: action.payload,
           };
+          case 'FETCH_SLOTS_REQUEST':
+            case 'DELETE_SLOT_REQUEST':
+            case 'UPDATE_SLOT_REQUEST':
+              return { ...state, loading: true, error: null };
+        
+            case 'FETCH_SLOTS_SUCCESS':
+              return { ...state, loading: false, slots: action.payload };
+        
+            case 'DELETE_SLOT_SUCCESS':
+              return { ...state, loading: false, slots: state.slots.filter(slot => slot._id !== action.payload) };
+        
+            case 'UPDATE_SLOT_SUCCESS':
+              const updatedSlotIndex = state.slots.findIndex(slot => slot._id === action.payload._id);
+              const updatedSlots = [...state.slots];
+              updatedSlots[updatedSlotIndex] = action.payload;
+              return { ...state, loading: false, slots: updatedSlots };
+        
+            case 'FETCH_SLOTS_FAILURE':
+            case 'DELETE_SLOT_FAILURE':
+            case 'UPDATE_SLOT_FAILURE':
+              return { ...state, loading: false, error: action.payload };
+        
     default:
       return state;
   }

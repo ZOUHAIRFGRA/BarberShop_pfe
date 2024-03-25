@@ -262,35 +262,57 @@ const deleteAvailableSlot = catchAsync(async (req, res) => {
   }
 });
 
-// Update available slot for a barber
 const updateAvailableSlot = catchAsync(async (req, res) => {
-  const slotId = req.params.id; // Extracting slot ID from the URL parameter
-
-  // Validate request
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
-  const newData = req.body; // Assuming the new data for the slot is provided in the request body
-
   try {
-    // Check if the slot exists
-    const slot = await Slot.findById(slotId);
-    if (!slot) {
-      return res.status(404).json({ message: "Slot not found" });
+    // Extract updated slots data from the request body
+    const { updatedSlots } = req.body;
+
+    // Validate the format of updatedSlots
+    if (!Array.isArray(updatedSlots)) {
+      return res.status(400).json({ message: "Invalid data format. Expected an array." });
     }
 
-    // Partially update the slot
-    Object.assign(slot, newData);
-    await slot.save();
+    // Array to store updated slots
+    const updatedSlotsResponse = [];
 
-    res.status(200).json({ message: "Slot updated successfully", slot });
+    // Loop through updatedSlots and update each slot individually
+    await Promise.all(updatedSlots.map(async (updatedSlot) => {
+      const slotId = updatedSlot._id;
+
+      try {
+        // Check if the slot exists
+        const slot = await Slot.findById(slotId);
+        if (!slot) {
+          return res.status(404).json({ message: "Slot not found" });
+        }
+
+        // Check if the version of the document matches the version sent by the client
+        if (updatedSlot.__v != slot.__v) {
+          return res.status(409).json({ message: "Document version mismatch. Please refresh and try again." });
+        }
+
+        // Partially update the slot
+        Object.assign(slot, updatedSlot);
+        const savedSlot = await slot.save();
+
+        // Add the updated slot to the response array
+        updatedSlotsResponse.push(savedSlot);
+      } catch (error) {
+        console.error(`Error updating slot with ID ${slotId}:`, error);
+        // Handle individual slot update errors here (if necessary)
+      }
+    }));
+
+    res.status(200).json({ message: "Slots updated successfully", updatedSlots: updatedSlotsResponse });
   } catch (error) {
-    console.error(error);
+    console.error("Error updating slots:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
+
+
+
 
 // Get all available slots for a barber
 const getAllAvailableSlots = catchAsync(async (req, res) => {

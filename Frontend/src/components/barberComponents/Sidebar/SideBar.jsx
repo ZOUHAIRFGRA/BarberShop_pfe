@@ -3,13 +3,14 @@ import { FaBars, FaUser, FaBusinessTime } from "react-icons/fa";
 import { MdMiscellaneousServices } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 import { BiCog } from "react-icons/bi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
-import ProfileImage from "./profile.jpg"; 
 import { IoAnalyticsSharp } from "react-icons/io5";
 import { IoSearchOutline } from "react-icons/io5";
 import { IoMdHelpCircle } from "react-icons/io";
+import { useSelector,useDispatch } from "react-redux";
+import { fetchBarberProfile } from "../../../actions/barberActions";
 
 
 const routes = [
@@ -61,6 +62,12 @@ const routes = [
 ];
 
 const SideBar = ({ children }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchBarberProfile());
+  }, [dispatch]);
+
+  const barber = useSelector((state) => state.barber.profile);
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const inputAnimation = {
@@ -122,11 +129,11 @@ const SideBar = ({ children }) => {
                   className="profile-section"
                 >
                   
-                  <img src={ProfileImage} alt="Profile" className="profile-image" style={{ width: "60px", height: "60px", borderRadius: "50%", marginLeft: "10px" }} />
+                  <img src={barber.image} alt="Profile" className="profile-image" style={{ width: "60px", height: "60px", borderRadius: "50%", marginLeft: "10px" }} />
                   <div className="profile-info">
                     <div>
-                      <span className="hello-name">Hello Hicham</span><br />
-                      <span className="hello-email">hicham@gmail.com</span>
+                      <span className="hello-name">{barber.name}</span><br />
+                      <span className="hello-email">{barber.email}</span>
                     </div>
                   </div>
                   <hr />

@@ -27,7 +27,7 @@ router.get('/getprofile', authenticateUser, isBarber, getBarberProfile);
 router.put('/Updateprofile', authenticateUser, isBarber, updateBarberProfile);
 router.post('/add-service', authenticateUser, isBarber, addServiceToBarber);
 router.post('/createSlots', authenticateUser, isBarber, createAvailableSlots);
-router.put('/updateSlots/:id', authenticateUser, isBarber, updateAvailableSlot);
+router.put('/updateSlots', authenticateUser, isBarber, updateAvailableSlot);
 router.delete('/deleteSlots/:id', authenticateUser, isBarber, deleteAvailableSlot);
 router.get('/getSlots', authenticateUser, isBarber, getAllAvailableSlots);
 router.get('/getServices', authenticateUser, isBarber, getAllServicesForBarber);

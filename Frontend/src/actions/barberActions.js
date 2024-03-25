@@ -165,6 +165,39 @@ export const fetchAllAppointmentsForBarber = () => {
   };
 };
 
+
+export const fetchAvailableSlots = () => {
+  return async (dispatch) => {
+    dispatch({ type: "FETCH_SLOTS_REQUEST" });
+
+    try {
+      const response = await axios.get(`${API_URL}/barber/getSlots`, { withCredentials: true });
+      dispatch({ type: "FETCH_SLOTS_SUCCESS", payload: response.data.availableSlots });
+    } catch (error) {
+      dispatch({ type: "FETCH_SLOTS_FAILURE", payload: error.message });
+    }
+  };
+};
+export const deleteAvailableSlot = (slotId) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`${API_URL}/barber/deleteSlots/${slotId}`, { withCredentials: true });
+      dispatch({ type: 'DELETE_SLOT_SUCCESS', payload: slotId });
+    } catch (error) {
+      dispatch({ type: 'DELETE_SLOT_FAILURE', payload: error.message });
+    }
+  };
+};
+
+export const updateAvailableSlot = (updatedSlots) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(`${API_URL}/barber/updateSlots`, { updatedSlots },{ withCredentials: true });
+      dispatch({ type: 'UPDATE_SLOT_SUCCESS', payload: response.data.updatedSlots  });
+    } catch (error) {
+      dispatch({ type: 'UPDATE_SLOT_FAILURE', payload: error.message });
+    }  };
+};
 // Approve appointment
 export const approveAppointment = (appointmentId) => {
   return async (dispatch) => {
