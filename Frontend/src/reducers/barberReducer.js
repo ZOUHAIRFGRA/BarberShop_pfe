@@ -31,6 +31,8 @@ const initialState = {
 
 const barberReducer = (state = initialState, action) => {
   switch (action.type) {
+    case "REGISTER_BARBER_REQUEST":
+      return { ...state, loading: true };
     case "LOGIN_BARBER_SUCCESS":
     case "LOAD_BARBER_SUCCESS":
       return {
