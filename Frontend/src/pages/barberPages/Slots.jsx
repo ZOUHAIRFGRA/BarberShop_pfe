@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
 import {
   fetchAvailableSlots,
@@ -9,7 +10,7 @@ import {
   updateAvailableSlot,
 } from "../../actions/barberActions";
 
-const AvailableSlotsComponent = () => {
+const Slots = () => {
   const dispatch = useDispatch();
   const { slots, loading, error } = useSelector((state) => state.barber);
   const [updatingSlotId, setUpdatingSlotId] = useState(null);
@@ -97,15 +98,20 @@ const AvailableSlotsComponent = () => {
     newUpdatedSlots[updatedSlotIndex] = updatedSlot;
     setUpdatedSlots(newUpdatedSlots);
   };
+  const sortedSlots = slots.slice().sort((a, b) => (a.time > b.time) ? 1 : -1);
+
 
   return (
     <Container>
       <h1 className="mt-5 mb-3">Available Slots</h1>
+      <Link to="/barber-interface/slots/addslot">
+          <button className="btn btn-primary">Add Slot</button>
+      </Link>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
       {slots && (
         <Row>
-          {slots.map((slot) => (
+          {sortedSlots.map((slot) => (
             <Col key={slot._id} xs={12} sm={6} md={4} lg={3} className="mb-3">
               <Card>
                 <Card.Body>
@@ -166,4 +172,4 @@ const AvailableSlotsComponent = () => {
   );
 };
 
-export default AvailableSlotsComponent;
+export default Slots;
