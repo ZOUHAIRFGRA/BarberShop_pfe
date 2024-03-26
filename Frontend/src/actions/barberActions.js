@@ -80,7 +80,7 @@ export const loginBarber = (email, password) => async (dispatch) => {
     try {
       const response = await axios.get(`${API_URL}/barber/getprofile`, { withCredentials: true });
       // console.log(response)
-      dispatch({ type: 'LOAD_BARBER_SUCCESS', payload:response.data.user });
+      dispatch({ type: 'LOAD_BARBER_SUCCESS', payload:response.data });
     } catch (error) {
       dispatch({ type: 'LOAD_BARBER_FAILURE', payload: error.message });
     }
