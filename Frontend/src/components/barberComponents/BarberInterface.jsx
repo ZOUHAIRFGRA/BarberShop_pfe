@@ -20,10 +20,10 @@ import ReviewList from "../../pages/barberPages/ReviewsList";
 
 const BarberInterface = () => {
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(loadBarber());
-  }, [dispatch]);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(loadBarber());
+  // }, [dispatch]);
 
   return (
     <SideBar>
