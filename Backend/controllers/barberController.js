@@ -13,11 +13,10 @@ const getBarberProfile = catchAsync(async (req, res) => {
     if (!barber) {
       return res.status(404).json({ message: "Barber not found" });
     }
-    res.json(barber);
+    res.status(200).json({ success: true, barber });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
+    res.status(500).json({ success: false, message: "Internal Server Error" });  }
 });
 
 const updateBarberProfile = catchAsync(async (req, res) => {
