@@ -11,9 +11,9 @@ const ReviewList = () => {
     dispatch(fetchReviews());
   }, [dispatch]);
   const reviews = useSelector((state) => state.barber.reviews);
-  useEffect(() => {
-    console.log(reviews);
-  }, [reviews]);
+  // useEffect(() => {
+  //   console.log(reviews);
+  // }, [reviews]);
 
   return (
     <>
