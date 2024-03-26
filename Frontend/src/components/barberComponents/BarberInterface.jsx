@@ -13,17 +13,17 @@ import AddService from "../../pages/barberPages/AddService";
 import AddSlot from "../../pages/barberPages/AddSlot";
 import EditService from "../../pages/barberPages/EditService";
 import UpdateProfile from "../../pages/barberPages/UpdateProfile";
-// import { useDispatch } from "react-redux";
-// import { loadBarber } from "../../actions/barberActions";
+import { useDispatch } from "react-redux";
+import { loadBarber } from "../../actions/barberActions";
 import { ToastContainer } from 'react-toastify';
 import ReviewList from "../../pages/barberPages/ReviewsList";
 
 const BarberInterface = () => {
 
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(loadBarber());
-  // }, [dispatch]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadBarber());
+  }, [dispatch]);
 
   return (
     <SideBar>
