@@ -32,13 +32,15 @@ const initialState = {
 const barberReducer = (state = initialState, action) => {
   switch (action.type) {
     case "REGISTER_BARBER_REQUEST":
+    case "LOAD_BARBER_REQUEST":
+    case "LOGIN_BARBER_REQUEST":
       return { ...state, loading: true };
     case "LOGIN_BARBER_SUCCESS":
     case "LOAD_BARBER_SUCCESS":
       return {
         ...state,
         isAuthenticated: true,
-        user: action.payload.user,
+        user: action.payload,
         error: null,
       };
     case "REGISTER_BARBER_FAILURE":
