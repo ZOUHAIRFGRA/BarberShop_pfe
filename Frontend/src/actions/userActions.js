@@ -13,6 +13,11 @@ export const loginUser = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(`${API_URL}/auth/login`, { email, password }, config);
+    // Set expiration time for localStorage
+    const expirationTime = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000);
+    // Set isAuthenticated in localStorage
+    localStorage.setItem("isUserAuthenticated", true);
+    localStorage.setItem("authExpiration", expirationTime.getTime());
     dispatch({
       type: "LOGIN_USER_SUCCESS",
       payload: data.user
@@ -30,6 +35,8 @@ export const loginUser = (email, password) => async (dispatch) => {
 export const logoutUser = () => async (dispatch) => {
   try {
     await axios.get(`${API_URL}/auth/logout`);
+    localStorage.removeItem("isUserAuthenticated");
+    localStorage.removeItem("authExpiration");
     dispatch({ type: "LOGOUT_USER_SUCCESS" });
   } catch (error) {
     dispatch({ type: "LOGOUT_USER_FAIL", payload: error.response.data.message });

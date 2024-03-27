@@ -20,6 +20,8 @@ import {
 } from "../actions/barberActions";
 
 const initialState = {
+  loading: false,
+  isAuthenticated: false,
   profile: null,
   services: [],
   slots: [],
@@ -27,6 +29,8 @@ const initialState = {
   appointments: [],
   reviews: [],
   reportedReview: null,
+  user:null,
+  success: false,
 };
 
 const barberReducer = (state = initialState, action) => {

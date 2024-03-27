@@ -5,9 +5,9 @@ import { fetchBarberProfile, updateBarberProfile } from "../../actions/barberAct
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchBarberProfile());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchBarberProfile());
+  // }, [dispatch]);
 
   const barberProfile = useSelector((state) => state.barber.profile);
   const cities = useSelector((state) => state.city.cities);

@@ -19,6 +19,7 @@ import PrivateRoute from "./Routes/PrivateRoute";
 import BarberInterface from "./components/barberComponents/BarberInterface";
 import BarberLogin from "./components/barberComponents/BarberLogin";
 import BarberRegister from "./pages/barberPages/BarberRegister";
+import Privateroute from "./components/barberComponents/PrivateRoute";
 
 // import { LOGIN_USER_SUCCESS } from "./constants/userConstants";
 // import Cookies from 'js-cookie';
@@ -29,7 +30,16 @@ const App = () => {
     dispatch(loadUser());
   }, [dispatch]);
 
-  const isAuthenticated = useSelector((state) => state.barber.isAuthenticated);
+   // Check if isAuthenticated has expired
+   const authExpiration = localStorage.getItem('authExpiration');
+   if (authExpiration && new Date(authExpiration) < new Date()) {
+     // Clear isAuthenticated in localStorage and log out the user if it has expired
+     localStorage.removeItem('isBarberAuthenticated');
+     localStorage.removeItem('isUserAuthenticated');
+     localStorage.removeItem('authExpiration');
+   }
+
+  // const isAuthenticated = useSelector((state) => state.barber.isAuthenticated);
  
   const [contentVisible, setContentVisible] = useState(false);
   const { pathname } = useLocation();
@@ -106,6 +116,8 @@ const App = () => {
               </PrivateRoute>
             }
           />
+          {/* <Route path="/profile" element={<Privateroute element={<Profile setContentVisible={setContentVisible} />} />} /> */}
+
           <Route
             path="/register"
             element={<Register setContentVisible={setContentVisible} />}
@@ -116,15 +128,17 @@ const App = () => {
           />
           <Route path="/barber-login" element={<BarberLogin />} />
           <Route path="/barber-register" element={<BarberRegister />} />
-           <Route
+           {/* <Route
             path="/barber-interface/*"
             element={
               <PrivateRoute>
                 <BarberInterface />
               </PrivateRoute>
             }
-          /> 
+          />  */}
           {/* <Route path="/barber-interface/*" element={<BarberInterface />} /> */}
+          {/* <Privateroute path="/barber-interface/*" element={<BarberInterface />} /> */}
+          <Route path="/barber-interface/*" element={<Privateroute Component={BarberInterface} />} />
         </Routes>
         {renderFooter}
 

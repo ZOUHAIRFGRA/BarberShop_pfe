@@ -16,7 +16,7 @@ const Appointements = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/user/appointements`, { withCredentials: true });
-    console.log(response.data.appointments)
+    // console.log(response.data.appointments)
     setAppointments(response.data.appointments)
         setLoading(false);
       } catch (error) {
