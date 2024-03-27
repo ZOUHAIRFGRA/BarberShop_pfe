@@ -56,6 +56,9 @@ const Appointements = () => {
               Appointment Date: {appointment.selectedDay} |{" "}
               {appointment.selectedDayDate}{" "}
             </p>
+            <p className="card-text">
+              Appointment Status: {appointment.status} 
+            </p>
             {/* Add more appointment details as needed */}
           </div>
         </div>

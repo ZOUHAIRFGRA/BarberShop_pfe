@@ -114,7 +114,12 @@ export const fetchUser = () => async (dispatch) => {
 
 export const updateUser = (userData) => async (dispatch) => {
   try {
-    const response = await axios.put(`${API_URL}/user/updateProfile`, userData, { withCredentials: true });
+    const config = {
+      headers: {
+          "Content-Type": "multipart/form-data",
+      },
+  }
+    const response = await axios.put(`${API_URL}/user/updateProfile`, userData, { withCredentials: true },config);
     dispatch({ type: 'UPDATE_USER_SUCCESS', payload: response.data.message });
   } catch (error) {
     dispatch({ type: 'UPDATE_USER_FAIL', payload: error.message });

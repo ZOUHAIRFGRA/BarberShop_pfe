@@ -83,7 +83,7 @@ const BarberDetails = ({ setContentVisible }) => {
               barberId={_id}
               address={address}
               city={city}
-              image={image}
+              image={image.url}
               name={name}
               averageRating={averageRating.toFixed(1)}
               numberOfReviews={numberOfReviews}

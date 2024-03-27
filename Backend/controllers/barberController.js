@@ -4,19 +4,30 @@ const Slot = require("../models/slotModel");
 const Appointment = require("../models/appointmentModel");
 const Review = require("../models/reviewModel");
 const { validationResult } = require("express-validator");
-const catchAsync = require('../middlewares/catchAsync');
+const catchAsync = require("../middlewares/catchAsync");
+const cloudinary = require("cloudinary").v2;
+const fs = require("fs");
+// Configure Cloudinary with your credentials
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 // Display barber profile
 const getBarberProfile = catchAsync(async (req, res) => {
   try {
     const barberId = req.user.id; // Extract barber's ID from the token
-    const barber = await Barber.findById(barberId).populate("services").populate("availableSlots");;
+    const barber = await Barber.findById(barberId)
+      .populate("services")
+      .populate("availableSlots");
     if (!barber) {
       return res.status(404).json({ message: "Barber not found" });
     }
     res.status(200).json({ success: true, barber });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: "Internal Server Error" });  }
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
 });
 
 const updateBarberProfile = catchAsync(async (req, res) => {
@@ -37,8 +48,24 @@ const updateBarberProfile = catchAsync(async (req, res) => {
 
     // Update each field provided in the request body
     Object.keys(fieldsToUpdate).forEach((field) => {
-      barber[field] = fieldsToUpdate[field];
+      // Skip updating the image field
+      if (field !== "image") {
+        barber[field] = fieldsToUpdate[field];
+      }
     });
+
+    // Check if an image is provided in the request
+    if (req.body.image) {
+      const result = await cloudinary.uploader.upload(req.body.image, {
+        folder: "barber/images", // Specify the folder to upload the image
+      });
+
+      barber.image = {
+        public_id: result.public_id,
+        url: result.secure_url,
+      };
+    }
+    
 
     await barber.save();
 
@@ -48,8 +75,6 @@ const updateBarberProfile = catchAsync(async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
-
 
 // Add service to barber
 const addServiceToBarber = catchAsync(async (req, res) => {
@@ -62,7 +87,7 @@ const addServiceToBarber = catchAsync(async (req, res) => {
   // Extract barber's ID from the token
   const barberId = req.user.id; // Assuming the barber's ID is included in the token payload
 
-  const { name, price,description, duration, images } = req.body;
+  const { name, price, description, duration, images } = req.body;
 
   try {
     // Check if the barber exists
@@ -107,8 +132,6 @@ const updateServiceForBarber = catchAsync(async (req, res) => {
       return res.status(404).json({ message: "Service not found" });
     }
 
-    
-
     // Update service fields
     for (const key in req.body) {
       if (Object.hasOwnProperty.call(req.body, key)) {
@@ -126,14 +149,10 @@ const updateServiceForBarber = catchAsync(async (req, res) => {
   }
 });
 
-
-
-
-
 // Delete service for a barber
 const deleteServiceForBarber = catchAsync(async (req, res) => {
   try {
-    const  serviceId  = req.params.id;
+    const serviceId = req.params.id;
 
     // Find the barber using the token
     const barberId = req.user.id;
@@ -182,8 +201,6 @@ const getAllServicesForBarber = catchAsync(async (req, res) => {
   }
 });
 
-
-
 // Create available slots for a barber
 const createAvailableSlots = catchAsync(async (req, res) => {
   // Validate request
@@ -203,28 +220,32 @@ const createAvailableSlots = catchAsync(async (req, res) => {
     }
 
     // Create new slots with the barber reference
-    const createdSlots = await Promise.all(slots.map(async (slot) => {
-      const newSlot = await Slot.create({
-        time: slot.time,
-        availableDays: [
-          { dayOfWeek: "Monday" },
-          { dayOfWeek: "Tuesday" },
-          { dayOfWeek: "Wednesday" },
-          { dayOfWeek: "Thursday" },
-          { dayOfWeek: "Friday" },
-          { dayOfWeek: "Saturday" },
-          { dayOfWeek: "Sunday" }
-        ],
-        barber: barber._id // Set the barber reference
-      });
-      return newSlot;
-    }));
+    const createdSlots = await Promise.all(
+      slots.map(async (slot) => {
+        const newSlot = await Slot.create({
+          time: slot.time,
+          availableDays: [
+            { dayOfWeek: "Monday" },
+            { dayOfWeek: "Tuesday" },
+            { dayOfWeek: "Wednesday" },
+            { dayOfWeek: "Thursday" },
+            { dayOfWeek: "Friday" },
+            { dayOfWeek: "Saturday" },
+            { dayOfWeek: "Sunday" },
+          ],
+          barber: barber._id, // Set the barber reference
+        });
+        return newSlot;
+      })
+    );
 
     // Add new slot IDs to the availableSlots array
     barber.availableSlots.push(...createdSlots.map((slot) => slot._id));
     await barber.save();
 
-    res.status(201).json({ message: "Available slots created successfully", createdSlots });
+    res
+      .status(201)
+      .json({ message: "Available slots created successfully", createdSlots });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -269,50 +290,56 @@ const updateAvailableSlot = catchAsync(async (req, res) => {
 
     // Validate the format of updatedSlots
     if (!Array.isArray(updatedSlots)) {
-      return res.status(400).json({ message: "Invalid data format. Expected an array." });
+      return res
+        .status(400)
+        .json({ message: "Invalid data format. Expected an array." });
     }
 
     // Array to store updated slots
     const updatedSlotsResponse = [];
 
     // Loop through updatedSlots and update each slot individually
-    await Promise.all(updatedSlots.map(async (updatedSlot) => {
-      const slotId = updatedSlot._id;
+    await Promise.all(
+      updatedSlots.map(async (updatedSlot) => {
+        const slotId = updatedSlot._id;
 
-      try {
-        // Check if the slot exists
-        const slot = await Slot.findById(slotId);
-        if (!slot) {
-          return res.status(404).json({ message: "Slot not found" });
+        try {
+          // Check if the slot exists
+          const slot = await Slot.findById(slotId);
+          if (!slot) {
+            return res.status(404).json({ message: "Slot not found" });
+          }
+
+          // Check if the version of the document matches the version sent by the client
+          if (updatedSlot.__v != slot.__v) {
+            return res.status(409).json({
+              message:
+                "Document version mismatch. Please refresh and try again.",
+            });
+          }
+
+          // Partially update the slot
+          Object.assign(slot, updatedSlot);
+          const savedSlot = await slot.save();
+
+          // Add the updated slot to the response array
+          updatedSlotsResponse.push(savedSlot);
+        } catch (error) {
+          console.error(`Error updating slot with ID ${slotId}:`, error);
+          // Handle individual slot update errors here (if necessary)
         }
+      })
+    );
 
-        // Check if the version of the document matches the version sent by the client
-        if (updatedSlot.__v != slot.__v) {
-          return res.status(409).json({ message: "Document version mismatch. Please refresh and try again." });
-        }
-
-        // Partially update the slot
-        Object.assign(slot, updatedSlot);
-        const savedSlot = await slot.save();
-
-        // Add the updated slot to the response array
-        updatedSlotsResponse.push(savedSlot);
-      } catch (error) {
-        console.error(`Error updating slot with ID ${slotId}:`, error);
-        // Handle individual slot update errors here (if necessary)
-      }
-    }));
-
-    res.status(200).json({ message: "Slots updated successfully", updatedSlots: updatedSlotsResponse });
+    res.status(200).json({
+      message: "Slots updated successfully",
+      updatedSlots: updatedSlotsResponse,
+    });
   } catch (error) {
     console.error("Error updating slots:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
-
-
-
 
 // Get all available slots for a barber
 const getAllAvailableSlots = catchAsync(async (req, res) => {
@@ -320,7 +347,7 @@ const getAllAvailableSlots = catchAsync(async (req, res) => {
 
   try {
     // Check if the barber exists
-    const barber = await Barber.findById(barberId).populate('availableSlots');
+    const barber = await Barber.findById(barberId).populate("availableSlots");
     if (!barber) {
       return res.status(404).json({ message: "Barber not found" });
     }
@@ -333,76 +360,83 @@ const getAllAvailableSlots = catchAsync(async (req, res) => {
   }
 });
 
-
 // Controller to fetch all appointments for a specific barber
 const getAllAppointmentsForBarber = async (req, res) => {
   try {
     const barberId = req.user.id; // Assuming the barber's ID is stored in the request user object
     const appointments = await Appointment.find({ barber: barberId })
-    .populate('service', 'name')
-    .populate('user', 'username');
+      .populate("service", "name")
+      .populate("user", "username");
     res.status(200).json({ success: true, appointments });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
 
 const approveAppointment = async (req, res) => {
   try {
     const { appointmentId } = req.params;
-    
+
     // Find the appointment by ID
     let appointment = await Appointment.findById(appointmentId)
-    .populate('service', 'name')
-    .populate('user', 'username');
+      .populate("service", "name")
+      .populate("user", "username");
 
     if (!appointment) {
-      return res.status(404).json({ success: false, message: 'Appointment not found' });
+      return res
+        .status(404)
+        .json({ success: false, message: "Appointment not found" });
     }
 
     // Update appointment status to approved
-    appointment.status = 'approved';
-    
+    appointment.status = "approved";
+
     // Save the updated appointment
     appointment = await appointment.save();
 
-    res.status(200).json({ success: true, message: 'Appointment approved successfully', appointment });
+    res.status(200).json({
+      success: true,
+      message: "Appointment approved successfully",
+      appointment,
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
 
 const rejectAppointment = async (req, res) => {
   try {
     const { appointmentId } = req.params;
-    
+
     // Find the appointment by ID
     let appointment = await Appointment.findById(appointmentId)
-    .populate('service', 'name')
-    .populate('user', 'username');
-    
+      .populate("service", "name")
+      .populate("user", "username");
 
     if (!appointment) {
-      return res.status(404).json({ success: false, message: 'Appointment not found' });
+      return res
+        .status(404)
+        .json({ success: false, message: "Appointment not found" });
     }
 
     // Update appointment status to rejected
-    appointment.status = 'rejected';
-    
+    appointment.status = "rejected";
+
     // Save the updated appointment
     appointment = await appointment.save();
 
-    res.status(200).json({ success: true, message: 'Appointment rejected successfully', appointment });
+    res.status(200).json({
+      success: true,
+      message: "Appointment rejected successfully",
+      appointment,
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
-
-
-
 
 const getAllReviewsForBarber = async (req, res) => {
   try {
@@ -410,34 +444,35 @@ const getAllReviewsForBarber = async (req, res) => {
     const barberId = req.user.id;
 
     // Find all reviews for the given barber ID
-    const reviews = await Review.find({ barber: barberId }).populate('user');
+    const reviews = await Review.find({ barber: barberId }).populate("user");
 
     res.status(200).json({ reviews });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 const reportReview = async (req, res) => {
   const { reviewId } = req.params;
   try {
     // Find the review by ID
-    let review = await Review.findById(reviewId).populate('user');
+    let review = await Review.findById(reviewId).populate("user");
     if (!review) {
-      return res.status(404).json({ message: 'Review not found' });
+      return res.status(404).json({ message: "Review not found" });
     }
 
     // Update the status of the review to reported
-    review.status = 'reported';
+    review.status = "reported";
     review = await review.save();
 
-    res.status(200).json({  success: true,message: 'Review reported successfully', review });
+    res
+      .status(200)
+      .json({ success: true, message: "Review reported successfully", review });
   } catch (error) {
     console.error(error);
-    res.status(500).json({  success: false,message: 'Internal Server Error' });
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
-
 
 module.exports = {
   getBarberProfile,
@@ -452,7 +487,7 @@ module.exports = {
   getAllServicesForBarber,
   getAllAppointmentsForBarber,
   approveAppointment,
-rejectAppointment,
-getAllReviewsForBarber,
-reportReview
+  rejectAppointment,
+  getAllReviewsForBarber,
+  reportReview,
 };

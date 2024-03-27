@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
 const User = require("../models/userModel.js");
 const City = require("../models/cityModel.js");
 const Barber = require("../models/barberModel.js");
@@ -9,6 +11,13 @@ const { check, validationResult } = require("express-validator");
 const sendCookie = require("../utils/sendCookie");
 const catchAsync = require('../middlewares/catchAsync');
 
+
+// Configure Cloudinary with your credentials
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 // Load JWT_SECRET from environment variables
 const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
 
@@ -91,8 +100,8 @@ const registerBarber = catchAsync(async (req, res) => {
     image,
     city: cityName,
     neighborhood: neighborhoodName,
-    latitude, // Add latitude to the request body
-    longitude, // Add longitude to the request body
+    latitude,
+    longitude,
     phone,
     promoted,
     workingHours,
@@ -102,9 +111,7 @@ const registerBarber = catchAsync(async (req, res) => {
     // Check if the barber already exists
     const existingBarber = await Barber.findOne({ email });
     if (existingBarber) {
-      return res
-        .status(400)
-        .json({ message: "Barber with this email already exists" });
+      return res.status(400).json({ message: "Barber with this email already exists" });
     }
 
     // Find the city based on the provided name
@@ -114,17 +121,31 @@ const registerBarber = catchAsync(async (req, res) => {
     }
 
     // Find the neighborhood based on the provided name within the found city
-    const neighborhood = city.neighborhoods.find(
-      (n) => n.name === neighborhoodName
-    );
+    const neighborhood = city.neighborhoods.find(n => n.name === neighborhoodName);
     if (!neighborhood) {
-      return res
-        .status(404)
-        .json({ message: "Neighborhood not found in the specified city" });
+      return res.status(404).json({ message: "Neighborhood not found in the specified city" });
     }
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Check if an image file was uploaded
+    let image = '';
+    if (req.file) {
+      try {
+        // Upload image to Cloudinary
+        const result = await cloudinary.uploader.upload(req.file.path);
+        
+        // Save the URL of the uploaded image in the database
+        image = result.secure_url; // Use result.secure_url for secure HTTPS URL
+        console.log(image)
+        // Delete the temporary file uploaded to the server
+        fs.unlinkSync(req.file.path);
+      } catch (error) {
+        console.error('Error uploading image to Cloudinary:', error);
+        return res.status(500).json({ message: 'Image upload failed' });
+      }
+    }
 
     // Create a new barber
     const barber = await Barber.create({

@@ -23,7 +23,7 @@ const Profile = () => {
         <Card.Header>
           <Row>
             <Col sm={3}>
-              <Card.Img src={profile.image} alt="Barber" />
+              <Card.Img src={profile.image.url} alt="Barber" />
             </Col>
             <Col sm={9}>
               <Card.Title>{profile.name}</Card.Title>
