@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const dotenv = require('dotenv').config()
 const cors = require("cors");
 const errorMiddleware = require('./middlewares/errorHandler');
+const fileUpload = require('express-fileupload');
 
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -23,13 +24,14 @@ const app = express();
 // On main branch
 // Middleware
 app.use(cors({
-  origin: 'https://barber-shop-pfe.vercel.app', // Replace with the origin of your frontend application
+  origin: 'http://localhost:3000', // Replace with the origin of your frontend application
   credentials: true ,
   // Allow credentials (cookies) to be sent and received
 }));
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(fileUpload());
 app.use('/public', express.static('public'));
 
 // Connect to MongoDB

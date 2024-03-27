@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Row, Col } from "react-bootstrap";
-import { fetchBarberProfile, updateBarberProfile } from "../../actions/barberActions";
+import {
+  fetchBarberProfile,
+  updateBarberProfile,
+} from "../../actions/barberActions";
+import { toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css'
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
@@ -9,8 +15,10 @@ const UpdateProfile = () => {
   //   dispatch(fetchBarberProfile());
   // }, [dispatch]);
 
-  const barberProfile = useSelector((state) => state.barber.profile);
+  const barberProfile = useSelector((state) => state.barber.user);
   const cities = useSelector((state) => state.city.cities);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [image, setImage] = useState();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -20,6 +28,7 @@ const UpdateProfile = () => {
     longitude: "",
     city: "",
     neighborhood: "",
+     // Add image state
   });
 
   useEffect(() => {
@@ -35,16 +44,6 @@ const UpdateProfile = () => {
       });
     }
   }, [barberProfile]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  
 
   const handleCityChange = (e) => {
     setFormData({
@@ -72,16 +71,66 @@ const UpdateProfile = () => {
       });
     }
   };
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+
+  //   const formData = new FormData();
+  //   formData.append("image", file); // Ensure the field name matches what the backend expects
+
+  //   setFormData({
+  //     ...formData,
+  //     image: formData, // Set FormData object in the state
+  //   });
+
+  //   const reader = new FileReader();
+  //   reader.onloadend = () => {
+  //     setImagePreview(reader.result);
+  //   };
+  //   reader.readAsDataURL(file);
+  // };
+
+  const handleChange = (e) => {
+    if (e.target.name === "image") {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImage(reader.result);
+          setImagePreview(reader.result);
+        }
+      };
+
+      reader.readAsDataURL(e.target.files[0]);
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData)
-    dispatch(updateBarberProfile(formData));
+    const data = new FormData();
+    data.set("name", formData.name);
+    data.set("address", formData.address);
+    data.set("phone", formData.phone);
+    data.set("latitude", formData.latitude);
+    data.set("longitude", formData.longitude);
+    data.set("city", formData.city);
+    data.set("neighborhood", formData.neighborhood);
+    if (image) {
+      data.set("image", image);
+    }
+
+    // console.log(data.get("name"))
+    // console.log(data.image);
+    dispatch(updateBarberProfile(data));
+    toast.info("Profile Updated Successfully!",{theme: "dark"});
+
   };
 
   return (
     <div>
       <h2>Update Profile</h2>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} encType="multipart/form-data">
         <Row className="mb-3">
           <Form.Group as={Col} controlId="name">
             <Form.Label>Name</Form.Label>
@@ -148,6 +197,7 @@ const UpdateProfile = () => {
               value={formData.city}
               onChange={handleCityChange}
               aria-label="Select City"
+              name="city"
             >
               <option value="">Select City</option>
               {cities.map((city) => (
@@ -165,6 +215,7 @@ const UpdateProfile = () => {
                   value={formData.neighborhood}
                   onChange={handleNeighborhoodChange}
                   aria-label="Select Neighborhood"
+                  name="neighborhood"
                 >
                   <option value="">Select Neighborhood</option>
                   {cities
@@ -179,6 +230,22 @@ const UpdateProfile = () => {
             </Row>
           )}
         </Row>
+        <Form.Group controlId="image" className="mb-3">
+          <Form.Label>Profile Image</Form.Label>
+          <Form.Control
+            type="file"
+            accept="image/*"
+            onChange={handleChange}
+            name="image"
+          />
+          {imagePreview && (
+            <img
+              src={imagePreview}
+              alt="Preview"
+              style={{ maxWidth: "200px", marginTop: "10px" }}
+            />
+          )}
+        </Form.Group>
 
         <Button variant="primary" type="submit">
           Update Profile

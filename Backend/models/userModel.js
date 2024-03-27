@@ -16,6 +16,14 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  image: {
+    public_id: {
+      type: String,
+    },
+    url: {
+      type: String,
+    },
+  },
   phoneNumber: {
     type: String,
     required: false,

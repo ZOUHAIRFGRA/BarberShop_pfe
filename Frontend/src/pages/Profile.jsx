@@ -44,7 +44,7 @@ const Profile = ({ setContentVisible }) => {
 
 
   // eslint-disable-next-line no-unused-vars
-  const { name, email, CIN, address, phoneNumber, username } = user;
+  const { name, email, CIN, address,image, phoneNumber, username } = user;
   const renderMainContent = () => {
     switch (currentContent) {
       case "profile":
@@ -91,8 +91,9 @@ const Profile = ({ setContentVisible }) => {
         <aside className="col-lg-3 mb-3">
           <div className="text-center d-flex mb-3">
             <img
-              src="https://cdn1.iconfinder.com/data/icons/basic-ui-set-v5-user-outline/64/Account_profile_user_avatar_rounded-512.png"
+              src={image.url}
               alt="Profile"
+              loading="lazy"
               className="rounded-circle img-fluid shadow me-2"
               style={{ width: "100px", height: "100px", objectFit: "cover" }}
             />

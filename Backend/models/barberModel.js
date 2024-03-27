@@ -4,8 +4,8 @@ const barberSchema = new mongoose.Schema({
   availableSlots: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Slot'
-    }
+      ref: "Slot",
+    },
   ],
   name: {
     type: String,
@@ -34,7 +34,14 @@ const barberSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  image: String,
+  image: {
+    public_id: {
+      type: String,
+    },
+    url: {
+      type: String,
+    },
+  },
   services: [
     {
       type: mongoose.Schema.Types.ObjectId,

@@ -113,7 +113,7 @@ export default function HomeCards() {
               >
                 <div style={{ paddingTop: "75%", position: "relative" }}>
                   <img
-                    src={barber.image}
+                    src={barber.image.url || "https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?w=740&t=st=1704041446~exp=1704042046~hmac=02ab25eb70931cd5dfca374f9149171722abe4817680ac0b315378f5845ea5bc"}
                     className="card-img-top"
                     alt="..."
                     style={{

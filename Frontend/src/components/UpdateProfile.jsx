@@ -2,33 +2,55 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUser, updateUser } from "../actions/userActions";
 import { Form, Button, Row, Col, Modal } from "react-bootstrap";
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css'
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
 
   const userData = useSelector((state) => state.user.userData);
-  const error = useSelector((state) => state.user.error);
+  // const error = useSelector((state) => state.user.error);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [image, setImage] = useState();
 
   const [formData, setFormData] = useState({
     firstName: userData.firstName || "",
     lastName: userData.lastName || "",
-    username: userData.username || "",
-    email: userData.email || "",
+    username:  userData.username || "",
+    email:  userData.email || "",
     phoneNumber: userData.phoneNumber || "",
     address: userData.address || "",
-    // oldPassword: "",
-    // newPassword: "",
   });
+
+ 
+ 
+
+
   const [formErrors, setFormErrors] = useState({});
   // const [showPasswordModal, setShowPasswordModal] = useState(false);
-  useEffect(() => {
-    if (error) {
-      setFormErrors({ ...formErrors, updateError: error });
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) {
+  //     setFormErrors({ ...formErrors, updateError: error });
+  //   }
+  // }, [error]);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (e.target.name === "image") {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImage(reader.result);
+          setImagePreview(reader.result);
+        }
+      };
+
+      reader.readAsDataURL(e.target.files[0]);
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -41,24 +63,27 @@ const UpdateProfile = () => {
     if (formData.username.length < 4) {
       errors.username = "Username must be at least 4 characters long";
     }
-    // if (formData.oldPassword && formData.oldPassword.length < 8) {
-    //   errors.oldPassword = "Old password must be at least 8 characters long";
-    // }
-    // if (formData.newPassword && formData.newPassword.length < 8) {
-    //   errors.newPassword = "New password must be at least 8 characters long";
-    // }
-    // if (formData.newPassword !== formData.confirmPassword) {
-    //   errors.newPassword = 'Passwords dont match';
-    // }
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
       return;
     }
 
+    const data = new FormData();
+    data.set("firstName", formData.firstName);
+    data.set("lastName", formData.lastName);
+    data.set("username", formData.username);
+    data.set("email", formData.email);
+    data.set("phoneNumber", formData.phoneNumber);
+    data.set("address", formData.address);
+    if (image) {
+      data.set("image", image);
+    }
+
     // Dispatch action to update user profile
-    dispatch(updateUser(formData));
+    dispatch(updateUser(data));
 
     console.log("user updated succ");
+    toast.info("Profile Updated Successfully!",{theme: "dark"});
   };
 
  
@@ -72,7 +97,8 @@ const UpdateProfile = () => {
   }, [dispatch,formData]);
   return (
     <>
-      <Form className="mt-3" onSubmit={handleSubmit}>
+    <ToastContainer />
+      <Form className="mt-3" onSubmit={handleSubmit} encType="multipart/form-data">
         <Row className="mb-3">
           <Col>
             <Form.Group controlId="firstName">
@@ -99,6 +125,8 @@ const UpdateProfile = () => {
             </Form.Group>
           </Col>
         </Row>
+
+        
 
         <Form.Group controlId="Address" className="mb-3">
           <Form.Label>Address</Form.Label>
@@ -132,43 +160,30 @@ const UpdateProfile = () => {
           {formErrors.username && <span>{formErrors.username}</span>}
         </Form.Group>
 
+        <Form.Group controlId="image" className="mb-3">
+          <Form.Label>Profile Image</Form.Label>
+          <Form.Control
+            type="file"
+            accept="image/*"
+            onChange={handleChange}
+            name="image"
+          />
+          {imagePreview && (
+            <img
+              src={imagePreview}
+              alt="Preview"
+              style={{ maxWidth: "200px", marginTop: "10px" }}
+            />
+          )}
+        </Form.Group>
+
         <Button variant="primary" type="submit">
           Update Profile
         </Button>
         {formErrors.updateError && <div>{formErrors.updateError}</div>}
       </Form>
 
-       {/* Password Update Modal
-       <Modal show={showPasswordModal} onHide={() => setShowPasswordModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Update Password</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          
-          <Form onSubmit={handlePasswordUpdate}>
-            <Form.Group controlId="oldPassword">
-              <Form.Label>Old Password</Form.Label>
-              <Form.Control type="password" name="oldPassword" value={formData.oldPassword} onChange={handleChange} />
-            </Form.Group>
-            <Form.Group controlId="newPassword">
-              <Form.Label>New Password</Form.Label>
-              <Form.Control type="password" name="newPassword" value={formData.newPassword} onChange={handleChange} />
-            </Form.Group>
-            <Form.Group controlId="confirmPassword">
-              <Form.Label>Confirm New Password</Form.Label>
-              <Form.Control type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} />
-            </Form.Group>
-            <Button variant="primary" type="submit">Update Password</Button>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowPasswordModal(false)}>Cancel</Button>
-        </Modal.Footer>
-      </Modal>
-      
-      {/* Button to show password modal 
-      <Button variant="info" onClick={() => setShowPasswordModal(true)}>Change Password</Button>
-     */}
+       
     </>
   );
 };

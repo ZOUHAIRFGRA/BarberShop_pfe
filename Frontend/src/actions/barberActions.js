@@ -117,10 +117,16 @@ export const fetchBarberProfile = () => {
 export const updateBarberProfile = (updatedProfile) => {
   return async (dispatch) => {
     try {
+      const config = {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    }
       const response = await axios.put(
         `${API_URL}/barber/Updateprofile`,
         updatedProfile,
-        { withCredentials: true }
+        { withCredentials: true },
+        config
       );
       dispatch({ type: UPDATE_BARBER_PROFILE_SUCCESS, payload: response.data });
     } catch (error) {

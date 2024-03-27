@@ -9,7 +9,14 @@ const mongoose = require("mongoose");
 const Service = require("../models/serviceModel");
 const Slot = require("../models/slotModel");
 const catchAsync = require("../middlewares/catchAsync");
-
+const cloudinary = require("cloudinary").v2;
+const fs = require("fs");
+// Configure Cloudinary with your credentials
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 // Get all barbers
 
 const getAllBarbers = catchAsync(async (req, res) => {
@@ -221,7 +228,7 @@ const getAllReviews = catchAsync(async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-}); 
+});
 // bookAppointment controller
 
 const bookAppointment = catchAsync(async (req, res) => {
@@ -267,12 +274,10 @@ const bookAppointment = catchAsync(async (req, res) => {
 
     // Check if the slot is available on the selected day
     if (selectedDayEntry.status === "booked") {
-      return res
-        .status(400)
-        .json({
-          message:
-            "Selected slot is not available for booking on the chosen day.",
-        });
+      return res.status(400).json({
+        message:
+          "Selected slot is not available for booking on the chosen day.",
+      });
     }
 
     // Create the appointment
@@ -357,7 +362,7 @@ const getProfile = catchAsync(async (req, res) => {
   }
 });
 // Route to update user profile partially
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 const updateProfile = catchAsync(async (req, res) => {
   try {
@@ -375,7 +380,9 @@ const updateProfile = catchAsync(async (req, res) => {
 
     // Check if the username is being updated and if it's already taken
     if (fieldsToUpdate.username) {
-      const existingUser = await User.findOne({ username: fieldsToUpdate.username });
+      const existingUser = await User.findOne({
+        username: fieldsToUpdate.username,
+      });
       if (existingUser && existingUser._id.toString() !== userId) {
         return res.status(400).json({ message: "Username is already taken" });
       }
@@ -389,17 +396,27 @@ const updateProfile = catchAsync(async (req, res) => {
     }
 
     // Update each field provided in the request body
-    Object.keys(fieldsToUpdate).forEach(async (field) =>{
-      if (field === 'password') {
+    Object.keys(fieldsToUpdate).forEach(async (field) => {
+      if (field === "password") {
         // If updating password, hash the new password
         const newPassword = fieldsToUpdate[field];
         const hashedPassword = await bcrypt.hash(newPassword, 10);
         user[field] = hashedPassword;
-      } else {
+      } else if (field !== "image") {
         user[field] = fieldsToUpdate[field];
       }
     });
 
+    if (req.body.image) { 
+      const result = await cloudinary.uploader.upload(req.body.image, {
+        folder: "users/images", // Specify the folder to upload the image
+      });
+  
+      user.image = {
+        public_id: result.public_id,
+        url: result.secure_url,
+      };
+    }
     // Save the updated user
     await user.save();
 
@@ -409,7 +426,6 @@ const updateProfile = catchAsync(async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
 
 module.exports = {
   getAllBarbers,
