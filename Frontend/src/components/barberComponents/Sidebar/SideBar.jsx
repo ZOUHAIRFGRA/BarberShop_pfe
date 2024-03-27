@@ -71,11 +71,11 @@ const routes = [
 const SideBar = ({ children }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchBarberProfile());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchBarberProfile());
+  // }, [dispatch]);
 
-  const barber = useSelector((state) => state.barber.profile);
+  const barber = useSelector((state) => state.barber.user);
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const inputAnimation = {

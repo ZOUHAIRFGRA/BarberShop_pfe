@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
 import { Card, Row, Col, ListGroup } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchBarberProfile } from "../../actions/barberActions";
+// import { fetchBarberProfile } from "../../actions/barberActions";
 
 const Profile = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   
-  useEffect(() => {
-    dispatch(fetchBarberProfile());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchBarberProfile());
+  // }, [dispatch]);
   
-  const profile = useSelector((state) => state.barber.profile);
-
+  const profile = useSelector((state) => state.barber.user);
+// useEffect(()=>{console.log(profile)},[profile])
   // Check if profile is null or undefined
   if (!profile) {
     return <div>Loading...</div>; // Or any loading indicator

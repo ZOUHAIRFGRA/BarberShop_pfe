@@ -68,6 +68,8 @@ const BarberDetails = ({ setContentVisible }) => {
     phone,
     reviews,
     availableSlots,
+    latitude,
+    longitude
   } = selectedBarber;
   // console.log(city)
 
@@ -90,7 +92,7 @@ const BarberDetails = ({ setContentVisible }) => {
               workingHours={workingHours}
             />
             <div className="col-md-4 col-sm-12">
-              <BarberLocationMap />
+              <BarberLocationMap latitude={latitude} longitude={longitude} address={address} />
               
                 <WorkingHoursCard workingHours={workingHours} phone={phone} />
 

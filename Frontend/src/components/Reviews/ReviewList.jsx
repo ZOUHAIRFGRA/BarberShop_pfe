@@ -19,7 +19,7 @@ const ReviewList = () => {
     };
     fetchData();
   }, [dispatch]);
-useEffect(()=>{console.log(reviews)},[reviews])
+// useEffect(()=>{console.log(reviews)},[reviews])
   // Function to get 3 random reviews
   const getRandomReviews = () => {
     const shuffledReviews = reviews.sort(() => 0.5 - Math.random());

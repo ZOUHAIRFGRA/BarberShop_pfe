@@ -46,7 +46,7 @@ const ServiceModalBook = ({
   }, [show, barberId, dispatch]);
   
   
-useEffect(()=>{console.log(slots)},[slots])
+// useEffect(()=>{console.log(slots)},[slots])
 
 
   const handleSlotSelection = (slotId, slotDate, slotStatus) => {
@@ -98,7 +98,7 @@ useEffect(()=>{console.log(slots)},[slots])
       try {
         
         const selectedSlotObj = slots.find(slot => slot._id === selectedSlot);
-        console.log(selectedSlotObj.time)
+        // console.log(selectedSlotObj.time)
         // Make API call to bookAppointment route with authorization header
         const response = await axios.post(
           `${process.env.REACT_APP_API_URL}/user/bookAppoitement`,
@@ -113,7 +113,7 @@ useEffect(()=>{console.log(slots)},[slots])
           
         );
 
-        console.log(response.data); // Log response from backend
+        // console.log(response.data); // Log response from backend
         setBookingStatus({
           success: true,
           date: response.data.appointment.appointmentTime,
@@ -178,7 +178,7 @@ useEffect(()=>{console.log(slots)},[slots])
     const timeB = new Date(`01/01/2020 ${b.time}`);
     return timeA - timeB;
   });
-  console.log("sortedSlots",sortedSlots)
+  // console.log("sortedSlots",sortedSlots)
 
   const isSlotDisabled = (slot, selectedDay, isPastTime) => {
     const dayAvailability = slot.availableDays.find(
