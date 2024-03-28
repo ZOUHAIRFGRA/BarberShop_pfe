@@ -123,6 +123,7 @@ const ServicesSection = ({
             aria-describedby="search-addon"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            
           />
         </div>
       </div>
