@@ -7,6 +7,15 @@
     opacity: 0; /* Initially hide the video */
     transition: opacity 0.5s ease-in-out;
   }
+
+  .bg-image {
+    width: 100%;
+    height: 85vh;
+    object-fit: cover;
+    z-index: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
   .video-container.loaded {
     opacity: 1;
   }
@@ -49,7 +58,7 @@
     transform: translate(-50%, -50%);
   }
   /* External Stylesheet */
-  .contnu .custom-span {
+  .contnu .custom-span  {
     font-size: 52px;
     font-weight: 600;
     font-family: "Proxima Nova Rg";
@@ -63,7 +72,7 @@
   }
   
   /* Add your other styles as needed */
-  
+ 
   
   
   
@@ -222,6 +231,7 @@
     .contnu .custom-span {
       font-size: 36px; /* Adjust font size for smaller screens */
     }
+    .cursor{font-size: 36px;}
   
     .contnu .custom-paragraph {
       font-size: 16px; /* Adjust font size for smaller screens */

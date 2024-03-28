@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { fetchCities } from "../actions/userActions";
 import { useNavigate } from "react-router-dom";
-import { useTypewriter, Cursor } from "react-simple-typewriter";
+import { useTypewriter } from "react-simple-typewriter";
 import HomeCards from "../components/HomeCards";
 import "./HomePage.css";
 import Skeleton from "react-loading-skeleton";
@@ -22,7 +22,6 @@ const HomePage = ({ setContentVisible, cities, fetchCities }) => {
     words: ["brave", "bold", "yourself", "confident", "colorful", "free"],
     loop: {},
   });
-
 
   useEffect(() => {
     // Fetch cities when the component mounts
@@ -50,6 +49,33 @@ const HomePage = ({ setContentVisible, cities, fetchCities }) => {
   const handleCityClick = (cityName) => {
     navigate(`/barbers/${cityName}`);
   };
+
+  const handleSearchNearMe = async () => {
+    try {
+      // Fetch user's location using IP Geolocation API
+      const response = await fetch(
+        "https://api.ipregistry.co/196.112.238.120?key=flkl34a4e1ritsoe"
+      );
+      const data = await response.json();
+
+      // Extract city name from the API response
+      const cityName = data.location.city;
+
+      // Construct the URL for the page displaying barbers in that city
+      const barberPageUrl = `/barbers/${encodeURIComponent(cityName)}`;
+
+      // Navigate the user to the page displaying barbers in the city
+      navigate(barberPageUrl);
+    } catch (error) {
+      console.error("Error fetching user's location:", error);
+      // Handle error
+    }
+  };
+  useEffect(() => {
+    if (window.innerWidth <= 375) {
+      handleVideoLoaded()
+    }
+  }, []);
   return (
     <div className={`main ${videoLoaded ? "visible" : "hidden"}`}>
       {!videoLoaded && (
@@ -58,16 +84,28 @@ const HomePage = ({ setContentVisible, cities, fetchCities }) => {
         </div>
       )}
 
-      <video
-        className={`video-container ${videoLoaded ? "loaded" : ""}`}
-        src={video}
-        preload="auto"
-        playsInline
-        autoPlay
-        loop
-        muted
-        onLoadedData={handleVideoLoaded}
-      ></video>
+      {window.innerWidth >= 375 ? (
+        <>
+          <video
+            className={`video-container ${videoLoaded ? "loaded" : ""}`}
+            src={video}
+            preload="auto"
+            playsInline
+            autoPlay
+            loop
+            muted
+            onLoadedData={handleVideoLoaded}
+          ></video>
+          )
+        </>
+      ) : (
+        <div
+          className="bg-image"
+          style={{
+            backgroundImage: `url('https://dk2h3gy4kn9jw.cloudfront.net/web-2019/24c284a1/img/home-gradient.017efb2.jpg')`,
+          }}
+        />
+      )}
 
       {videoLoaded && (
         <div>
@@ -76,7 +114,6 @@ const HomePage = ({ setContentVisible, cities, fetchCities }) => {
             <div className="mb-1">
               <div>
                 <span className="custom-span">Be {text}</span>
-                <Cursor />
               </div>
             </div>
 
@@ -131,6 +168,7 @@ const HomePage = ({ setContentVisible, cities, fetchCities }) => {
                     </p>
                     <button
                       type="submit"
+                      onClick={handleSearchNearMe}
                       className="btn btn-one"
                       style={{
                         backgroundColor: "#00a3ad",

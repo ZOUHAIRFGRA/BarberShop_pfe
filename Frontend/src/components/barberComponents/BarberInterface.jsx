@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import './App.css'
+import './barber.css'
 import SideBar from "./Sidebar/SideBar";
 import Appointments from "../../pages/barberPages/Appointments";
 import Services from "../../pages/barberPages/Services";
