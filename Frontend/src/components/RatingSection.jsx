@@ -54,7 +54,7 @@ const RatingSection = ({ rating, reviewCount, reviews }) => {
       </div>
 
       {/* Rating  */}
-      <div data-aos="fade-up-left" className="col-12 col-md-6">
+      <div data-aos="fade-up-right" className="col-12 col-md-6">
         <div className="row ">
           <div className="content text-center mt-5  ">
             <div className="row border rounded shadow-sm m-lg-0 m-2">

@@ -212,9 +212,9 @@ const ServiceModalBook = ({
             <p>Selected Day: {selectedDay} {selectedDayDate}</p>
             <p>Service Info: {service.name}</p>
             <p>Service Price: {service.price}</p>
-            <Button variant="primary" onClick={handleBookAppointment}>
+            {/* <Button variant="primary" onClick={handleBookAppointment}>
               Confirm Booking
-            </Button>
+            </Button> */}
           </div>
         ) : (
           <>
