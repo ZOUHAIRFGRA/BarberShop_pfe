@@ -205,6 +205,25 @@ const loginUser = catchAsync(async (req, res) => {
       return; // Return after sending the response
     }
 
+
+    // If neither user nor barber is found, return invalid credentials
+    return res.status(401).json({ message: "Invalid credentials" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+const loginBarber = catchAsync(async (req, res) => {
+  // Validate request
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  // Extract login details
+  const { email, password } = req.body;
+
+  try {
     // Check if the barber exists
     const barber = await Barber.findOne({ email });
     if (barber) {
@@ -248,5 +267,7 @@ module.exports = {
   registerUser,
   registerBarber,
   loginUser,
+  loginBarber,
   logoutUser,
+  
 };
