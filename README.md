@@ -3,6 +3,12 @@
 
 The Barber Shop App is a comprehensive appointment booking platform designed to connect clients with local barbers. It offers an intuitive and user-friendly interface that allows users to discover nearby barbers, view their services and ratings, and book appointments at their convenience. Clients can also leave reviews and ratings, while barbers can manage their availability and appointments. With an admin dashboard, the application provides full control and oversight of the system.
 
+## Client interface : 
+- Navigate to '/'
+## Barber interface : 
+- Navigate to '/barber-interface'
+## Admin interface : 
+- Navigate to '/admin'
 ## Client-Side Features:
 
 - User Registration and Login: Clients can create accounts, sign in, and access personalized features.

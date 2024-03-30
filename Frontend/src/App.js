@@ -17,9 +17,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "./actions/userActions";
 import PrivateRoute from "./Routes/PrivateRoute";
 import BarberInterface from "./components/barberComponents/BarberInterface";
+import AdminInterface from "./components/adminComponents/AdminInterface";
 import BarberLogin from "./components/barberComponents/BarberLogin";
+import AdminLogin from "./components/adminComponents/AdminLogin";
 import BarberRegister from "./pages/barberPages/BarberRegister";
 import Privateroute from "./components/barberComponents/PrivateRoute";
+import AdminRoute from "./components/adminComponents/AdminRoute";
 
 // import { LOGIN_USER_SUCCESS } from "./constants/userConstants";
 // import Cookies from 'js-cookie';
@@ -116,7 +119,6 @@ const App = () => {
               </PrivateRoute>
             }
           />
-          {/* <Route path="/profile" element={<Privateroute element={<Profile setContentVisible={setContentVisible} />} />} /> */}
 
           <Route
             path="/register"
@@ -127,28 +129,12 @@ const App = () => {
             element={<NoPage setContentVisible={setContentVisible} />}
           />
           <Route path="/barber-login" element={<BarberLogin />} />
+          <Route path="/admin" element={<AdminLogin />} />
           <Route path="/barber-register" element={<BarberRegister />} />
-           {/* <Route
-            path="/barber-interface/*"
-            element={
-              <PrivateRoute>
-                <BarberInterface />
-              </PrivateRoute>
-            }
-          />  */}
-          {/* <Route path="/barber-interface/*" element={<BarberInterface />} /> */}
-          {/* <Privateroute path="/barber-interface/*" element={<BarberInterface />} /> */}
           <Route path="/barber-interface/*" element={<Privateroute Component={BarberInterface} />} />
+          <Route path="/admin-interface/*" element={<AdminRoute Component={AdminInterface} />} />
         </Routes>
         {renderFooter}
-
-        {/* Do not render Header and Footer in BarberInterface route
-        {!isBarberInterfaceRoute && (
-          <>
-            <Header contentVisible={contentVisible} />
-            <Footer contentVisible={contentVisible} />
-          </>
-        )} */}
       </div>
     </>
   );
