@@ -22,6 +22,7 @@ import BarberLogin from "./components/barberComponents/BarberLogin";
 import AdminLogin from "./components/adminComponents/AdminLogin";
 import BarberRegister from "./pages/barberPages/BarberRegister";
 import Privateroute from "./components/barberComponents/PrivateRoute";
+import AdminRoute from "./components/adminComponents/AdminRoute";
 
 // import { LOGIN_USER_SUCCESS } from "./constants/userConstants";
 // import Cookies from 'js-cookie';
@@ -131,7 +132,7 @@ const App = () => {
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/barber-register" element={<BarberRegister />} />
           <Route path="/barber-interface/*" element={<Privateroute Component={BarberInterface} />} />
-          <Route path="/admin-interface/*" element={<AdminInterface />} />
+          <Route path="/admin-interface/*" element={<AdminRoute Component={AdminInterface} />} />
         </Routes>
         {renderFooter}
       </div>
