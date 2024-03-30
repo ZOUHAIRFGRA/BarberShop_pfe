@@ -33,7 +33,7 @@ export const loginBarber = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `${API_URL}/auth/login`,
+      `${API_URL}/auth/loginBarber`,
       { email, password },
       config
     );
