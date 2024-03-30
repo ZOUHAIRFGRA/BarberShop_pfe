@@ -31,6 +31,6 @@ router.delete('/barbers/:barberId', authenticateUser,adminAuthMiddleware, delete
 router.get('/reviews', authenticateUser,adminAuthMiddleware, getAllReviews);
 router.delete('/reviews/:reviewId', authenticateUser,adminAuthMiddleware, deleteReview);
 router.get('/users', authenticateUser,adminAuthMiddleware, getAllUsers);
-router.delete('/users/:reviewId', authenticateUser,adminAuthMiddleware, deleteUser);
+router.delete('/users/:userId', authenticateUser,adminAuthMiddleware, deleteUser);
 
 module.exports = router;
