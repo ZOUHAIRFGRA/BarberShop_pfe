@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema({
     },
     url: {
       type: String,
+      default: "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg",
     },
   },
   phoneNumber: {
