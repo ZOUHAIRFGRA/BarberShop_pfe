@@ -30,7 +30,11 @@ const Header = ({ contentVisible }) => {
                   <NavDropdown
                     title={
                       <img
-                        src={user.image.url || "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"}
+                        src={
+                          user.image.url
+                            ? user.image.url
+                            : "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
+                        } // Provide default image source if user image URL is undefined
                         className="profile-img"
                         alt="Profile"
                         style={{
