@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCities } from "../../actions/userActions";
 import {
@@ -13,6 +13,8 @@ import {
 } from "react-bootstrap";
 import { registerBarber } from "../../actions/barberActions";
 import { Link, useNavigate } from "react-router-dom";
+import L from "leaflet";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
 
 const BarberRegister = () => {
   const dispatch = useDispatch();
@@ -39,8 +41,10 @@ const BarberRegister = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
-
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  const mapRef = useRef(null);
+  const markerRef = useRef(null);
 
   const navigate = useNavigate();
   const handleTogglePassword = () => {
@@ -73,16 +77,6 @@ const BarberRegister = () => {
     dispatch(fetchCities());
   }, [dispatch]);
 
-  // Function to fetch user's location
-  const getLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setLatitude(position.coords.latitude);
-        setLongitude(position.coords.longitude);
-      });
-    }
-  };
-
   // Function to handle city selection
   const handleCityChange = (e) => {
     setSelectedCity(e.target.value);
@@ -113,6 +107,82 @@ const BarberRegister = () => {
     };
     dispatch(registerBarber(updatedFormData));
     console.log(updatedFormData); // For testing, replace with actual dispatch
+  };
+  useEffect(() => {
+    if (!mapRef.current) {
+      mapRef.current = L.map("map").setView([33.545973, -7.624513], 10);
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(mapRef.current);
+
+      // Initialize marker
+      const customIcon = L.icon({
+        iconUrl: markerIcon,
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        tooltipAnchor: [16, -28],
+        shadowSize: [41, 41],
+      });
+      markerRef.current = L.marker([0, 0], { icon: customIcon }).addTo(
+        mapRef.current
+      );
+    }
+
+    // Function to handle map click event
+    function onMapClick(e) {
+      const { lat, lng } = e.latlng;
+      console.log("You clicked the map at " + lat + ", " + lng);
+
+      // Update marker position
+      markerRef.current.setLatLng([lat, lng]);
+
+      // Update latitude and longitude states
+      setLatitude(lat);
+      setLongitude(lng);
+    }
+
+    // Remove previous click event listener
+    mapRef.current.off("click");
+
+    // Subscribe to map click event
+    mapRef.current.on("click", onMapClick);
+
+    // If latitude and longitude are not set, get user's location
+    if (latitude === null && longitude === null) {
+      getLocation();
+    }
+
+    return () => {
+      mapRef.current.off("click", onMapClick);
+    };
+  }, [latitude, longitude]);
+
+  // Function to get user's location
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
+          mapRef.current.setView(
+            [position.coords.latitude, position.coords.longitude],
+            10
+          );
+          console.log(position.coords.accuracy);
+          // Update marker position
+          markerRef.current.setLatLng([
+            position.coords.latitude,
+            position.coords.longitude,
+          ]);
+        },
+        (error) => {
+          console.error("Error getting current position:", error);
+        },
+        { enableHighAccuracy: true }
+      );
+    }
   };
 
   return (
@@ -268,11 +338,11 @@ const BarberRegister = () => {
                 />
               </Form.Group>
             </Row>
-
-            <Row className="mb-3">
-              <Col>
-                <Button onClick={getLocation}>Get My Location</Button>
-              </Col>
+            <div id="map" style={{ height: "400px" }} />
+            <Row className="mb-3 mt-5">
+              <Alert variant="info">
+                You can enter manually the address just drag the map
+              </Alert>
             </Row>
 
             {latitude && longitude && (
