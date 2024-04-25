@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAppointments } from "../actions/userActions";
-import axios from 'axios'
+import axios from "axios";
+import "./style/Appointements.css";
 import { Alert } from "react-bootstrap";
 import { ClipLoader } from "react-spinners";
 const Appointements = () => {
   // const dispatch = useDispatch();
   // const appointments = useSelector((state) => state.user.appointements);
-  const [appointments,setAppointments] = useState([])
+  const [appointments, setAppointments] = useState([]);
   // console.log(appointments)
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,9 +16,12 @@ const Appointements = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/user/appointements`, { withCredentials: true });
-    // console.log(response.data.appointments)
-    setAppointments(response.data.appointments)
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/user/appointements`,
+          { withCredentials: true }
+        );
+        // console.log(response.data.appointments)
+        setAppointments(response.data.appointments);
         setLoading(false);
       } catch (error) {
         // Handle error
@@ -31,9 +35,11 @@ const Appointements = () => {
 
   if (loading) {
     // Display the loading spinner while the data is being fetched
-    return <div className="d-flex justify-content-center align-items-center vh-100">
-      <ClipLoader color={"#123abc"} loading={loading}  size={170} />;
-    </div>
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <ClipLoader color={"#123abc"} loading={loading} size={170} />;
+      </div>
+    );
   }
   if (error) {
     return <Alert variant="danger">Error: {error}</Alert>;
@@ -44,23 +50,57 @@ const Appointements = () => {
       <h1>Appointments</h1>
       {appointments.map((appointment) => (
         <div key={appointment._id} className="card">
-          <div className="card-body">
-            <h5 className="card-title">
-              Appointment with {appointment.barber.name}
-            </h5>
-            <p className="card-text">Service: {appointment.service.name}</p>
-            <p className="card-text">
-              Appointment Time: {appointment.appointmentTime}
-            </p>
-            <p className="card-text">
-              Appointment Date: {appointment.selectedDay} |{" "}
-              {appointment.selectedDayDate}{" "}
-            </p>
-            <p className="card-text">
-              Appointment Status: {appointment.status} 
-            </p>
-            {/* Add more appointment details as needed */}
-          </div>
+          <a href="" className="">
+            <div className="appointment-item">
+              <div className="appointment1">
+                <div className="appointment_confirmed">
+                  <div className="confirmed">{appointment.status}</div>
+                </div>
+
+                <div className="div_coiffure">
+                  <div>
+                    <div className="coiffure">
+                      <div className="coiffure1">
+                        <div className="service-name">
+                          {appointment.service.name}
+                        </div>
+                        <div className="info_coiffure">
+                          <div data-testid="avatar" className="avatar">
+                            <div className="avatar1">
+                              <img
+                                src="https://d2zdpiztbgorvt.cloudfront.net/region1/us/240346/biz_photo/20b5dcc0baf04ff8a0130c3c13ad99-oscar-lee-biz-photo-d7a28ce49c4b468f806e73f755105b-booksy.jpeg?size=250x250"
+                                alt="Oscar Lee avatar"
+                                data-testid="avatar-photo"
+                              />
+                            </div>
+                          </div>
+                          {appointment.barber.name}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="service-price">
+                          <div data-testid="service-price"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="appointment-date">
+                <div className="appointment-month">
+                  {appointment.selectedDay}
+                </div>
+                <div className="appointment-day">
+                  {" "}
+                  {appointment.selectedDayDate}{" "}
+                </div>
+                <div></div>
+                <div data-testid="appointment-time">
+                  {appointment.appointmentTime}
+                </div>
+              </div>
+            </div>
+          </a>
         </div>
       ))}
     </div>
