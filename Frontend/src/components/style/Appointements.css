@@ -60,7 +60,7 @@ h2 {
 }
 .appointment_Unconfirmed {
     background-color: #fff3e0;
-    color: #ef6902;
+    color: red;
     border-radius: 8px;
     display: inline-block;
     padding: 0.2em 0.4em;

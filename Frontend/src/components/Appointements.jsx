@@ -53,7 +53,7 @@ const Appointements = () => {
           <a href="" className="">
             <div className="appointment-item">
               <div className="appointment1">
-                <div className="appointment_confirmed">
+                <div className={`${appointment.status === 'approved' ? 'appointment_confirmed' : 'appointment_Unconfirmed'}`}>
                   <div className="confirmed">{appointment.status}</div>
                 </div>
 
