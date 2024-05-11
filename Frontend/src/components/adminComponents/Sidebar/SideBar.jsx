@@ -107,7 +107,7 @@ const SideBar = ({ children }) => {
                   className="profile-section"
                 >
                   
-                  <img src={admin.image || "https://img.url"} alt="Profile" className="profile-image" style={{ width: "60px", height: "60px", borderRadius: "50%", marginLeft: "10px" }} />
+                  <img src={admin.image.url || "https://img.url"} alt="Profile" className="profile-image" style={{ width: "60px", height: "60px", borderRadius: "50%", marginLeft: "10px" }} />
                   <div className="profile-info">
                     <div>
                       <span className="hello-name">{admin.name}</span><br />
