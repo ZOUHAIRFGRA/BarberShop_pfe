@@ -20,8 +20,14 @@ const Appointements = () => {
           `${process.env.REACT_APP_API_URL}/user/appointements`,
           { withCredentials: true }
         );
-        // Sort appointments by date, assuming appointmentDate is the date field
-        const sortedAppointments = response.data.appointments.sort((a, b) => new Date(b.appointmentDate) - new Date(a.appointmentDate));
+
+        // Sort appointments by selectedDayDate
+        const sortedAppointments = response.data.appointments.sort((a, b) => {
+          const dateA = new Date(a.selectedDayDate);
+          const dateB = new Date(b.selectedDayDate);
+          return dateB - dateA;
+        });
+
         setAppointments(sortedAppointments);
         setLoading(false);
       } catch (error) {
