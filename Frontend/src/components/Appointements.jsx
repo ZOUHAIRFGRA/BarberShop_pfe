@@ -20,11 +20,11 @@ const Appointements = () => {
           `${process.env.REACT_APP_API_URL}/user/appointements`,
           { withCredentials: true }
         );
-        // console.log(response.data.appointments)
-        setAppointments(response.data.appointments);
+        // Sort appointments by date, assuming appointmentDate is the date field
+        const sortedAppointments = response.data.appointments.sort((a, b) => new Date(b.appointmentDate) - new Date(a.appointmentDate));
+        setAppointments(sortedAppointments);
         setLoading(false);
       } catch (error) {
-        // Handle error
         setError(error);
         setLoading(false);
       }
@@ -32,7 +32,6 @@ const Appointements = () => {
 
     fetchData();
   }, []);
-
   if (loading) {
     // Display the loading spinner while the data is being fetched
     return (
