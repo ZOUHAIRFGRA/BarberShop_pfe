@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
-import { fetchUser, logoutUser } from "../actions/userActions";
+import { logoutUser } from "../actions/userActions";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next"; // Import the translation hook
+import { FaGlobe } from 'react-icons/fa';
 
 const Header = ({ contentVisible }) => {
   const dispatch = useDispatch();
@@ -43,8 +44,9 @@ const Header = ({ contentVisible }) => {
                     title={
                       <img
                         src={
-                          (user && user.image && user.image.url) ? user.image.url :
-                          "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
+                          user && user.image && user.image.url
+                            ? user.image.url
+                            : "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
                         }
                         className="profile-img"
                         alt="Profile"
@@ -88,13 +90,28 @@ const Header = ({ contentVisible }) => {
                 </Nav.Link>
                 {/* Language Selector */}
                 <NavDropdown
-                  title={selectedLanguage.toUpperCase()} // Display the selected language
+                  title={
+                    <>
+                      <FaGlobe /> {selectedLanguage.toUpperCase()}
+                    </>
+                  }
                   id="language-dropdown"
+                  className='pt-2'
                 >
                   <NavDropdown.Item onClick={() => changeLanguage("en")}>
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg"
+                      alt="English"
+                      style={{ width: "20px", marginRight: "10px" }}
+                    />
                     English
                   </NavDropdown.Item>
                   <NavDropdown.Item onClick={() => changeLanguage("fr")}>
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Flag_of_France.svg"
+                      alt="Français"
+                      style={{ width: "20px", marginRight: "10px" }}
+                    />
                     Français
                   </NavDropdown.Item>
                 </NavDropdown>

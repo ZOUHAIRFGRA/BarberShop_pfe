@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchAppointments } from "../actions/userActions";
 import axios from "axios";
 import "./style/Appointements.css";
-import { Alert } from "react-bootstrap";
+import { Alert, Button, Modal, Form } from "react-bootstrap";
 import { ClipLoader } from "react-spinners";
 import { useTranslation } from "react-i18next";
+import ReactStars from "react-rating-stars-component";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
-const Appointements = () => {
-  const {t} = useTranslation()
-
-  // const dispatch = useDispatch();
-  // const appointments = useSelector((state) => state.user.appointements);
+const Appointments = () => {
+  const { t } = useTranslation();
   const [appointments, setAppointments] = useState([]);
-  // console.log(appointments)
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +27,6 @@ const Appointements = () => {
           { withCredentials: true }
         );
 
-        // Sort appointments by selectedDayDate
         const sortedAppointments = response.data.appointments.sort((a, b) => {
           const dateA = new Date(a.selectedDayDate);
           const dateB = new Date(b.selectedDayDate);
@@ -42,16 +43,66 @@ const Appointements = () => {
 
     fetchData();
   }, []);
+
+  const handleShowReviewModal = (appointment) => {
+    setSelectedAppointment(appointment);
+    setShowReviewModal(true);
+  };
+
+  const handleCloseReviewModal = () => {
+    setShowReviewModal(false);
+    setSelectedAppointment(null);
+    setRating(0);
+    setComment("");
+  };
+
+  const handleShowDetailsModal = (appointment) => {
+    setSelectedAppointment(appointment);
+    setShowDetailsModal(true);
+  };
+
+  const handleCloseDetailsModal = () => {
+    setShowDetailsModal(false);
+    setSelectedAppointment(null);
+  };
+
+  const handleReviewSubmit = async () => {
+    if (selectedAppointment && rating > 0) {
+      const barberId = selectedAppointment.barber._id;
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_API_URL}/user/add-reviews`,
+          { barberId, rating, comment },
+          { withCredentials: true }
+        );
+
+        if (response.status === 201) {
+          toast.success("Review added successfully!");
+          // Update the appointments to reflect the new review
+          const updatedAppointments = appointments.map((appt) =>
+            appt._id === selectedAppointment._id
+              ? { ...appt, reviewAdded: true }
+              : appt
+          );
+          setAppointments(updatedAppointments);
+          handleCloseReviewModal();
+        }
+      } catch (error) {
+        console.error("Failed to add review", error);
+      }
+    }
+  };
+
   if (loading) {
-    // Display the loading spinner while the data is being fetched
     return (
       <div className="d-flex justify-content-center align-items-center vh-100">
         <ClipLoader color={"#123abc"} loading={loading} size={170} />;
       </div>
     );
   }
+
   if (error) {
-    return <Alert variant="danger">Error: {error}</Alert>;
+    return <Alert variant="danger">Error: {error.message}</Alert>;
   }
 
   return (
@@ -59,7 +110,7 @@ const Appointements = () => {
       <h1>{t('Appointments')}</h1>
       {appointments.map((appointment) => (
         <div key={appointment._id} className="card">
-          <a href="" className="">
+          <div onClick={() => handleShowDetailsModal(appointment)} className='active'>
             <div className="appointment-item">
               <div className="appointment1">
                 <div className={`${appointment.status === 'approved' ? 'appointment_confirmed' : 'appointment_Unconfirmed'}`}>
@@ -77,7 +128,7 @@ const Appointements = () => {
                           <div data-testid="avatar" className="avatar">
                             <div className="avatar1">
                               <img
-                                src="https://d2zdpiztbgorvt.cloudfront.net/region1/us/240346/biz_photo/20b5dcc0baf04ff8a0130c3c13ad99-oscar-lee-biz-photo-d7a28ce49c4b468f806e73f755105b-booksy.jpeg?size=250x250"
+                                src={appointment.barber.image.url}
                                 alt="Oscar Lee avatar"
                                 data-testid="avatar-photo"
                               />
@@ -109,11 +160,91 @@ const Appointements = () => {
                 </div>
               </div>
             </div>
-          </a>
+          </div>
+          {appointment.status === "done" && !appointment.reviewAdded && (
+            <Button
+              variant="primary"
+              onClick={() => handleShowReviewModal(appointment)}
+            >
+              {t('Add Review')}
+            </Button>
+          )}
         </div>
       ))}
+
+      <Modal show={showReviewModal} onHide={handleCloseReviewModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>{t('Add Review')}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group>
+              <Form.Label>{t('Rating')}</Form.Label>
+              <ReactStars
+                count={5}
+                onChange={setRating}
+                size={24}
+                half={true}
+                value={rating}
+                activeColor="#ffd700"
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>{t('Comment')}</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseReviewModal}>
+            {t('Close')}
+          </Button>
+          <Button variant="primary" onClick={handleReviewSubmit}>
+            {t('Submit Review')}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {selectedAppointment && (
+        <Modal show={showDetailsModal} onHide={handleCloseDetailsModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>{t('Appointment Details')}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h5>{t('Service')}</h5>
+            <p>{selectedAppointment.service.name}</p>
+            <h5>{t('Price')}</h5>
+            <p>{selectedAppointment.service.price}</p>
+            <h5>{t('Duration')}</h5>
+            <p>{selectedAppointment.service.duration} minutes</p>
+            <h5>{t('Date')}</h5>
+            <p>{selectedAppointment.selectedDayDate}</p>
+            <h5>{t('Time')}</h5>
+            <p>{selectedAppointment.appointmentTime}</p>
+            <h5>{t('Status')}</h5>
+            <p>{selectedAppointment.status}</p>
+            <h5>{t('Barber')}</h5>
+            <p>{selectedAppointment.barber.name}</p>
+            <img src={selectedAppointment.barber.image.url} alt={selectedAppointment.barber.name} style={{ width: '100px' }} />
+            <h5>{t('Address')}</h5>
+            <p>{selectedAppointment.barber.address}</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseDetailsModal}>
+              {t('Close')}
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
+      
+      <ToastContainer />
     </div>
   );
 };
 
-export default Appointements;
+export default Appointments;

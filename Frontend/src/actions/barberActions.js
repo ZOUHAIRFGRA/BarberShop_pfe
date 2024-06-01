@@ -313,6 +313,24 @@ export const rejectAppointment = (appointmentId) => {
     }
   };
 };
+// DONE appointment
+export const flagAppointementAsDone = (appointmentId) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.patch(
+        `${API_URL}/barber/appointments/done/${appointmentId}`,
+        null,
+        { withCredentials: true }
+      );
+      dispatch({
+        type: "DONE_APPOINTMENT_SUCCESS",
+        payload: response.data.appointment,
+      });
+    } catch (error) {
+      dispatch({ type: "DONE_APPOINTMENT_FAILURE", payload: error.message });
+    }
+  };
+};
 
 export const reportReview = (reviewId) => {
   return async (dispatch) => {

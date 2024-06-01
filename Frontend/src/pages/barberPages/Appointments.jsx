@@ -4,6 +4,7 @@ import {
   approveAppointment,
   fetchAllAppointmentsForBarber,
   rejectAppointment,
+  flagAppointementAsDone
 } from "../../actions/barberActions";
 import { useEffect } from "react";
 
@@ -32,6 +33,26 @@ function Appointments() {
         Swal.fire({
           title: "Approuvé!",
           text: "Le Rendez-vous a été approuvé avec succès",
+          icon: "success",
+        });
+      }
+    });
+  };
+  const handleflagAppointementAsDone = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, its done!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(flagAppointementAsDone(id));
+        Swal.fire({
+          title: "Terminé!",
+          text: "Le Rendez-vous a été terminé avec succès",
           icon: "success",
         });
       }
@@ -82,12 +103,12 @@ function Appointments() {
                 <td>{appointment.appointmentTime}</td>
                 <td>{appointment.user && appointment.user.username}</td>
                 <td>{appointment.service.name}</td>
-                <td style={{ fontWeight: "bold", color: appointment.status === "rejected" ? "red" : "green" }}>
+                <td style={{ fontWeight: "bold", color: appointment.status === "rejected" ? "red" :appointment.status === "approved" ? "green" : "blue" }}>
                   {appointment.status}
                 </td>
                 <td>
                   <button
-                    className="btn btn-success"
+                    className="btn btn-info"
                     onClick={() => handleApprove(appointment._id)} // Use appointment._id instead of appointment.id
                   >
                     Approuver
@@ -97,6 +118,12 @@ function Appointments() {
                     onClick={() => handleReject(appointment._id)} // Use appointment._id instead of appointment.id
                   >
                     Rejeter
+                  </button>
+                  <button
+                    className="btn btn-success"
+                    onClick={() => handleflagAppointementAsDone(appointment._id)} // Use appointment._id instead of appointment.id
+                  >
+                    Terminé
                   </button>
                 </td>
               </tr>

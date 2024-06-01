@@ -79,7 +79,7 @@ const {t} = useTranslation()
     }
     const selectedDate = new Date(today);
     selectedDate.setDate(today.getDate() + daysToAdd);
-    setSelectedDayDate(selectedDate.toLocaleDateString())
+    setSelectedDayDate(selectedDate.toLocaleDateString('fr'))
     // Log the selected day and date
     // console.log(`Selected Day: ${dayOfWeek}, Date: ${selectedDate.toLocaleDateString()}`);
   

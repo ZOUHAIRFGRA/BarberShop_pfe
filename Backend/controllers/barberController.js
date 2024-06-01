@@ -437,6 +437,37 @@ const rejectAppointment = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
+const flagAppointementAsDone = async (req, res) => {
+  try {
+    const { appointmentId } = req.params;
+
+    // Find the appointment by ID
+    let appointment = await Appointment.findById(appointmentId)
+      .populate("service", "name")
+      .populate("user", "username");
+
+    if (!appointment) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Appointment not found" });
+    }
+
+    // Update appointment status to rejected
+    appointment.status = "done";
+
+    // Save the updated appointment
+    appointment = await appointment.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Appointment done successfully",
+      appointment,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
 
 const getAllReviewsForBarber = async (req, res) => {
   try {
@@ -490,4 +521,5 @@ module.exports = {
   rejectAppointment,
   getAllReviewsForBarber,
   reportReview,
+  flagAppointementAsDone
 };

@@ -174,6 +174,8 @@ const barberReducer = (state = initialState, action) => {
       };
     case "APPROVE_APPOINTMENT_SUCCESS":
     case "REJECT_APPOINTMENT_SUCCESS":
+    case "DONE_APPOINTMENT_SUCCESS":
+
       return {
         ...state,
         appointments: state.appointments.map((appointment) =>
@@ -192,6 +194,7 @@ const barberReducer = (state = initialState, action) => {
       };
     case "APPROVE_APPOINTMENT_FAILURE":
     case "REJECT_APPOINTMENT_FAILURE":
+    case "DONE_APPOINTMENT_FAILURE":
     case "REPORT_REVIEW_FAIL":
       return {
         ...state,

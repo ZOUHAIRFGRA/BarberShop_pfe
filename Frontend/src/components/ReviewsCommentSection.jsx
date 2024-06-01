@@ -44,7 +44,7 @@ const ReviewItem = ({ review, rating }) => {
                       lineHeight: "16px",
                     }}
                   >
-                    {review.user.username} • {review.review_date}
+                    {review.user.username} • {new Date(review.review_date).toLocaleString('fr')}
                     <span className="ms-2">
                       {review.verified && (
                         <FontAwesomeIcon icon={faCircleCheck} />

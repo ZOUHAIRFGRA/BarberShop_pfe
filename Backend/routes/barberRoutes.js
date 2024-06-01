@@ -19,7 +19,8 @@ const {
   approveAppointment,
   getAllReviewsForBarber,
 rejectAppointment,
-reportReview
+reportReview,
+flagAppointementAsDone
       
 } = require('../controllers/barberController');
 
@@ -40,6 +41,7 @@ router.patch('/report/:reviewId', authenticateUser, isBarber,reportReview);
 
 router.patch('/appointments/approve/:appointmentId', authenticateUser, isBarber, approveAppointment);
 router.patch('/appointments/reject/:appointmentId', authenticateUser, isBarber, rejectAppointment);
+router.patch('/appointments/done/:appointmentId', authenticateUser, isBarber, flagAppointementAsDone);
 
 
 router.put('/updateService/:id', authenticateUser, isBarber, updateServiceForBarber);
