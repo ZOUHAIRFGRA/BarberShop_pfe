@@ -8,8 +8,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchBarbers } from "../actions/userActions";
 import { Alert } from "react-bootstrap";
 import { ClipLoader } from "react-spinners";
+import { useTranslation } from 'react-i18next';
 
 const AllBarbers = ({ setContentVisible }) => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10;
@@ -60,11 +63,11 @@ const AllBarbers = ({ setContentVisible }) => {
     <>
       <div className="container mt-5 min-vh-100">
         <div className="pb-5">
-          <h1 className="header ">All Barbers</h1>
-          <p className="small">
-            What affects the search results?{" "}
-            <FontAwesomeIcon icon={faCircleInfo} size="sm" />{" "}
-          </p>
+        <h1 className="header ">{t('All Barbers')}</h1>
+      <p className="small">
+        {t('What affects the search results?')}{" "}
+        <FontAwesomeIcon icon={faCircleInfo} size="sm" />{" "}
+      </p>
           <hr />
         </div>
 

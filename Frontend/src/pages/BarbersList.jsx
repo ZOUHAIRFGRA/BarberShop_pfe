@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "react-bootstrap";
 import { ClipLoader } from "react-spinners";
 import { getBarberByNeighborhood } from "../actions/userActions";
+import { useTranslation } from 'react-i18next';
+
 const BarbersList = ({ setContentVisible }) => {
   const { city, neighborhood } = useParams();
   const navigate = useNavigate();
@@ -18,7 +20,7 @@ const BarbersList = ({ setContentVisible }) => {
   // const dataFetched = useSelector((state) => state.user.dataFetched);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+const {t} = useTranslation()
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -64,16 +66,16 @@ const BarbersList = ({ setContentVisible }) => {
   return (
     <>
       <div className="container mt-5 min-vh-100 ">
-        <div className="pb-5">
-          <h1 className="header ">
-            Barbershops & Barbers Near Me in {neighborhood}
-          </h1>
-          <p className="small">
-            What affects the search results?{" "}
-            <FontAwesomeIcon icon={faCircleInfo} size="sm" />{" "}
-          </p>
-          <hr />
-        </div>
+      <div className="pb-5">
+      <h1 className="header ">
+        {t('Barbershops & Barbers Near Me in')} {neighborhood}
+      </h1>
+      <p className="small">
+        {t('What affects the search results?')}{" "}
+        <FontAwesomeIcon icon={faCircleInfo} size="sm" />{" "}
+      </p>
+      <hr />
+    </div>
 
         <div className="d-flex justify-content-center align-items-center flex-column mb-4">
           {displayedBarbers.map((barber) => (
