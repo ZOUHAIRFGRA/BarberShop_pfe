@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchReviews } from "../../actions/userActions";
 import ReviewCard from "./ReviewCard";
 import "./ReviewList.css";
+import { useTranslation } from "react-i18next";
 
 const ReviewList = () => {
   // const [reviews, setReviews] = useState([]);
   const dispatch = useDispatch();
   const reviews = useSelector((state) => state.user.reviews);
-
+const {t} = useTranslation()
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -29,7 +30,7 @@ const ReviewList = () => {
   const randomReviews = getRandomReviews();
   return (
     <div className="container pt-5">
-      <h1 className="text-center pb-4">Barbershops - customer reviews</h1>
+      <h1 className="text-center pb-4">{t('Barbershops - customer reviews')}</h1>
       <div id="reviewCarousel" className="carousel slide" data-bs-ride="carousel">
         <div className="carousel-inner">
           {randomReviews.reduce((chunks, item, index) => {

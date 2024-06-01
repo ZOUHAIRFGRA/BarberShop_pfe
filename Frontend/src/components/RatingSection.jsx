@@ -1,8 +1,10 @@
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const RatingSection = ({ rating, reviewCount, reviews }) => {
+  const {t} = useTranslation()
   const calculateStarPercentage = (reviews) => {
     const roundedReviews = reviews.map((review) => ({
       ...review,
@@ -32,7 +34,7 @@ const RatingSection = ({ rating, reviewCount, reviews }) => {
     <div className="row">
       <div className="col-12 col-md-6">
         <div>
-          <h1>Reviews</h1>
+          <h1>{t('Reviews')}</h1>
         </div>
 
         <div
@@ -45,10 +47,7 @@ const RatingSection = ({ rating, reviewCount, reviews }) => {
           }}
         >
           <div>
-            Our Website guarantees that reviews with the "Verified user" tag
-            have been added by registered users who have had an appointment with
-            the provider. A registered user has the opportunity to add a review
-            only after the service has been provided to them.
+            {t('Our Website guarantees that reviews with the Verified user tag have been added by registered users who have had an appointment with the provider. A registered user has the opportunity to add a review only after the service has been provided to them.')}
           </div>
         </div>
       </div>

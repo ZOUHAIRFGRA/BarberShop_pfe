@@ -5,7 +5,11 @@ import axios from "axios";
 import "./style/Appointements.css";
 import { Alert } from "react-bootstrap";
 import { ClipLoader } from "react-spinners";
+import { useTranslation } from "react-i18next";
+
 const Appointements = () => {
+  const {t} = useTranslation()
+
   // const dispatch = useDispatch();
   // const appointments = useSelector((state) => state.user.appointements);
   const [appointments, setAppointments] = useState([]);
@@ -52,7 +56,7 @@ const Appointements = () => {
 
   return (
     <div>
-      <h1>Appointments</h1>
+      <h1>{t('Appointments')}</h1>
       {appointments.map((appointment) => (
         <div key={appointment._id} className="card">
           <a href="" className="">

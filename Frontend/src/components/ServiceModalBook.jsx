@@ -5,6 +5,7 @@ import "./service.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSlots } from '../actions/userActions';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
 
 const ServiceModalBook = ({
   show,
@@ -17,7 +18,7 @@ const ServiceModalBook = ({
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [selectedDay, setSelectedDay] = useState(null);
   const [selectedDayDate, setSelectedDayDate] = useState(null);
-
+const {t} = useTranslation()
   const [bookingStatus, setBookingStatus] = useState({
     success: false,
     date: null,
@@ -193,25 +194,25 @@ const ServiceModalBook = ({
   return (
     <Modal show={show} onHide={handleClose} dialogClassName="modal-xl">
       <Modal.Header closeButton>
-        <Modal.Title>Available Slots</Modal.Title>
+        <Modal.Title>{t("Available Slots")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {bookingStatus.success ? (
           <div>
-            <p>Appointment confirmed for {bookingStatus.date}</p>
+            <p>{t("Appointment confirmed for")} {bookingStatus.date}</p>
             <Button
               variant="primary"
               onClick={() => (navigate("/profile"))}
             >
-              Show Appointment
+              {t("Show Appointment")}
             </Button>
           </div>
         ) : showAppointmentDetails ? (
           <div>
-            <p>Selected Time: {selectedSlot ? getSelectedSlotTime() : ''}</p>
-            <p>Selected Day: {selectedDay} {selectedDayDate}</p>
-            <p>Service Info: {service.name}</p>
-            <p>Service Price: {service.price}</p>
+            <p>{t("Selected Time")}: {selectedSlot ? getSelectedSlotTime() : ''}</p>
+            <p>{t("Selected Day")}: {selectedDay} {selectedDayDate}</p>
+            <p>{t("Service Info")}: {service.name}</p>
+            <p>{t("Service Price")}: {service.price}</p>
             {/* <Button variant="primary" onClick={handleBookAppointment}>
               Confirm Booking
             </Button> */}
@@ -237,6 +238,7 @@ const ServiceModalBook = ({
                     backgroundColor:
                       selectedDay === day.dayOfWeek ? "lightblue" : "white",
                   }}
+                  
                 >
                   {day.dayOfWeek}
                 </div>
@@ -248,7 +250,7 @@ const ServiceModalBook = ({
                 key={slot._id}
                 id="carousel-item"
                 className={` ${
-                  isSlotDisabled(slot, selectedDay, isPastTime) ? "disabled" : "active"
+                  isSlotDisabled(slot, selectedDay, isPastTime) ? "disabled text-decoration-line-through pe-none" : "active"
                 }`}
                 onClick={() => handleSlotSelection(slot._id, slot.time, slot.status)}
                 style={{
@@ -266,16 +268,16 @@ const ServiceModalBook = ({
       <Modal.Footer>
         {!bookingStatus.success && !showAppointmentDetails && (
           <Button variant="primary" onClick={handleContinue}>
-            Continue
+            {t("Continue")}
           </Button>
         )}
         {!bookingStatus.success && showAppointmentDetails && (
           <Button variant="primary" onClick={handleBookAppointment}>
-            Confirm Booking
+            {t("Confirm Booking")}
           </Button>
         )}
         <Button variant="secondary" onClick={handleClose}>
-          Close
+          {t("Close")}
         </Button>
       </Modal.Footer>
     </Modal>
