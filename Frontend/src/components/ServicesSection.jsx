@@ -157,7 +157,7 @@ const ServicesSection = ({
               {filteredServices.map((service) => (
                 <tr key={service._id}>
                   <th scope="row">{service.name}</th>
-                  <td>${service.price}</td>
+                  <td>{service.price}DH</td>
                   <td>{service.duration}</td>
                   <td>
                     <Button
