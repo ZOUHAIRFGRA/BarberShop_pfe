@@ -95,6 +95,20 @@ export const createCity = (cityData) => {
       }
     };
   };
+  export const toggleBarberPromotion = (id) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.put(
+                `${API_URL}/admin/barbers/${id}/promote`,
+                null,
+                { withCredentials: true }
+            );
+            dispatch({ type: "TOGGLE_BARBER_PROMOTION_SUCCESS", payload: response.data });
+        } catch (error) {
+            dispatch({ type: "TOGGLE_BARBER_PROMOTION_FAILURE", payload: error.message });
+        }
+    };
+};
 
   export const deleteBarber = (barberId) => {
     return async (dispatch) => {

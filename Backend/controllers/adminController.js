@@ -123,6 +123,21 @@ const deleteCity = catchAsync(async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
+const toggleBarberPromotion = async (req, res, next) => {
+  try {
+      const { id } = req.params;
+      const barber = await Barber.findById(id);
+      if (!barber) {
+          return res.status(404).json({ message: "Barber not found" });
+      }
+      barber.promoted = !barber.promoted; // Toggle the promoted status
+      await barber.save();
+      res.json({ message: "Barber promotion status updated", barber });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
 const getAllBarbers = catchAsync(async (req, res) => {
   try {
@@ -205,6 +220,7 @@ module.exports = {
   addNeighborhood,
   deleteCity,
   getProfile,
+  toggleBarberPromotion,
   getAllBarbers,
   deleteBarber,
   getAllReviews,

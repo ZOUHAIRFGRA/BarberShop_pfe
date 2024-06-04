@@ -1,53 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUser, updateUser } from "../actions/userActions";
-import { Form, Button, Row, Col, Modal } from "react-bootstrap";
-import { toast } from 'react-toastify';
-import { ToastContainer } from 'react-toastify';
-
-import 'react-toastify/dist/ReactToastify.css'
+import { Form, Button, Row, Col } from "react-bootstrap";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import imageCompression from 'browser-image-compression';
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
-
   const userData = useSelector((state) => state.user.userData);
-  // const error = useSelector((state) => state.user.error);
   const [imagePreview, setImagePreview] = useState(null);
-  const [image, setImage] = useState();
-
+  const [image, setImage] = useState(null);
   const [formData, setFormData] = useState({
     firstName: userData.firstName || "",
     lastName: userData.lastName || "",
-    username:  userData.username || "",
-    email:  userData.email || "",
+    username: userData.username || "",
+    email: userData.email || "",
     phoneNumber: userData.phoneNumber || "",
     address: userData.address || "",
   });
-
- 
- 
-
-
   const [formErrors, setFormErrors] = useState({});
-  // const [showPasswordModal, setShowPasswordModal] = useState(false);
-  // useEffect(() => {
-  //   if (error) {
-  //     setFormErrors({ ...formErrors, updateError: error });
-  //   }
-  // }, [error]);
 
-  const handleChange = (e) => {
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
+
+  const handleChange = async (e) => {
     if (e.target.name === "image") {
-      const reader = new FileReader();
+      const file = e.target.files[0];
+      if (file) {
+        const compressedFile = await imageCompression(file, { maxSizeMB: 1, maxWidthOrHeight: 500 });
 
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setImage(reader.result);
-          setImagePreview(reader.result);
-        }
-      };
-
-      reader.readAsDataURL(e.target.files[0]);
+        const reader = new FileReader();
+        reader.onload = () => {
+          if (reader.readyState === 2) {
+            setImage(reader.result);
+            setImagePreview(reader.result);
+          }
+        };
+        reader.readAsDataURL(compressedFile);
+      }
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
@@ -55,10 +47,8 @@ const UpdateProfile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Clear previous errors
     setFormErrors({});
 
-    // Perform client-side validation
     const errors = {};
     if (formData.username.length < 4) {
       errors.username = "Username must be at least 4 characters long";
@@ -79,25 +69,13 @@ const UpdateProfile = () => {
       data.set("image", image);
     }
 
-    // Dispatch action to update user profile
     dispatch(updateUser(data));
-
-    console.log("user updated succ");
-    toast.info("Profile Updated Successfully!",{theme: "dark"});
+    toast.info("Profile Updated Successfully!", { theme: "dark" });
   };
 
- 
-
- 
-
-
-  useEffect(() => {
-    // console.log(formData)
-    dispatch(fetchUser());
-  }, [dispatch,formData]);
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <Form className="mt-3" onSubmit={handleSubmit} encType="multipart/form-data">
         <Row className="mb-3">
           <Col>
@@ -126,9 +104,7 @@ const UpdateProfile = () => {
           </Col>
         </Row>
 
-        
-
-        <Form.Group controlId="Address" className="mb-3">
+        <Form.Group controlId="address" className="mb-3">
           <Form.Label>Address</Form.Label>
           <Form.Control
             type="text"
@@ -149,7 +125,7 @@ const UpdateProfile = () => {
           />
         </Form.Group>
 
-        <Form.Group controlId="Username" className="mb-3">
+        <Form.Group controlId="username" className="mb-3">
           <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
@@ -182,8 +158,6 @@ const UpdateProfile = () => {
         </Button>
         {formErrors.updateError && <div>{formErrors.updateError}</div>}
       </Form>
-
-       
     </>
   );
 };

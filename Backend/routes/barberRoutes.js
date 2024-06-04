@@ -20,6 +20,7 @@ const {
   getAllReviewsForBarber,
 rejectAppointment,
 reportReview,
+addBulkServices,
 flagAppointementAsDone
       
 } = require('../controllers/barberController');
@@ -28,6 +29,7 @@ flagAppointementAsDone
 
 router.get('/getprofile', authenticateUser, isBarber, getBarberProfile);
 router.put('/Updateprofile', authenticateUser, isBarber, updateBarberProfile);
+router.post('/add-bulk-service', authenticateUser, isBarber,addBulkServices );
 router.post('/add-service', authenticateUser, isBarber, addServiceToBarber);
 router.post('/createSlots', authenticateUser, isBarber, createAvailableSlots);
 router.put('/updateSlots', authenticateUser, isBarber, updateAvailableSlot);

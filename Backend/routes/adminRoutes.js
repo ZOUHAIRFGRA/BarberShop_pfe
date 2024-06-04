@@ -17,7 +17,8 @@ const {
     getAllReviews,
 deleteReview,
 getAllUsers,
-deleteUser
+deleteUser,
+toggleBarberPromotion
 } = require('../controllers/adminController')
 // Routes for adminController
 router.post('/cities',authenticateUser,adminAuthMiddleware ,createCity);
@@ -32,5 +33,6 @@ router.get('/reviews', authenticateUser,adminAuthMiddleware, getAllReviews);
 router.delete('/reviews/:reviewId', authenticateUser,adminAuthMiddleware, deleteReview);
 router.get('/users', authenticateUser,adminAuthMiddleware, getAllUsers);
 router.delete('/users/:userId', authenticateUser,adminAuthMiddleware, deleteUser);
+router.put("/barbers/:id/promote",authenticateUser,adminAuthMiddleware, toggleBarberPromotion);
 
 module.exports = router;

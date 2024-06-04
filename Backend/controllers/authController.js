@@ -129,23 +129,19 @@ const registerBarber = catchAsync(async (req, res) => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Upload profile picture to Cloudinary if provided
+    let profilePictureUrl = '';
+    if (image) {
+        console.log('Uploading profile picture to Cloudinary...');
+        const uploadedResponse = await cloudinary.uploader.upload(image, {
+            folder:  "users/images",
+        });
+        console.log(uploadedResponse)
+        profilePictureUrl = uploadedResponse.secure_url;
+        console.log('Profile picture uploaded:', profilePictureUrl);
+    }else{throw new Error('no img is uploaded')}
     // Check if an image file was uploaded
-    let image = '';
-    if (req.file) {
-      try {
-        // Upload image to Cloudinary
-        const result = await cloudinary.uploader.upload(req.file.path);
-        
-        // Save the URL of the uploaded image in the database
-        image = result.secure_url; // Use result.secure_url for secure HTTPS URL
-        console.log(image)
-        // Delete the temporary file uploaded to the server
-        fs.unlinkSync(req.file.path);
-      } catch (error) {
-        console.error('Error uploading image to Cloudinary:', error);
-        return res.status(500).json({ message: 'Image upload failed' });
-      }
-    }
+    
 
     // Create a new barber
     const barber = await Barber.create({
@@ -155,7 +151,7 @@ const registerBarber = catchAsync(async (req, res) => {
       CIN,
       username,
       address,
-      image,
+      image: { url: profilePictureUrl }, // Update image field with URL
       city: city._id,
       neighborhood: neighborhood.name,
       latitude: latitude || null,

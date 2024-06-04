@@ -76,6 +76,83 @@ const updateBarberProfile = catchAsync(async (req, res) => {
   }
 });
 
+
+const addBulkServices = catchAsync(async (req, res) => {
+  // Validate request
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.warn("Validation errors:", errors.array());
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  // Extract barber's ID from the token
+  const barberId = req.user.id; // Assuming the barber's ID is included in the token payload
+  const { services } = req.body;
+
+  console.log("Received services:", services);
+
+  if (!services || !Array.isArray(services)) {
+    console.warn("Invalid services array:", services);
+    return res.status(400).json({ message: "Services must be an array" });
+  }
+
+  try {
+    // Check if the barber exists
+    const barber = await Barber.findById(barberId);
+    if (!barber) {
+      console.warn("Barber not found:", barberId);
+      return res.status(404).json({ message: "Barber not found" });
+    }
+
+    // Array to hold the created services
+    const createdServices = [];
+
+    // Iterate over the services array and create each service
+    for (const serviceData of services) {
+      const { name, price, description, duration } = serviceData;
+
+      // Validate each service
+      if (!name || !price || !duration) {
+        console.warn("Service validation failed:", serviceData);
+        return res.status(400).json({ message: "Service must include name, price, and duration" });
+      }
+
+      console.log("Creating service:", serviceData);
+
+      // Create new service
+      const service = await Service.create({
+        name,
+        price,
+        description,
+        duration,
+      });
+
+      // Add service to the array
+      createdServices.push(service);
+
+      // Add service to barber's services
+      barber.services.push(service._id);
+    }
+
+    // Save the barber with the new services
+    await barber.save();
+
+    res.status(201).json({
+      message: "Services added to barber successfully",
+      services: createdServices,
+    });
+  } catch (error) {
+    console.error("Error adding services:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+
+
+
+
+
+
 // Add service to barber
 const addServiceToBarber = catchAsync(async (req, res) => {
   // Validate request
@@ -87,7 +164,7 @@ const addServiceToBarber = catchAsync(async (req, res) => {
   // Extract barber's ID from the token
   const barberId = req.user.id; // Assuming the barber's ID is included in the token payload
 
-  const { name, price, description, duration, images } = req.body;
+  const { name, price, description, duration } = req.body;
 
   try {
     // Check if the barber exists
@@ -102,7 +179,6 @@ const addServiceToBarber = catchAsync(async (req, res) => {
       price,
       description,
       duration,
-      images,
     });
 
     // Add service to barber's services
@@ -520,6 +596,7 @@ module.exports = {
   approveAppointment,
   rejectAppointment,
   getAllReviewsForBarber,
+  addBulkServices,
   reportReview,
   flagAppointementAsDone
 };

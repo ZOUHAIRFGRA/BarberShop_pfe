@@ -57,11 +57,17 @@ export const loginBarber = (email, password) => async (dispatch) => {
 
 export const registerBarber = (formData) => async (dispatch) => {
   try {
+
+    const config = {
+      headers: {
+          'Content-Type': 'multipart/form-data'
+      }
+  };
     dispatch({ type: "REGISTER_BARBER_REQUEST" });
 
     const response = await axios.post(
       `${API_URL}/auth/register/barber`,
-      formData
+      formData,config
     );
 
     dispatch({

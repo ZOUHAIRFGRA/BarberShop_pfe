@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Table } from "react-bootstrap";
 import { ClipLoader } from "react-spinners";
 import Swal from "sweetalert2";
-import { deleteBarber, getAllBarbers } from "../../actions/adminActions";
+import { deleteBarber, getAllBarbers, toggleBarberPromotion } from "../../actions/adminActions";
 
 function Barbers() {
   const dispatch = useDispatch();
@@ -56,6 +56,9 @@ function Barbers() {
       </div>
     );
   }
+  const handleTogglePromotion = (id) => {
+    dispatch(toggleBarberPromotion(id));
+};
 
   return (
     <>
@@ -92,6 +95,16 @@ function Barbers() {
                     Delete
                   </button>
                 </td>
+                <td>
+                        <button
+                            className={`btn ${
+                                barber.promoted ? "btn-success" : "btn-danger"
+                            }`}
+                            onClick={() => handleTogglePromotion(barber._id)}
+                        >
+                            {barber.promoted ? "Unpromote" : "Promote"}
+                        </button>
+                    </td>
               </tr>
             ))}
           </tbody>

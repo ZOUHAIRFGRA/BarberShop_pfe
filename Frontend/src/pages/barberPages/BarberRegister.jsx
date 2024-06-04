@@ -8,6 +8,7 @@ import {
   Row,
   Col,
   Card,
+  Image,
   Modal,
   Alert,
 } from "react-bootstrap";
@@ -15,6 +16,7 @@ import { registerBarber } from "../../actions/barberActions";
 import { Link, useNavigate } from "react-router-dom";
 import L from "leaflet";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
+import Resizer from "react-image-file-resizer";
 
 const BarberRegister = () => {
   const dispatch = useDispatch();
@@ -28,7 +30,6 @@ const BarberRegister = () => {
     CIN: "",
     username: "",
     address: "",
-    image: null,
     city: "",
     neighborhood: "",
     latitude: null,
@@ -42,6 +43,8 @@ const BarberRegister = () => {
   const [longitude, setLongitude] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [previewURL, setPreviewURL] = useState("");
+  const [image, setImage] = useState(null);
 
   const mapRef = useRef(null);
   const markerRef = useRef(null);
@@ -64,14 +67,7 @@ const BarberRegister = () => {
     }
   }, [success]);
 
-  // Function to handle form input change
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  
 
   useEffect(() => {
     dispatch(fetchCities());
@@ -88,25 +84,52 @@ const BarberRegister = () => {
   };
 
   // Function to handle file input change
-  const handleFileChange = (e) => {
-    setFormData({
-      ...formData,
-      image: e.target.files[0], // Get the selected image file
-    });
+  const handleChange = async (e) => {
+    if (e.target.name === "image") {
+      const file = e.target.files[0];
+      if (file) {
+        Resizer.imageFileResizer(
+          file,
+          300, // max width
+          300, // max height
+          "JPEG",
+          70, // quality
+          0,
+          (uri) => {
+            setImage(uri);
+            setPreviewURL(uri);
+          },
+          "base64"
+        );
+      }
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
   };
   // Function to handle form submission
   // Function to handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    const updatedFormData = {
-      ...formData,
-      city: selectedCity,
-      neighborhood: selectedNeighborhood,
-      latitude: latitude,
-      longitude: longitude,
-    };
-    dispatch(registerBarber(updatedFormData));
-    console.log(updatedFormData); // For testing, replace with actual dispatch
+    const data = new FormData();
+
+    
+    data.set("email", formData.email);
+    data.set("name", formData.name);
+    data.set("phone", formData.phone);
+    data.set("address", formData.address);
+    data.set("CIN", formData.CIN);
+    data.set("password", formData.password);
+    data.set("username", formData.username);
+    data.set("city", selectedCity);
+    data.set("neighborhood", selectedNeighborhood);
+    data.set("latitude", latitude);
+    data.set("longitude", longitude);
+
+    if (image) {
+      data.set("image",image);
+    }
+    await dispatch(registerBarber(data));
+    console.log(data); // For testing, replace with actual dispatch
   };
   useEffect(() => {
     if (!mapRef.current) {
@@ -280,7 +303,20 @@ const BarberRegister = () => {
             <Row className="mb-3">
               <Form.Group as={Col} controlId="image">
                 <Form.Label>Image Upload</Form.Label>
-                <Form.Control type="file" onChange={handleFileChange} />
+                <Form.Control
+                  type="file"
+                  accept="image/*"
+                  name="image"
+                  onChange={handleChange}
+                />
+                {previewURL && (
+                  <Image
+                    src={previewURL}
+                    alt="Profile Preview"
+                    className="mt-2"
+                    style={{ maxWidth: "100px" }}
+                  />
+                )}
               </Form.Group>
             </Row>
 

@@ -15,7 +15,24 @@ const adminReducer = (state = initialState, action) => {
     case "LOGIN_ADMIN_REQUEST":
     case "LOAD_ADMIN_REQUEST":
       return { ...state, loading: true };
+    case "TOGGLE_BARBER_PROMOTION_SUCCESS":
+      // Update barber promotion status success case
+      return {
+        ...state,
+        barbers: state.barbers.map((barber) =>
+          barber._id === action.payload.barber._id
+            ? { ...action.payload.barber, city: barber.city } // Keep the city data unchanged
+            : barber
+        ),
+        error: null,
+      };
 
+    case "TOGGLE_BARBER_PROMOTION_FAILURE":
+      // Update barber promotion status failure case
+      return {
+        ...state,
+        error: action.payload,
+      };
     case "LOGIN_ADMIN_SUCCESS":
     case "LOAD_ADMIN_SUCCESS":
       return {
